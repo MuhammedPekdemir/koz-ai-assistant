@@ -12,6 +12,10 @@ Tech stack
 
 Claude API (image + text analysis), Python, FastAPI, SQL, AWS
 
+Development
+
+Built with help from Claude, Anthropic's AI assistant, which supported prompt design, the test script (deneme.py) and coding. Product decisions, testing and the overall direction are my own.
+
 Status
 
 Work in progress.
