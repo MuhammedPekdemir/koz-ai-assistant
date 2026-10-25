@@ -33,6 +33,7 @@ Arıza modu sistem prompt'u `ariza_prompt.md` dosyasında. Model çağrısında 
 Prompt'un temel kuralları:
 - Analizden önce acil durum kontrolü. Acilse normal akış durur, sadece güvenlik adımları verilir.
 - Emin olunamayan durum acil sayılır.
+- Fotoğrafta kaba/bitmemiş görüntü tek başına acil değildir; gerçek acil belirti aranır. Önce sorulan şey değerlendirilir, sorulmayan ama dikkat çeken şey `safety_warning` alanında belirtilir.
 - Soru sormak istisnadır. Bilgi yetiyorsa soru sorulmaz, belirsizlik `confidence` ile ifade edilir. En fazla bir soru turu, en fazla 3 soru.
 - Öneri zorluk puanına bağlı: 0–40 `kendin_yap`, 41–60 `usta_onerilir`, 61–100 `usta_gerekli`. Elektrik/gazda en az `usta_gerekli`, acil durumda `acil_profesyonel`.
 - `kendin_yap` verilse bile kullanıcıya tam güven verilmez; adımlarda nerede durup ustaya danışacağı belirtilir.
@@ -64,11 +65,15 @@ Prompt'un temel kuralları:
 
 Backend her cevabı bu şemaya göre doğrular. Şemaya uymayan cevap kullanıcıya gösterilmez.
 
+## Backend
+
+`main.py`, tek uç nokta `POST /analiz`: `aciklama`, isteğe bağlı `foto` (jpg/png/webp, en fazla 5 MB). Soru turu durumsuz: model soru sorarsa istemci aynı açıklama ve fotoğrafı, `sorular` ve `cevaplar` listeleriyle tekrar gönderir. Model ikinci kez soru sorarsa hata döner. Her başarılı analiz `Analizler` tablosuna kaydedilir; kayıt başarısız olsa da kullanıcı raporunu alır.
+
 ## Teknoloji
 
 - Yapay zekâ: Claude API (görsel + metin)
 - Backend: Python, FastAPI
-- Veritabanı: SQL (MSSQL veya PostgreSQL)
+- Veritabanı: MSSQL. Yerelde SQL Server Express, `Coz` veritabanı, `Analizler` tablosu (`veritabani.sql`). Bağlantı `pyodbc` ile, bağlantı metni `.env`'deki `DB_BAGLANTI`
 - Bulut: AWS — S3 (fotoğraflar), RDS (veritabanı), EC2 veya App Runner (backend)
 - Arayüz: henüz karar verilmedi
 
@@ -76,9 +81,9 @@ API anahtarları koda gömülmez, ortam değişkeninden okunur. `.env` dosyası 
 
 ## Yol haritası
 
-1. Prompt'u API'ye gönderen betik, zor örneklerle deneme ve prompt düzeltmeleri — **şu an burası**
-2. Backend: fotoğraf yükleme, API çağrısı, JSON doğrulama, soru akışı, veritabanı
-3. Arayüz: sorun bildirme, sorular, rapor ekranı, acil durum ekranı
+1. Prompt'u API'ye gönderen betik, zor örneklerle deneme ve prompt düzeltmeleri — tamamlandı
+2. Backend: fotoğraf yükleme, API çağrısı, JSON doğrulama, soru akışı, veritabanı — tamamlandı (`main.py`; fotoğraf saklama S3 adımında)
+3. Arayüz: sorun bildirme, sorular, rapor ekranı, acil durum ekranı — **sıradaki aşama**
 4. AWS'ye yayınlama
 5. Test seti (40–50 örnek) ve doğruluk ölçümü — en önemli metrik acil durumları kaçırmama oranı
 6. README, demo videosu, düzeltmeler
