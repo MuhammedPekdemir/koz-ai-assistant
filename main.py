@@ -2,6 +2,8 @@
 
 Çalıştırma:
     uvicorn main:app --reload
+Arayüz:
+    http://127.0.0.1:8000
 Deneme sayfası:
     http://127.0.0.1:8000/docs
 
@@ -22,10 +24,12 @@ import anthropic
 import pyodbc
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 MODEL = "claude-sonnet-5-5"
 PROMPT_DOSYASI = Path(__file__).parent / "ariza_prompt.md"
+ARAYUZ_DOSYASI = Path(__file__).parent / "static" / "index.html"
 FOTO_TURLERI = {"image/jpeg", "image/png", "image/webp"}
 MAKS_FOTO_BOYUTU = 5 * 1024 * 1024
 
@@ -98,6 +102,11 @@ def kaydet(aciklama: str, foto_var: bool, sorular: list[str], cevaplar: list[str
             aciklama, foto_var, soru_cevaplar, rapor.category, rapor.emergency, rapor.needs_more_info,
             rapor.recommendation, rapor.difficulty, rapor.model_dump_json(),
         )
+
+
+@app.get("/", include_in_schema=False)
+def ana_sayfa() -> FileResponse:
+    return FileResponse(ARAYUZ_DOSYASI)
 
 
 @app.post("/analiz", response_model=ArizaRaporu)
