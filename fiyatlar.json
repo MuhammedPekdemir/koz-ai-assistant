@@ -1,0 +1,40 @@
+{
+  "_aciklama": "Yeni işlem fiyat tablosu. Kaynaklar ve notlar fiyat_tablosu.md'de. İstanbul, KDV hariç, TL / birim.",
+  "_tarih": "2026-10-26",
+  "boya": {
+    "birim": "m2",
+    "sadece_iscilik": [60, 130],
+    "malzeme_dahil": [110, 280],
+    "not": "Boyanan duvar alanı üzerinden. Tavan ayrı kalem olabilir."
+  },
+  "laminat_parke": {
+    "birim": "m2",
+    "sadece_iscilik": [150, 250],
+    "malzeme_dahil": [650, 850],
+    "not": "Süpürgelik, eski parke sökümü ve gerekirse şap ayrı kalem."
+  },
+  "fayans": {
+    "birim": "m2",
+    "sadece_iscilik": [550, 1200],
+    "malzeme_dahil": [1100, 1900],
+    "not": "Eski fayans sökümü, moloz ve şap ayrı kalem. Büyük ebatlarda fiyat artar."
+  },
+  "mantolama": {
+    "birim": "m2",
+    "sadece_iscilik": [650, 850],
+    "malzeme_dahil": [900, 1900],
+    "not": "EPS levha fiyatı. Taş yünü daha pahalıdır (1.600–2.400 TL/m²). İskele ayrı kalem olabilir."
+  },
+  "cam_balkon": {
+    "birim": "m2",
+    "sadece_iscilik": null,
+    "malzeme_dahil": [5000, 10000],
+    "not": "Sürme ve katlanır sistem, montaj dahil. Isıcamlı sistem daha pahalıdır (8.000–12.000 TL/m²)."
+  },
+  "pvc_pencere": {
+    "birim": "m2",
+    "sadece_iscilik": null,
+    "malzeme_dahil": [6500, 10000],
+    "not": "70'lik profil, standart ısıcam; montaj ve eski doğrama sökümü dahil."
+  }
+}

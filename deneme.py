@@ -5,6 +5,8 @@ Kullanım:
     python deneme.py --zor           # zorlayıcı örnekleri dener
     python deneme.py "Musluk damlatıyor"   # kendi arızanı dener
     python deneme.py --foto ariza.jpg "Musluk damlatıyor"   # fotoğrafla dener
+    python deneme.py --yeni          # Yeni işlem örneklerini dener
+    python deneme.py --yeni "Banyoyu fayans yaptıracağım"   # kendi işini dener
 """
 
 import base64
@@ -18,6 +20,7 @@ from dotenv import load_dotenv
 
 MODEL = "claude-sonnet-5-5"
 PROMPT_DOSYASI = Path(__file__).parent / "ariza_prompt.md"
+YENI_PROMPT_DOSYASI = Path(__file__).parent / "yeni_islem_prompt.md"
 FOTO_TURLERI = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp"}
 
 ORNEKLER = [
@@ -50,6 +53,16 @@ ZOR_ORNEKLER = [
     "Klozet rezervuarı sürekli su akıtıyor, sesi hiç kesilmiyor.",
 ]
 
+YENI_ORNEKLER = [
+    # Tabloda var, ölçü verilmiş
+    "Salondaki 2 pencereyi pimapen yaptırmak istiyorum, her biri yaklaşık 120x150.",
+    # Tabloda var, zemin alanı verilmiş
+    "25 metrekare salona laminat parke döşetmek istiyorum, malzemeyi ben alacağım.",
+    # Tablo dışı iş: fiyat boş kalmalı
+    "Mutfak dolaplarını yeniletmek istiyorum, 3 metre alt ve üst dolap.",
+    # Aslında arıza: Bir sorun mu var? bölümüne yönlendirmeli
+    "Banyodaki fayansların arasından su sızıyor, alt kata geçmiş.",
+]
 
 def foto_blogu(yol: Path) -> dict:
     tur = FOTO_TURLERI.get(yol.suffix.lower())
@@ -98,10 +111,13 @@ def main() -> None:
     if not os.environ.get("ANTHROPIC_API_KEY"):
         sys.exit("API anahtarı bulunamadı. Klasörde adı tam olarak .env olan bir dosya olmalı "
                  "ve içinde ANTHROPIC_API_KEY=... satırı bulunmalı.")
-    system_prompt = PROMPT_DOSYASI.read_text(encoding="utf-8")
     client = anthropic.Anthropic()  # ANTHROPIC_API_KEY ortam değişkeninden okunur
 
     argumanlar = sys.argv[1:]
+    yeni = argumanlar[:1] == ["--yeni"]
+    if yeni:
+        argumanlar = argumanlar[1:] or YENI_ORNEKLER
+    system_prompt = (YENI_PROMPT_DOSYASI if yeni else PROMPT_DOSYASI).read_text(encoding="utf-8")
     foto = None
     if argumanlar[:1] == ["--foto"]:
         if len(argumanlar) < 2:

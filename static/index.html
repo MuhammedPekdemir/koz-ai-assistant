@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Çöz</title>
+<title>Koz</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -104,6 +104,12 @@
   ol.nedenler li:first-child::after { content: "en olası"; margin-left: auto; align-self: center; font-size: 11px; font-weight: 600; background: var(--ana-acik); color: var(--ana); padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
 
   .etiketler { display: flex; flex-wrap: wrap; gap: 8px; }
+  .kalemler { list-style: none; margin: 0; padding: 0; }
+  .kalemler li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--cizgi); font-size: 15px; }
+  .kalemler li b { white-space: nowrap; }
+  h4 { margin: 18px 0 6px; font-size: 15px; }
+  h4 small { color: var(--soluk); font-weight: normal; }
+  .fiyatsiz { color: var(--soluk); font-size: 13px; margin: 10px 0 0; }
   .etiketler span { background: #f3f4f6; border-radius: 8px; padding: 6px 10px; font-size: 14px; }
 
   .not { color: var(--soluk); font-size: 13px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--cizgi); }
@@ -119,6 +125,30 @@
   .numaralar strong { display: block; font-size: 22px; }
   .numaralar small { font-size: 12px; }
 
+  /* Sekmeler */
+  .sekmeler { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: #e8ecf3; border-radius: 12px; padding: 4px; margin-bottom: 16px; }
+  .sekme { border: 0; background: none; border-radius: 9px; padding: 10px 12px; font: inherit; font-weight: 600; font-size: 15px; color: var(--soluk); cursor: pointer; }
+  .sekme.secili { background: #fff; color: var(--yazi); box-shadow: 0 1px 3px rgba(16,24,40,.1); }
+
+  /* Yeni işlem raporu */
+  .fiyat { background: var(--ana-acik); border: 1px solid #c7d7fe; color: #1e3a8a; border-radius: 14px; padding: 18px 20px; margin: 18px 0 16px; }
+  .fiyat small { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; opacity: .8; }
+  .fiyat strong { display: block; font-size: 26px; margin-top: 2px; }
+  .fiyat p { margin: 6px 0 0; font-size: 14px; }
+  .fiyat.bos { background: #f3f4f6; border-color: var(--cizgi); color: var(--yazi); }
+  .fiyat.bos strong { font-size: 18px; }
+  .secenekler { display: grid; gap: 10px; }
+  .secenek { border: 1px solid var(--cizgi); border-radius: 12px; padding: 12px 14px; }
+  .secenek strong { display: block; font-size: 15px; }
+  .secenek span { font-size: 14px; color: var(--soluk); }
+  ul.maddeler { margin: 0; padding-left: 20px; }
+  ul.maddeler li { padding: 4px 0; font-size: 15px; }
+  .ustaya { background: var(--yesil-acik); border: 1px solid #bbf7d0; border-radius: 12px; padding: 12px 16px 12px 36px; margin: 0; }
+  .ustaya li { padding: 4px 0; font-size: 15px; color: #14532d; }
+  .dikkat { background: var(--kirmizi-acik); border: 1px solid #fecaca; border-radius: 12px; padding: 12px 16px 12px 36px; margin: 0; }
+  .dikkat li { padding: 4px 0; font-size: 15px; color: #7f1d1d; }
+  .not ul { margin: 6px 0 0; padding-left: 18px; }
+
   @media (max-width: 600px) {
     .izgara { grid-template-columns: 1fr; }
     .numaralar { grid-template-columns: 1fr; }
@@ -129,12 +159,17 @@
 <body>
 <main>
   <header>
-    <div class="logo">Ç</div>
+    <div class="logo">K</div>
     <div>
-      <h1>Çöz</h1>
-      <p>Evdeki arızayı anlat, ne yapman gerektiğini birlikte bulalım.</p>
+      <h1>Koz</h1>
+      <p>Evdeki arızayı ya da yaptıracağın işi anlat, ne yapman gerektiğini birlikte bulalım.</p>
     </div>
   </header>
+
+  <nav class="sekmeler" id="sekmeler">
+    <button type="button" class="sekme secili" data-mod="ariza">Bir sorun mu var?</button>
+    <button type="button" class="sekme" data-mod="yeni">Yeni işlem</button>
+  </nav>
 
   <!-- 1. Sorun bildirme -->
   <section id="bildirme" class="kart">
@@ -171,6 +206,29 @@
     <button id="gonder" class="dugme">Analiz et</button>
   </section>
 
+  <!-- 1b. Yeni işlem -->
+  <section id="yeniBildirme" class="kart gizli">
+    <h2>Ne yaptırmak istiyorsun?</h2>
+    <p class="aciklama">İşi, yerini ve biliyorsan ölçüsünü yaz. Malzemeyi kendin mi alacaksın, usta mı getirecek, onu da belirt. Ustayla konuşmadan önce işin detaylarını ve yaklaşık fiyatını öğren.</p>
+
+    <label class="baslik" for="isAciklama">Yapılacak iş</label>
+    <textarea id="isAciklama" maxlength="2000" placeholder="Örnek: Salondaki 2 pencereyi pimapen yaptırmak istiyorum, her biri yaklaşık 120x150."></textarea>
+    <div class="sayac"><span id="isSayac">0</span> / 2000</div>
+    <div class="ornekler">
+      <button type="button" class="ornek">25 m² salona laminat parke döşetmek istiyorum</button>
+      <button type="button" class="ornek">Banyo duvarlarını fayans yaptıracağım</button>
+      <button type="button" class="ornek">3+1 evin içini boyatmak istiyorum</button>
+      <button type="button" class="ornek">Balkona cam balkon yaptırmak istiyorum</button>
+    </div>
+
+    <div class="bilgi">
+      <span>ℹ️</span>
+      <span>Fiyatlar İstanbul ortalamasıdır ve KDV hariçtir. Kesin fiyat ustanın yerinde keşfiyle belli olur.</span>
+    </div>
+
+    <button id="isGonder" class="dugme">İşi anlat</button>
+  </section>
+
   <!-- 2. Sorular -->
   <section id="sorular" class="kart gizli">
     <h2>Birkaç sorumuz var</h2>
@@ -195,7 +253,7 @@
   <section id="rapor" class="kart gizli"></section>
 
   <div id="hata" class="hata gizli"></div>
-  <button id="yeni" class="dugme ikincil gizli">Yeni sorun bildir</button>
+  <button id="yeni" class="dugme ikincil gizli">Baştan başla</button>
 </main>
 
 <script>
@@ -212,19 +270,40 @@ const KARAR_ACIKLAMASI = {
   usta_gerekli: "Bu iş ortalama bir kullanıcı için riskli. Bir usta çağırman gerekiyor.",
   acil_profesyonel: "Hemen bir profesyonele ulaş.",
 };
+const IS_ADLARI = {
+  boya: "Boya badana", laminat_parke: "Laminat parke", fayans: "Fayans / seramik", mantolama: "Mantolama",
+  cam_balkon: "Cam balkon", pvc_pencere: "PVC pencere", diger: "Tadilat", ariza: "Arıza", kapsam_disi: "Kapsam dışı",
+};
+const BIRIMLER = { m2: "m²", adet: "adet" };
 const ad = (k) => ADLAR[k] || k || "-";
 const $ = (id) => document.getElementById(id);
 
 let sonSorular = [];
 let secilenFoto = null;
+let mod = "ariza"; // "ariza" veya "yeni"
+const metinAlani = () => $(mod === "yeni" ? "isAciklama" : "aciklama");
 
-// Açıklama alanı
-$("aciklama").addEventListener("input", () => ($("sayac").textContent = $("aciklama").value.length));
+// Sekmeler: geçişte açık rapor ve sorular kapanır, yazılanlar kalır
+function sekmeSec(yeniMod) {
+  mod = yeniMod;
+  document.querySelectorAll(".sekme").forEach((b) => b.classList.toggle("secili", b.dataset.mod === mod));
+  ["bildirme", "yeniBildirme", "sorular", "acil", "rapor"].forEach((id) => $(id).classList.add("gizli"));
+  $(mod === "yeni" ? "yeniBildirme" : "bildirme").classList.remove("gizli");
+  $("yeni").classList.add("gizli");
+  hataGoster("");
+}
+document.querySelectorAll(".sekme").forEach((b) => b.addEventListener("click", () => sekmeSec(b.dataset.mod)));
+
+// Açıklama alanları
+[["aciklama", "sayac"], ["isAciklama", "isSayac"]].forEach(([alan, sayac]) =>
+  $(alan).addEventListener("input", () => ($(sayac).textContent = $(alan).value.length))
+);
 document.querySelectorAll(".ornek").forEach((b) =>
   b.addEventListener("click", () => {
-    $("aciklama").value = b.textContent;
-    $("sayac").textContent = b.textContent.length;
-    $("aciklama").focus();
+    const alan = b.closest("section").querySelector("textarea");
+    alan.value = b.textContent;
+    alan.dispatchEvent(new Event("input"));
+    alan.focus();
   })
 );
 
@@ -259,17 +338,17 @@ $("fotoKaldir").addEventListener("click", () => {
 
 async function gonder(dugme, sorular = [], cevaplar = []) {
   const form = new FormData();
-  form.append("aciklama", $("aciklama").value);
-  if (secilenFoto) form.append("foto", secilenFoto);
+  form.append("aciklama", metinAlani().value);
+  if (mod === "ariza" && secilenFoto) form.append("foto", secilenFoto);
   sorular.forEach((s) => form.append("sorular", s));
   cevaplar.forEach((c) => form.append("cevaplar", c));
 
   hataGoster("");
   const eskiYazi = dugme.innerHTML;
   dugme.disabled = true;
-  dugme.innerHTML = '<span class="donen"></span> Analiz ediliyor...';
+  dugme.innerHTML = `<span class="donen"></span> ${mod === "yeni" ? "Hazırlanıyor..." : "Analiz ediliyor..."}`;
   try {
-    const yanit = await fetch("/analiz", { method: "POST", body: form });
+    const yanit = await fetch(mod === "yeni" ? "/yeni-islem" : "/analiz", { method: "POST", body: form });
     const veri = await yanit.json();
     if (!yanit.ok) throw new Error(typeof veri.detail === "string" ? veri.detail : "Bir hata oluştu.");
     goster(veri);
@@ -282,25 +361,17 @@ async function gonder(dugme, sorular = [], cevaplar = []) {
 }
 
 function goster(r) {
-  ["bildirme", "sorular", "acil", "rapor"].forEach((id) => $(id).classList.add("gizli"));
+  ["bildirme", "yeniBildirme", "sorular", "acil", "rapor"].forEach((id) => $(id).classList.add("gizli"));
   $("yeni").classList.remove("gizli");
   window.scrollTo({ top: 0, behavior: "smooth" });
+
+  if (r.needs_more_info) return sorulariGoster(r.questions);
+  if (mod === "yeni") return yeniIslemGoster(r);
 
   if (r.emergency) {
     $("acilMetin").textContent = r.safety_warning || r.problem || "Hemen bir profesyonele ulaş.";
     $("acilAdimlar").innerHTML = r.steps.map((s) => `<li>${yazi(s)}</li>`).join("");
     $("acil").classList.remove("gizli");
-    return;
-  }
-
-  if (r.needs_more_info) {
-    sonSorular = r.questions;
-    $("soruListesi").innerHTML = r.questions
-      .map((s, i) => `<div class="soru"><label for="cevap${i}"><span class="no">${i + 1}</span>${yazi(s)}</label><input type="text" id="cevap${i}" placeholder="Cevabın"></div>`)
-      .join("");
-    $("sorular").classList.remove("gizli");
-    $("yeni").classList.add("gizli");
-    $("cevap0")?.focus();
     return;
   }
 
@@ -343,8 +414,93 @@ function goster(r) {
     ${r.safety_warning ? `<div class="uyari"><span>⚠️</span><span>${yazi(r.safety_warning)}</span></div>` : ""}
     ${liste("Olası nedenler", r.possible_causes, "nedenler")}
     ${liste("Ne yapmalısın?", r.steps, "adimlar")}
-    ${r.parts_and_tools.length ? `<h3>Gerekebilecek parça ve aletler</h3><div class="etiketler">${r.parts_and_tools.map((p) => `<span>${yazi(p)}</span>`).join("")}</div>` : ""}
+    ${r.estimated_cost ? malzemeFiyati(r.estimated_cost) : r.parts_and_tools.length ? `<h3>Gerekebilecek parça ve aletler</h3><div class="etiketler">${r.parts_and_tools.map((p) => `<span>${yazi(p.item)}</span>`).join("")}</div>` : ""}
     <p class="not">Bu kesin bir teşhis değil, olası bir değerlendirmedir. Emin değilsen bir ustaya danış.</p>`;
+  $("rapor").classList.remove("gizli");
+}
+
+function sorulariGoster(sorular) {
+  sonSorular = sorular;
+  $("soruListesi").innerHTML = sorular
+    .map((s, i) => `<div class="soru"><label for="cevap${i}"><span class="no">${i + 1}</span>${yazi(s)}</label><input type="text" id="cevap${i}" placeholder="Cevabın"></div>`)
+    .join("");
+  $("sorular").classList.remove("gizli");
+  $("yeni").classList.add("gizli");
+  $("cevap0")?.focus();
+}
+
+const tl = (n) => n.toLocaleString("tr-TR") + " TL";
+const aralik = (alt, ust) => alt === ust ? tl(alt) : `${tl(alt)} – ${tl(ust)}`;
+
+function malzemeFiyati(c) {
+  const satir = (k) => `<li><span>${yazi(k.item)}${k.quantity > 1 ? ` × ${k.quantity}` : ""}</span><b>${aralik(k.min, k.max)}</b></li>`;
+  const parcalar = c.lines.filter((k) => k.kind === "parca");
+  const aletler = c.lines.filter((k) => k.kind === "alet");
+  return `<h3>Malzeme ve tahmini fiyat</h3>
+    ${parcalar.length ? `<div class="fiyat"><small>Malzeme toplamı</small><strong>${aralik(c.parts_min, c.parts_max)}</strong>
+      ${aletler.length ? `<p>Alet gerekirse: +${aralik(c.tools_min, c.tools_max)}</p>` : ""}</div>` : ""}
+    ${parcalar.length ? `<ul class="kalemler">${parcalar.map(satir).join("")}</ul>` : ""}
+    ${aletler.length ? `<h4>Aletler <small>(evde varsa alma)</small></h4><ul class="kalemler">${aletler.map(satir).join("")}</ul>` : ""}
+    ${c.unpriced.length ? `<p class="fiyatsiz">Fiyatı bilinmeyenler: ${c.unpriced.map(yazi).join(", ")}</p>` : ""}
+    <p class="fiyatsiz">${yazi(c.note)} Fiyat tarihi: ${new Date(c.price_date).toLocaleDateString("tr-TR")}.</p>`;
+}
+
+function yeniIslemGoster(r) {
+  // Arıza anlatıldıysa arıza bölümüne yönlendir, yazılanı oraya taşı
+  if (r.job_type === "ariza" || r.job_type === "kapsam_disi") {
+    const ariza = r.job_type === "ariza";
+    $("rapor").innerHTML = `
+      <span class="kategori">${IS_ADLARI[r.job_type]}</span>
+      <h2>${ariza ? "Bu bir arıza gibi görünüyor" : "Bu konuda yardımcı olamıyoruz"}</h2>
+      <p class="guven">${yazi(r.scope || "")}</p>
+      ${r.safety_warning ? `<div class="uyari"><span>⚠️</span><span>${yazi(r.safety_warning)}</span></div>` : ""}
+      ${ariza ? '<button id="arizayaGec" class="dugme">Bir sorun mu var? bölümüne geç</button>' : ""}`;
+    $("rapor").classList.remove("gizli");
+    $("arizayaGec")?.addEventListener("click", () => {
+      $("aciklama").value = $("isAciklama").value;
+      $("aciklama").dispatchEvent(new Event("input"));
+      sekmeSec("ariza");
+    });
+    return;
+  }
+
+  const m = r.quantity;
+  const miktar = m.value ? `${m.value.toLocaleString("tr-TR")} ${BIRIMLER[m.unit] || ""}` : "Belirtilmedi";
+  const c = r.cost;
+  const fiyatKutusu = c
+    ? `<div class="fiyat">
+        <small>Tahmini fiyat</small>
+        <strong>${tl(c.min)} – ${tl(c.max)}</strong>
+        <p>${c.price_basis === "malzeme_dahil" ? "Malzeme ve işçilik dahil" : "Sadece işçilik"} · ${BIRIMLER[c.unit]} başına ${tl(c.unit_price[0])} – ${tl(c.unit_price[1])} · ${miktar}</p>
+        <p>${yazi(c.note)}</p>
+      </div>`
+    : `<div class="fiyat bos">
+        <small>Tahmini fiyat</small>
+        <strong>Fiyat bilgisi yok</strong>
+        <p>${r.in_price_table ? "Fiyat için işin ölçüsü gerekiyor. Ölçüyü yazarak tekrar dene." : "Bu iş için henüz güvenilir fiyat verimiz yok. Aşağıdaki sorularla ustalardan teklif alıp karşılaştır."}</p>
+      </div>`;
+  const maddeler = (baslik, ogeler, sinif) =>
+    ogeler.length ? `<h3>${baslik}</h3><ul class="${sinif}">${ogeler.map((o) => `<li>${yazi(o)}</li>`).join("")}</ul>` : "";
+
+  $("rapor").innerHTML = `
+    <span class="kategori">${IS_ADLARI[r.job_type] || "Tadilat"}</span>
+    <h2>${yazi(r.scope || "Yapılacak iş")}</h2>
+    ${fiyatKutusu}
+    <div class="izgara">
+      <div class="kutu"><small>Ne kadar sürer?</small><strong>${yazi(r.duration || "-")}</strong></div>
+      <div class="kutu"><small>Miktar</small><strong>${miktar}</strong></div>
+    </div>
+    ${r.safety_warning ? `<div class="uyari"><span>⚠️</span><span>${yazi(r.safety_warning)}</span></div>` : ""}
+    ${r.material_options.length ? `<h3>Malzeme seçenekleri</h3><div class="secenekler">${r.material_options
+      .map((o) => `<div class="secenek"><strong>${yazi(o.option)}</strong><span>${yazi(o.notes)}</span></div>`).join("")}</div>` : ""}
+    ${maddeler("Bilmen gereken teknik detaylar", r.technical_details, "maddeler")}
+    ${r.work_steps.length ? `<h3>İş doğru nasıl yapılır?</h3><ol class="adimlar">${r.work_steps.map((o) => `<li><span>${yazi(o)}</span></li>`).join("")}</ol>` : ""}
+    ${maddeler("Ustaya sor", r.questions_for_contractor, "ustaya")}
+    ${maddeler("Dikkat et", r.red_flags, "dikkat")}
+    <div class="not">
+      ${r.assumptions.length ? `Bu rapor şu varsayımlara dayanıyor:<ul>${r.assumptions.map((a) => `<li>${yazi(a)}</li>`).join("")}</ul><br>` : ""}
+      Fiyatlar ${c ? new Date(c.price_date).toLocaleDateString("tr-TR") + " tarihli " : ""}İstanbul ortalamasıdır, KDV hariçtir. Kesin fiyat ustanın yerinde keşfiyle belli olur.
+    </div>`;
   $("rapor").classList.remove("gizli");
 }
 
@@ -361,11 +517,17 @@ function hataGoster(mesaj) {
 }
 
 $("gonder").addEventListener("click", () => gonder($("gonder")));
+$("isGonder").addEventListener("click", () => gonder($("isGonder")));
 $("cevapGonder").addEventListener("click", () => {
   const cevaplar = sonSorular.map((_, i) => $(`cevap${i}`).value.trim() || "Bilmiyorum");
   gonder($("cevapGonder"), sonSorular, cevaplar);
 });
-$("yeni").addEventListener("click", () => location.reload());
+$("yeni").addEventListener("click", () => {
+  if (mod === "ariza") return location.reload();
+  $("isAciklama").value = "";
+  $("isSayac").textContent = 0;
+  sekmeSec("yeni");
+});
 </script>
 </body>
 </html>

@@ -1,10 +1,10 @@
-# Çöz — Proje Talimatları
+# Koz — Proje Talimatları
 
 Bu dosya projenin kurallarını ve kararlarını tutar. Her oturumda önce bunu oku.
 
 ## Proje nedir
 
-Çöz, evde bozulan ya da düzgün çalışmayan şeyler için kullanıcıya yardım eden bir yapay zekâ asistanı. Kullanıcı sorununu yazar, isterse fotoğraf ekler. Çöz olası nedenleri, riski ve ne yapması gerektiğini içeren yapılandırılmış bir rapor döner.
+Koz, evde bozulan ya da düzgün çalışmayan şeyler için kullanıcıya yardım eden bir yapay zekâ asistanı. Kullanıcı sorununu yazar, isterse fotoğraf ekler. Koz olası nedenleri, riski ve ne yapması gerektiğini içeren yapılandırılmış bir rapor döner.
 
 Amaç ustanın yerini almak değil, kullanıcının doğru kararı vermesini sağlamak: basit işi kendi yapsın, riskli işte vakit kaybetmeden profesyonele gitsin.
 
@@ -12,7 +12,7 @@ CV projesi olarak geliştiriliyor. Hedef: çalışan, yayında olan ve doğrulu�
 
 ## Şu anki odak
 
-**Sadece arıza modu.** Tadilat/yapım işleri (süre, maliyet, işçilik) ve araç arızaları sonraki sürümlere bırakıldı. Bu sürümde fiyat hesabı yok, `estimated_cost` her zaman `null`.
+**Sadece arıza modu.** Tadilat/yapım işleri (süre, maliyet, işçilik) ve araç arızaları sonraki sürümlere bırakıldı. Model fiyat yazmaz; `estimated_cost` alanını backend `malzeme_fiyatlari.json`'dan (parça ve alet fiyatları) hesaplar.
 
 ## Kapsam
 
@@ -37,7 +37,7 @@ Prompt'un temel kuralları:
 - Soru sormak istisnadır. Bilgi yetiyorsa soru sorulmaz, belirsizlik `confidence` ile ifade edilir. En fazla bir soru turu, en fazla 3 soru.
 - Öneri zorluk puanına bağlı: 0–40 `kendin_yap`, 41–60 `usta_onerilir`, 61–100 `usta_gerekli`. Elektrik/gazda en az `usta_gerekli`, acil durumda `acil_profesyonel`.
 - `kendin_yap` verilse bile kullanıcıya tam güven verilmez; adımlarda nerede durup ustaya danışacağı belirtilir.
-- Güven `dusuk`/`orta` ise ve nedenlerden biri usta gerektiriyorsa `kendin_yap` verilmez.
+- Güven `dusuk`/`orta` ise ve en olası neden (ilk neden) usta gerektiriyorsa `kendin_yap` verilmez. Düşük olasılıklı usta nedenleri `kendin_yap`'ı engellemez; son adımda ustaya geçiş noktası yazılır. Puan ile öneri çelişmez.
 - Analiz yapılmadığında `difficulty` alanı `null` olur, 0 değil.
 - Liste alanları hiçbir zaman `null` olmaz, boşsa `[]`. Acil durumda `risk_level` her zaman `acil`.
 - Çıktı sadece JSON. Alan değerleri ASCII kodla yazılır (`kendin_yap`, `dusuk` vb.), Türkçe karşılıkları arayüzde gösterilir. Metin alanları Türkçe.
@@ -55,9 +55,9 @@ Prompt'un temel kuralları:
   "confidence": "dusuk | orta | yuksek | null",
   "risk_level": "dusuk | orta | acil | null",
   "difficulty": "0-100 | null",
-  "parts_and_tools": ["string"],
+  "parts_and_tools": [{"item": "string", "price_key": "string | null", "quantity": 1}],
   "steps": ["string"],
-  "estimated_cost": null,
+  "estimated_cost": "null (backend doldurur: lines, parts_min/max, tools_min/max, unpriced, note, price_date)",
   "recommendation": "kendin_yap | usta_onerilir | usta_gerekli | acil_profesyonel | null",
   "safety_warning": "string | null"
 }

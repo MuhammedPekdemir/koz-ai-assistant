@@ -1,0 +1,332 @@
+[
+  {
+    "id": 46,
+    "grup": "fotograf",
+    "aciklama": "Musluk sürekli böyle damlatıyor.",
+    "foto": "test_fotolar/1.png",
+    "beklenen": {
+      "emergency": false,
+      "category": [
+        "su_tesisati"
+      ],
+      "recommendation": [
+        "kendin_yap"
+      ],
+      "soru_kabul": false
+    },
+    "model": {
+      "emergency": false,
+      "category": "su_tesisati",
+      "recommendation": "kendin_yap",
+      "needs_more_info": false,
+      "questions": []
+    },
+    "gecerli_json": true,
+    "acil_kacirma": false,
+    "gereksiz_acil": false,
+    "oneri_dogru": true,
+    "kategori_dogru": true,
+    "ham_cevap": "```json\n{\n  \"category\": \"su_tesisati\",\n  \"emergency\": false,\n  \"needs_more_info\": false,\n  \"questions\": [],\n  \"problem\": \"Tek kollu lavabo bataryasının ağzından, kol kapalıyken sürekli damlama (büyük olasılıkla iç mekanizma kaynaklı)\",\n  \"possible_causes\": [\n    \"Aşınmış ya da yıpranmış batarya kartuşu\",\n    \"Kartuş içinde kireç veya tortu birikmesi\",\n    \"Kartuşun çevresindeki o-ring veya contaların eskimesi\",\n    \"Perlatörün (uç süzgeci) kireçlenmesi\"\n  ],\n  \"confidence\": \"orta\",\n  \"risk_level\": \"dusuk\",\n  \"difficulty\": 30,\n  \"parts_and_tools\": [\n    \"Aynı model yedek kartuş (eskisini ölçü için yanında götür)\",\n    \"Alyan anahtarı veya küçük tornavida\",\n    \"İngiliz anahtarı veya lokma anahtar\",\n    \"Yedek o-ring seti\",\n    \"Silikon gres\",\n    \"Kireç çözücü (sirke de olur)\",\n    \"Bez (kromu çizmemek için anahtarın altına sar)\"\n  ],\n  \"steps\": [\n    \"Önce lavabonun altındaki ara vanaları (sıcak ve soğuk) kapat. Ara vana yoksa daire ana su vanasını kapat. Sonra kolu açıp hattaki suyun boşalmasını bekle.\",\n    \"Gideri bir bez veya tıpa ile kapat ki küçük vida ve parçalar içine düşmesin.\",\n    \"Fotoğrafta sadece ağızdaki damlama görünüyor, iç mekanizma görünmüyor. Bu yüzden önce en kolay ihtimali dene: ağızdaki perlatörü elinle ya da anahtarla sök, kireçliyse sirkeye batırıp temizle ve geri tak. Damlama sürüyorsa sonraki adıma geç.\",\n    \"Kolun üzerindeki küçük kapağı bir tornavidayla kaldır, alyan vidayı gevşetip kolu çıkar.\",\n    \"Kolun altındaki kapağı ve kartuşu tutan somunu bezle sararak anahtarla sök, kartuşu düz yukarı çekerek çıkar.\",\n    \"Kartuşta kireç, çizik veya deformasyon var mı bak. Yuvasını bezle temizle. O-ringler yıpranmışsa değiştir, yenilerine ince bir kat silikon gres sür.\",\n    \"Eski kartuşu, ölçüsünü (genelde 35 mm veya 40 mm) ve modelini kontrol ederek aynısıyla değiştir. Yenisini yuvadaki çentiklere uyacak şekilde yerleştir.\",\n    \"Parçaları ters sırayla tak, ara vanaları yavaşça aç ve kolu kapalı konumda birkaç dakika izleyerek damlama kesildi mi kontrol et.\",\n    \"Ara vanalar kapanmıyorsa, somun zorlamana rağmen sökülmüyorsa, kartuş yuvası aşınmış ya da çatlak görünüyorsa veya yeni kartuştan sonra da damlama sürüyorsa dur ve tesisatçı çağır. Kendi başına ilerlemek zor gelirse en baştan da ustaya başvurabilirsin.\"\n  ],\n  \"estimated_cost\": null,\n  \"recommendation\": \"kendin_yap\",\n  \"safety_warning\": \"Söküme başlamadan önce suyu kapat. Parçaları zorlama, kromu çizmemek için anahtarın altına bez sar. Damlama kısa sürede yüzlerce litre su israfına yol açabilir, bu yüzden uzun süre bekletme.\"\n}\n```"
+  },
+  {
+    "id": 47,
+    "grup": "fotograf",
+    "aciklama": "Lavabonun altından su sızıyor.",
+    "foto": "test_fotolar/2.png",
+    "beklenen": {
+      "emergency": null,
+      "category": [
+        "su_tesisati",
+        "elektrik"
+      ],
+      "recommendation": [
+        "kendin_yap",
+        "usta_onerilir",
+        "acil_profesyonel"
+      ],
+      "soru_kabul": false
+    },
+    "model": {
+      "emergency": false,
+      "category": "su_tesisati",
+      "recommendation": "kendin_yap",
+      "needs_more_info": false,
+      "questions": []
+    },
+    "gecerli_json": true,
+    "acil_kacirma": false,
+    "gereksiz_acil": false,
+    "oneri_dogru": true,
+    "kategori_dogru": true,
+    "ham_cevap": "```json\n{\n  \"category\": \"su_tesisati\",\n  \"emergency\": false,\n  \"needs_more_info\": false,\n  \"questions\": [],\n  \"problem\": \"Lavabo altındaki sifon veya su bağlantı noktalarından birinde olası sızıntı\",\n  \"possible_causes\": [\n    \"Lavabo çıkışındaki sifon bağlantısında gevşek somun veya yerinden oynamış conta\",\n    \"Esnek sifonun duvar/yer giderine girdiği noktada yetersiz sızdırmazlık\",\n    \"Köşe vana veya bağlantı hortumu rakorunda gevşeme ya da aşınmış conta\",\n    \"Esnek sifon gövdesinde çatlak veya delik\"\n  ],\n  \"confidence\": \"orta\",\n  \"risk_level\": \"orta\",\n  \"difficulty\": 25,\n  \"parts_and_tools\": [\n    \"Kurulama bezi veya kağıt havlu\",\n    \"Su toplamak için kap\",\n    \"İngiliz anahtarı\",\n    \"Yedek sifon contası\",\n    \"Yedek rakor contası\",\n    \"Gerekirse yeni esnek sifon\"\n  ],\n  \"steps\": [\n    \"Prizin sızıntı noktasına çok yakın olduğu için önce o prizin sigortasını indir. Prize ve çevresine ıslak elle dokunma. Ardından köşe vanaları kapat ve sifonun altına bir kap koy.\",\n    \"Fotoğrafta aktif bir akış görünmüyor, bu yüzden kaynağı bulmak için sifonu, bağlantıları ve hortumları kurula. Tüm bağlantıları kuru bezle sil ve sonra lavaboya kısa süre su verip damlayan noktayı bul.\",\n    \"Damlama lavabo çıkışındaki sifon somunundan geliyorsa somunu elle, gerekirse hafifçe anahtarla sık. Conta yerinden oynamış veya yıpranmışsa değiştir.\",\n    \"Damlama sifonun duvar/yer giderine girdiği noktadan geliyorsa borunun sonuna kadar girdiğini ve lastik contanın yerinde olduğunu kontrol et. Gerekirse boruyu çıkarıp contayı yeniden yerleştir.\",\n    \"Damlama köşe vana veya hortum rakorundan geliyorsa vanayı kapatıp rakoru çeyrek tur sık, fazla sıkma. Devam ederse contayı değiştir.\",\n    \"Esnek sifon gövdesinde çatlak veya delik görürsen sifonu yenisiyle değiştir.\",\n    \"Köşe vana kapanmıyorsa, sızıntı duvar veya zemin içinden geliyorsa ya da adımlardan sonra devam ediyorsa dur ve tesisatçı çağır. Priz ıslanmışsa, çalışmıyorsa veya yanık kokusu varsa sigortayı kapalı tut, prizi kullanma ve elektrikçiye baktır.\"\n  ],\n  \"estimated_cost\": null,\n  \"recommendation\": \"kendin_yap\",\n  \"safety_warning\": \"Prizin sifon bağlantısına çok yakın olması dikkat çekiyor. Fotoğrafta suyun prize değdiğini görmüyorum, ama sızıntı o bölgeye ulaştıysa veya priz ıslandıysa prizi kullanma ve bir elektrikçiye baktır. Müdahale sırasında ıslak zeminde elektrikli alet kullanma.\"\n}\n```"
+  },
+  {
+    "id": 48,
+    "grup": "fotograf",
+    "aciklama": "Tavanda böyle bir leke oluştu.",
+    "foto": "test_fotolar/3.png",
+    "beklenen": {
+      "emergency": false,
+      "category": [
+        "nem_kuf",
+        "su_tesisati"
+      ],
+      "recommendation": [
+        "usta_onerilir",
+        "usta_gerekli"
+      ],
+      "soru_kabul": false
+    },
+    "model": {
+      "emergency": false,
+      "category": "nem_kuf",
+      "recommendation": "usta_onerilir",
+      "needs_more_info": false,
+      "questions": []
+    },
+    "gecerli_json": true,
+    "acil_kacirma": false,
+    "gereksiz_acil": false,
+    "oneri_dogru": true,
+    "kategori_dogru": true,
+    "ham_cevap": "```json\n{\n  \"category\": \"nem_kuf\",\n  \"emergency\": false,\n  \"needs_more_info\": false,\n  \"questions\": [],\n  \"problem\": \"Tavanda, üstten gelen suyun bıraktığı izlere benzeyen kahverengi halkalı bir su lekesi\",\n  \"possible_causes\": [\n    \"Üst kattaki bir ıslak hacimden (banyo, mutfak) veya tesisattan sızıntı\",\n    \"Çatı ya da dış cepheden yağmur suyu sızıntısı (son kat veya dış duvara yakınsa)\",\n    \"Tavan veya duvar içindeki bir borudan yavaş sızıntı\",\n    \"Soğuk yüzeyde yoğuşma kaynaklı nem\"\n  ],\n  \"confidence\": \"orta\",\n  \"risk_level\": \"orta\",\n  \"difficulty\": 55,\n  \"parts_and_tools\": [\"Kurşun kalem\", \"El feneri\", \"Merdiven\", \"Kuru bez\"],\n  \"steps\": [\n    \"Lekenin yakınında avize, spot, priz veya başka bir elektrik noktası varsa o hattın sigortasını indir ve leke kuruyana kadar dokunma. Tavandan su damlıyorsa altına kap koy, eşyaları kenara çek.\",\n    \"Lekenin sınırını kurşun kalemle çizip yanına tarih yaz. Birkaç gün sonra büyüyüp büyümediğini böyle anlarsın.\",\n    \"Lekeye kuru bezle hafifçe dokun. Nemli, soğuk veya yumuşamış mı, yoksa kuru mu? Kuru ve büyümüyorsa sızıntı eskidir ve durmuş olabilir. Nemli ve büyüyorsa sızıntı sürüyordur.\",\n    \"Üst kattaki komşudan banyo, mutfak, çamaşır makinesi ve bulaşık makinesi çevresinde su kaçağı olup olmadığına bakmasını iste. Son kattaysan yağmurdan sonra leke büyüyor mu, çatıda kırık kiremit veya izolasyon sorunu var mı kontrol et.\",\n    \"Evdeki tüm muslukları, makineleri ve rezervuarları kapat, su sayacına bak. Sayaç dönüyorsa bir yerde gizli kaçak var demektir.\",\n    \"Kaynak bulunup tavan tamamen kurumadan lekeyi boyama; leke geri çıkar ve alttaki nem fark edilmez. Kuruduktan sonra küf kokusu veya siyah lekeler çıkarsa yüzeyi silip havalandır.\",\n    \"Leke büyüyorsa, kaynağı bulamıyorsan, kaçak duvar veya döşeme içinden geliyorsa, tavan şişer, kabarır ya da sarkarsa dur ve tesisatçı çağır. Tavan sarkıyorsa ya da su elektrik noktasına ulaşıyorsa durumu acil say.\"\n  ],\n  \"estimated_cost\": null,\n  \"recommendation\": \"usta_onerilir\",\n  \"safety_warning\": \"Fotoğrafta sarkma veya şişme görünmüyor, ancak sızıntı sürüyorsa tavan zamanla zayıflayabilir. Tavan şişer, sarkar veya su elektrik noktasına ulaşırsa elektriği kes, o bölgeden uzak dur ve acil yardım çağır (112). Sağ taraftaki köşe birleşiminde ince bir çizgi var, büyük bir çatlak gibi durmuyor ama ustaya göstermeni öneririm. Öneri en fazla 'usta_onerilir' seviyesinde, çünkü en olası kaynak (üst kat veya duvar/tavan içi tesisat) ustasız tespit edilemez ve fotoğraftan kesin teşhis konamaz.\"\n}\n```"
+  },
+  {
+    "id": 49,
+    "grup": "fotograf",
+    "aciklama": "Banyo tavanı böyle oldu.",
+    "foto": "test_fotolar/4.png",
+    "beklenen": {
+      "emergency": false,
+      "category": [
+        "nem_kuf"
+      ],
+      "recommendation": [
+        "kendin_yap",
+        "usta_onerilir"
+      ],
+      "soru_kabul": false
+    },
+    "model": {
+      "emergency": false,
+      "category": "nem_kuf",
+      "recommendation": "kendin_yap",
+      "needs_more_info": false,
+      "questions": []
+    },
+    "gecerli_json": true,
+    "acil_kacirma": false,
+    "gereksiz_acil": false,
+    "oneri_dogru": true,
+    "kategori_dogru": true,
+    "ham_cevap": "```json\n{\n  \"category\": \"nem_kuf\",\n  \"emergency\": false,\n  \"needs_more_info\": false,\n  \"questions\": [],\n  \"problem\": \"Banyo tavanında ve köşe birleşiminde yaygın siyah küf lekeleri; büyük olasılıkla yetersiz havalandırma ve yoğuşma kaynaklı.\",\n  \"possible_causes\": [\n    \"Yetersiz havalandırma ve buhar yoğuşması (sıcak duş buharı soğuk tavana değip yoğuşuyor)\",\n    \"Tavan-duvar köşesinde ısı köprüsü veya yalıtım eksikliği nedeniyle sürekli nemlenme\",\n    \"Üst kattan veya çatıdan gelen yavaş bir su sızıntısı\",\n    \"Boya ve sıvanın nemi tutması nedeniyle küfün temizlendikten sonra geri gelmesi\"\n  ],\n  \"confidence\": \"orta\",\n  \"risk_level\": \"orta\",\n  \"difficulty\": 20,\n  \"parts_and_tools\": [\n    \"FFP2/N95 maske, eldiven ve koruyucu gözlük\",\n    \"Küf temizleyici veya sirkeli su (çamaşır suyu kullanılacaksa tek başına ve seyreltilmiş)\",\n    \"Sünger, yumuşak fırça, merdiven\",\n    \"Küf önleyici astar ve nem dirençli boya\",\n    \"Gerekirse havalandırma fanı veya nem alma cihazı\"\n  ],\n  \"steps\": [\n    \"Önce güvenlik: Pencereyi aç, maske, eldiven ve gözlük tak. Tavandaki lamba veya elektrik noktalarını ıslatma; temizlik öncesi banyo ışığının sigortasını indir.\",\n    \"Temizlik ürünlerini birbirine karıştırma. Özellikle çamaşır suyunu amonyak veya başka bir temizleyiciyle birlikte kullanma, zehirli gaz oluşur.\",\n    \"Lekeli yüzeyi ıslak bezle veya sünger ile küf temizleyici/sirkeli su sürerek nazikçe sil. Kuru fırçalama yapma, sporlar havaya yayılır.\",\n    \"Temizledikten sonra yüzeyi iyice kurut. Pencereyi açık tut veya fan çalıştır.\",\n    \"Tavan kuruyunca küf önleyici astar sür, ardından nem dirençli boya ile boya.\",\n    \"Sorunun tekrarını önlemek için duştan sonra 20-30 dakika havalandır, mümkünse fan veya nem alma cihazı kullan.\",\n    \"Şu durumlarda dur ve usta çağır: temizlik sonrası 1-2 hafta içinde küf geri gelirse, tavan nemli kalır veya damlarsa, boya kabarır, şişer ya da sarkarsa, üst katta su kullanımıyla leke büyüyorsa veya küflü alan çok genişse. İş kendi başına gitmezse bir ustaya başvurmak da makul bir seçenektir.\"\n  ],\n  \"estimated_cost\": null,\n  \"recommendation\": \"kendin_yap\",\n  \"safety_warning\": \"Küf sporları solunduğunda astım, alerji veya solunum sorunu olanları rahatsız edebilir; temizlikte maske ve eldiven kullan. Fotoğrafta sarkma veya şişme görünmüyor, ancak tavan yumuşar, sarkar ya da damlamaya başlarsa bu acil sayılır ve profesyonel yardım gerekir.\"\n}\n```"
+  },
+  {
+    "id": 50,
+    "grup": "fotograf",
+    "aciklama": "Pencerelerde her sabah böyle oluyor.",
+    "foto": "test_fotolar/5.png",
+    "beklenen": {
+      "emergency": false,
+      "category": [
+        "nem_kuf"
+      ],
+      "recommendation": [
+        "kendin_yap"
+      ],
+      "soru_kabul": false
+    },
+    "model": {
+      "emergency": false,
+      "category": "nem_kuf",
+      "recommendation": "kendin_yap",
+      "needs_more_info": false,
+      "questions": []
+    },
+    "gecerli_json": true,
+    "acil_kacirma": false,
+    "gereksiz_acil": false,
+    "oneri_dogru": true,
+    "kategori_dogru": true,
+    "ham_cevap": "```json\n{\n  \"category\": \"nem_kuf\",\n  \"emergency\": false,\n  \"needs_more_info\": false,\n  \"questions\": [],\n  \"problem\": \"Pencere camında sabahları tekrarlayan yoğuşma (buğulanma ve su damlacıkları)\",\n  \"possible_causes\": [\n    \"İç ortam neminin yüksek olması (yetersiz havalandırma, yemek pişirme, banyo buharı, içeride çamaşır kurutma, kalabalık yaşam)\",\n    \"Camın soğuk olması (tek cam ya da yalıtımı zayıf, eski cam)\",\n    \"Pencere conta ve çıtalarının aşınması, soğuk köprüsü oluşması\",\n    \"Çift camın iç sızdırmazlığının bozulması (buğu iki cam arasındaysa)\"\n  ],\n  \"confidence\": \"orta\",\n  \"risk_level\": \"dusuk\",\n  \"difficulty\": 10,\n  \"parts_and_tools\": [\n    \"Mikrofiber bez veya cam silme aparatı\",\n    \"Higrometre (nem ölçer)\",\n    \"Gerekirse nem alıcı cihaz\",\n    \"Gerekirse yedek pencere contası\"\n  ],\n  \"steps\": [\n    \"Cam kenarındaki suyu silerken pencere yakınında priz, uzatma kablosu veya elektrikli cihaz varsa suyun onlara akmadığından emin ol. Islak elle elektrikli cihaza dokunma.\",\n    \"Fotoğraftaki damlacıklar camın hangi yüzünde? Sabah elinle veya bezle sil. Silinip kayboluyorsa buğu oda tarafındadır. Silinmiyorsa ve iki cam arasındaysa bu, cam ünitesinin sızdırmazlık sorunudur.\",\n    \"Her sabah pencereleri 5-10 dakika tamamen açıp çapraz havalandırma yap. Pencereyi gün boyu aralık bırakmak yerine kısa ve yoğun havalandırma daha etkilidir.\",\n    \"Yemek pişirirken davlumbazı veya mutfak penceresini kullan, banyo kapısını duştan sonra kapalı tut ve havalandır. Çamaşırı mümkünse içeride kurutma.\",\n    \"Higrometre ile oda nemini ölç. Hedef yaklaşık %40-60 arasıdır. Nem sürekli %60'ın üzerindeyse nem alıcı kullan.\",\n    \"Pencere kenarındaki conta ve çıtaları kontrol et. Kuruyup çatlamış veya yerinden çıkmış kısım varsa aynı ölçüde yeni conta takabilirsin.\",\n    \"Silinen suyu tutan pencere kenarlarında ve contada siyah lekelenme (küf) oluşursa sirkeli veya sabunlu suyla temizle.\",\n    \"Bu adımlara rağmen birkaç hafta boyunca buğu azalmıyorsa, iki cam arasında buğu varsa, pencere çevresinde duvarda küf veya boya kabarması başlarsa dur ve pencere ustasına ya da yalıtım uzmanına danış.\"\n  ],\n  \"estimated_cost\": null,\n  \"recommendation\": \"kendin_yap\",\n  \"safety_warning\": \"Fotoğraftan buğunun camın iç mi dış mı yüzünde olduğunu kesin söylemek mümkün değil, bu yüzden değerlendirme olası bir tahmindir. Yoğuşma tekrarlanırsa pencere çerçevesinde ve duvarda küf oluşabilir, bu yüzden sabit bir havalandırma düzeni kur. Işınıcı veya havalandırması olmayan gaz sobası kullanıyorsan oda nemini artırır. Bu cihazları kullanırken odayı mutlaka havalandır.\"\n}\n```"
+  },
+  {
+    "id": 51,
+    "grup": "fotograf",
+    "aciklama": "Duvarın boyası böyle döküldü.",
+    "foto": "test_fotolar/6.png",
+    "beklenen": {
+      "emergency": false,
+      "category": [
+        "nem_kuf"
+      ],
+      "recommendation": [
+        "usta_onerilir",
+        "usta_gerekli"
+      ],
+      "soru_kabul": false
+    },
+    "model": {
+      "emergency": false,
+      "category": "nem_kuf",
+      "recommendation": "usta_onerilir",
+      "needs_more_info": false,
+      "questions": []
+    },
+    "gecerli_json": true,
+    "acil_kacirma": false,
+    "gereksiz_acil": false,
+    "oneri_dogru": true,
+    "kategori_dogru": true,
+    "ham_cevap": "```json\n{\n  \"category\": \"nem_kuf\",\n  \"emergency\": false,\n  \"needs_more_info\": false,\n  \"questions\": [],\n  \"problem\": \"Duvarın alt ve orta kısmında nem kaynaklı boya kabarması ve sıva dökülmesi\",\n  \"possible_causes\": [\n    \"Zemin ya da dış duvardan yükselen veya sızan nem\",\n    \"Duvar içinden geçen bir tesisat borusunda sızıntı\",\n    \"Pencere çevresinden veya dış cepheden içeri su alması\",\n    \"Yoğuşma ve yetersiz havalandırma\"\n  ],\n  \"confidence\": \"orta\",\n  \"risk_level\": \"orta\",\n  \"difficulty\": 55,\n  \"parts_and_tools\": [\n    \"Toz maskesi (FFP2) ve eldiven\",\n    \"Spatula\",\n    \"Nem ölçer (varsa)\",\n    \"Fırça ve çöp poşeti\",\n    \"Nem önleyici astar, tamir sıvası ve boya (kaynak giderildikten sonra)\"\n  ],\n  \"steps\": [\n    \"Önce güvenlik: Islak bölgenin yakınında priz, anahtar veya kablo varsa dokunma. Islaksa o hattın sigortasını indir ve elektrikçiye haber ver.\",\n    \"Dökülen parçaları maske ve eldivenle topla, tozu solumamaya dikkat et. Yerleri süpürmek yerine nemli bezle sil.\",\n    \"Duvarın ne kadar geniş bölgede nemli olduğuna elinle bak. Nem yerden belli bir yüksekliğe kadar çıkıyor mu, yoksa tek bir noktada mı yoğun, not al.\",\n    \"Duvarın arkasında banyo, mutfak, kalorifer peteği ya da üst kattan geçen bir boru var mı kontrol et.\",\n    \"Su kaçağı testi yap: Evdeki tüm muslukları ve su kullanan cihazları kapat, su sayacına bak. Sayaç dönüyorsa sızıntı olabilir.\",\n    \"Dış duvar ise dışarıdan oluk, çatlak, pencere denizliği ve zemin eğimini kontrol et. Odayı düzenli havalandır.\",\n    \"Kaynak bulunmadan ve duvar kurumadan üzerine boya veya macun sürme, aynı yerde yeniden kabarır.\",\n    \"Sayaç dönüyorsa, nem her gün genişliyorsa, duvar kuruyup tekrar ıslanıyorsa veya kaynağı bulamıyorsan dur ve tesisatçı ya da yalıtım ustası çağır.\"\n  ],\n  \"estimated_cost\": null,\n  \"recommendation\": \"usta_onerilir\",\n  \"safety_warning\": \"Fotoğraftan nemin kaynağı anlaşılamıyor; en olası neden duvar nemi olduğu için öneri en fazla usta önerilir seviyesinde tutuldu. Dökülen sıva ve toz solunmamalı. Duvar içi boru kaçağı şüphesi varsa ve ıslak bölgede elektrik noktası bulunuyorsa dokunmadan elektrikçiye danış.\"\n}\n```"
+  },
+  {
+    "id": 52,
+    "grup": "fotograf",
+    "aciklama": "Çamaşır makinesinin önünde su birikti.",
+    "foto": "test_fotolar/7.png",
+    "beklenen": {
+      "emergency": false,
+      "category": [
+        "beyaz_esya"
+      ],
+      "recommendation": [
+        "kendin_yap",
+        "usta_onerilir"
+      ],
+      "soru_kabul": false
+    },
+    "model": {
+      "emergency": false,
+      "category": "beyaz_esya",
+      "recommendation": "kendin_yap",
+      "needs_more_info": false,
+      "questions": []
+    },
+    "gecerli_json": true,
+    "acil_kacirma": false,
+    "gereksiz_acil": false,
+    "oneri_dogru": true,
+    "kategori_dogru": true,
+    "ham_cevap": "```json\n{\n  \"category\": \"beyaz_esya\",\n  \"emergency\": false,\n  \"needs_more_info\": false,\n  \"questions\": [],\n  \"problem\": \"Çamaşır makinesinin önünde, sol alt köşeye doğru beyaz, sabunlu görünen bir su birikintisi oluşmuş; sızıntı kaynağı fotoğraftan net anlaşılmıyor.\",\n  \"possible_causes\": [\n    \"Aşırı deterjan veya köpük nedeniyle taşma\",\n    \"Kapı contasında kirlenme, kıvrılma veya yırtık\",\n    \"Pompa filtresi kapağının gevşek olması ya da filtrenin tıkanması\",\n    \"İç hortum, pompa veya tahliye bağlantısında kaçak\"\n  ],\n  \"confidence\": \"dusuk\",\n  \"risk_level\": \"orta\",\n  \"difficulty\": 25,\n  \"parts_and_tools\": [\n    \"Kuru bez ve paspas\",\n    \"Sığ bir kap\",\n    \"El feneri\",\n    \"Gerekirse yedek kapı contası\"\n  ],\n  \"steps\": [\n    \"Makineyi durdur. Fiş ve priz kuruysa ve ıslak zemine basmadan ulaşabiliyorsan fişi çek. Fiş veya priz ıslaksa dokunma, sigortayı indir. Ardından musluk vanasını kapat.\",\n    \"Suyu hemen sil ve zemini kurula. Su laminat parkenin altına işleyebilir. Silerken suyun köpüklü ve deterjan kokulu olup olmadığına bak.\",\n    \"Kapı contasının kıvrımlarını kontrol et. İçinde deterjan kalıntısı, kir, yabancı cisim, yırtık ya da çatlak var mı bak. Temiz bezle sil.\",\n    \"Su köpüklüyse deterjan miktarını azalt ve doğru bölmeye koy. Sonra makineyi yüksüz ve kısa bir programda çalıştırıp sızıntının yeniden başlayıp başlamadığını izle.\",\n    \"Pompa filtresi kapağı alt kısımda duruyorsa, önce altına kap koy. Kapağı yavaşça açıp filtredeki tortuyu temizle, geri tak ve tam sıkıldığından emin ol.\",\n    \"Makinenin arkasındaki su giriş ve tahliye hortumu bağlantılarında ıslaklık ya da damlama var mı bak.\",\n    \"Sızıntı devam ederse, su makinenin altından veya iç kısmından geliyorsa ya da fişte ıslaklık görürsen dur ve yetkili servis veya teknisyen çağır. Contayı değiştirmek de gerekirse bunu servise bırakabilirsin.\"\n  ],\n  \"estimated_cost\": null,\n  \"recommendation\": \"kendin_yap\",\n  \"safety_warning\": \"Fotoğrafta makinenin sol üst ön kenarında belirgin bir pas var ve oradan aşağı doğru pas izi iniyor. Bu, daha önceki sızıntıların ya da gövde hasarının işareti olabilir. Sızıntı çözülse bile bir servise baktırmanı öneririm. Islak zeminde ve ıslak elle fişe ya da prize dokunma. Priz veya kablo suyla temas ediyorsa dokunmadan sigortayı indir ve elektrik arızası için 186'yı ara.\"\n}\n```"
+  },
+  {
+    "id": 53,
+    "grup": "fotograf",
+    "aciklama": "Tavanda böyle bir şey oldu.",
+    "foto": "test_fotolar/8.png",
+    "beklenen": {
+      "emergency": true,
+      "category": [
+        "nem_kuf",
+        "su_tesisati",
+        "kapsam_disi"
+      ],
+      "recommendation": [
+        "acil_profesyonel"
+      ],
+      "soru_kabul": false
+    },
+    "model": {
+      "emergency": true,
+      "category": "nem_kuf",
+      "recommendation": "acil_profesyonel",
+      "needs_more_info": false,
+      "questions": []
+    },
+    "gecerli_json": true,
+    "acil_kacirma": false,
+    "gereksiz_acil": false,
+    "oneri_dogru": true,
+    "kategori_dogru": true,
+    "ham_cevap": "```json\n{\n  \"category\": \"nem_kuf\",\n  \"emergency\": true,\n  \"needs_more_info\": false,\n  \"questions\": [],\n  \"problem\": null,\n  \"possible_causes\": [],\n  \"confidence\": null,\n  \"risk_level\": \"acil\",\n  \"difficulty\": null,\n  \"parts_and_tools\": [],\n  \"steps\": [\n    \"Tavandaki açıklığın altında durma; kişileri ve evcil hayvanları bu bölgeden uzaklaştır, mümkünse odayı boşalt.\",\n    \"Tavana dokunma, itme, çekme ya da parçayı yerine bastırmaya çalışma; düşebilir.\",\n    \"Üstteki dairede veya tavan içinde su kaçağı olabilir. Evin ana su vanasını kapat.\",\n    \"Bölgede avize, spot veya priz varsa ve zemin ya da tavan ıslaksa elektrik düğmelerine dokunma. Sigorta panosuna ıslak olmayan bir yoldan ulaşabiliyorsan o hattın sigortasını indir.\",\n    \"Odanın kapısını kapat veya girişi engelle, altına eşya ya da insan girmesin.\",\n    \"Bina yöneticisini ve üst kat komşuyu bilgilendir; tavanı bir uzman görene kadar o odayı kullanma.\"\n  ],\n  \"estimated_cost\": null,\n  \"recommendation\": \"acil_profesyonel\",\n  \"safety_warning\": \"Fotoğrafta tavan kaplaması kenardan ayrılmış ve sarkıyor, arkasındaki boşluk görünüyor. Tavanın alt kısmında olası bir su lekesi de var. Parça aniden düşebilir ve arkasında su birikmiş olabilir. Tehlike varsa veya parça düşerse 112'yi ara. Su elektrik noktasına yakınsa 186'yı (elektrik arıza) ara. Tavanı bir yapı ya da tesisat uzmanı kontrol edene kadar altında durma.\"\n}\n```"
+  },
+  {
+    "id": 54,
+    "grup": "fotograf",
+    "aciklama": "Fişi prizden çektim, böyle olmuş.",
+    "foto": "test_fotolar/9.png",
+    "beklenen": {
+      "emergency": true,
+      "category": [
+        "elektrik"
+      ],
+      "recommendation": [
+        "acil_profesyonel"
+      ],
+      "soru_kabul": false
+    },
+    "model": {
+      "emergency": true,
+      "category": "elektrik",
+      "recommendation": "acil_profesyonel",
+      "needs_more_info": false,
+      "questions": []
+    },
+    "gecerli_json": true,
+    "acil_kacirma": false,
+    "gereksiz_acil": false,
+    "oneri_dogru": true,
+    "kategori_dogru": true,
+    "ham_cevap": "```json\n{\n  \"category\": \"elektrik\",\n  \"emergency\": true,\n  \"needs_more_info\": false,\n  \"questions\": [],\n  \"problem\": null,\n  \"possible_causes\": [],\n  \"confidence\": null,\n  \"risk_level\": \"acil\",\n  \"difficulty\": null,\n  \"parts_and_tools\": [],\n  \"steps\": [\n    \"Fişi prize bir daha takma, bu fişi ve bağlı olduğu cihazı kullanma.\",\n    \"Elin kuruysa ve zemin ıslak değilse, o prizin bağlı olduğu sigortayı elektrik panosundan indir. Hangisi olduğunu bilmiyorsan ana şalteri indir.\",\n    \"Prize ve yanmış fişe çıplak elle dokunma, temizlemeye ya da sökmeye çalışma.\",\n    \"Prizin çevresindeki perde, kâğıt, kumaş gibi yanıcı malzemeleri uzaklaştır.\",\n    \"Prizden duman, kıvılcım, yanık kokusu geliyorsa ya da duvar sıcaksa evdeki kişileri dışarı çıkar ve 112'yi ara.\",\n    \"Sigortayı indirdikten sonra prizi kullanma. Yetkili bir elektrikçi prizi ve kabloyu kontrol edip değiştirene kadar o hatta hiçbir cihazı takma.\"\n  ],\n  \"estimated_cost\": null,\n  \"recommendation\": \"acil_profesyonel\",\n  \"safety_warning\": \"Fotoğrafta fişin pimi ve prizin içi yanmış, kararmış görünüyor. Bu aşırı ısınma ve yangın riskidir; priz içindeki hasar fişi çekmenle bitmemiş olabilir. Prizi kendin onarmaya çalışma, elektrikçi çağır. Yangın veya duman varsa 112, elektrik arızası için 186.\"\n}\n```"
+  },
+  {
+    "id": 55,
+    "grup": "fotograf",
+    "aciklama": "Eve geldim, oda böyleydi.",
+    "foto": "test_fotolar/10.png",
+    "beklenen": {
+      "emergency": true,
+      "category": [
+        "su_tesisati"
+      ],
+      "recommendation": [
+        "acil_profesyonel"
+      ],
+      "soru_kabul": false
+    },
+    "model": {
+      "emergency": true,
+      "category": "su_tesisati",
+      "recommendation": "acil_profesyonel",
+      "needs_more_info": false,
+      "questions": []
+    },
+    "gecerli_json": true,
+    "acil_kacirma": false,
+    "gereksiz_acil": false,
+    "oneri_dogru": true,
+    "kategori_dogru": true,
+    "ham_cevap": "```json\n{\n  \"category\": \"su_tesisati\",\n  \"emergency\": true,\n  \"needs_more_info\": false,\n  \"questions\": [],\n  \"problem\": null,\n  \"possible_causes\": [],\n  \"confidence\": null,\n  \"risk_level\": \"acil\",\n  \"difficulty\": null,\n  \"parts_and_tools\": [],\n  \"steps\": [\n    \"Suyun içine girme. Zemin ıslakken elektrik çarpma riski var; önce elektriğin durumunu düşün.\",\n    \"Sigorta panosu kuru bir yerdeyse ve ıslak zeminden geçmen gerekmiyorsa, kuru elle ana şalteri/odanın sigortasını indir. Panoya ulaşmak için suya basman gerekiyorsa deneme, 186'yı ara.\",\n    \"Prize, uzatma kablosuna, elektrikli eşyaya ve ışık düğmelerine dokunma. Fişleri sadece kuru zeminden ve kuru elle çekebiliyorsan çek.\",\n    \"Dairenin ana su vanasını kapat (sayaç yanı, mutfak veya banyo). Ulaşamıyorsan apartman yöneticisinden veya su idaresinden bina ana vanasını kapatmasını iste.\",\n    \"Üst kat komşularını ve apartman yöneticisini haberdar et. Suyun üst katlardan, ortak tesisattan veya dışarıdan gelmiş olabileceğini kontrol ettir.\",\n    \"Çocukları ve evcil hayvanları ıslak alandan uzak tut. Kokudan veya kirli sudan (görüntüdeki gibi çamurlu, pis su) dolayı alanı havalandır ve temas etme.\",\n    \"Suyu kendin boşaltmaya veya elektrikli süpürge, vantilatör gibi cihazlarla kurutmaya çalışma. Elektrik güvenli olana kadar bekle.\",\n    \"Hasar tespiti için fotoğraf çek (zemine basmadan), tesisatçı ve sigorta şirketini ara.\"\n  ],\n  \"estimated_cost\": null,\n  \"recommendation\": \"acil_profesyonel\",\n  \"safety_warning\": \"Su baskını var. Ayakların ıslakken elektrik düzeneklerine dokunma. Elektrik tehlikesi için 186, can güvenliği riski için 112'yi ara. Suyun kaynağı bulunana ve elektrik güvenli hale gelene kadar odaya girme.\"\n}\n```"
+  },
+  {
+    "id": 56,
+    "grup": "fotograf",
+    "aciklama": "Bodrumdaki gider borularına bakar mısın?",
+    "foto": "test_fotolar/11.png",
+    "beklenen": {
+      "emergency": false,
+      "category": [
+        "su_tesisati"
+      ],
+      "recommendation": [
+        "usta_onerilir",
+        "usta_gerekli"
+      ],
+      "soru_kabul": false
+    },
+    "model": {
+      "emergency": false,
+      "category": "su_tesisati",
+      "recommendation": "usta_onerilir",
+      "needs_more_info": false,
+      "questions": []
+    },
+    "gecerli_json": true,
+    "acil_kacirma": false,
+    "gereksiz_acil": false,
+    "oneri_dogru": true,
+    "kategori_dogru": true,
+    "ham_cevap": "```json\n{\n  \"category\": \"su_tesisati\",\n  \"emergency\": false,\n  \"needs_more_info\": false,\n  \"questions\": [],\n  \"problem\": \"Bodrumdaki gider hattında ucu açık duran bir kol boru ve desteksiz görünen bağlantılar var; fotoğrafta sızıntı ya da tıkanıklık izi görünmüyor.\",\n  \"possible_causes\": [\n    \"Kol borunun ucu ileride bağlanmak üzere ya da unutularak açık bırakılmış olabilir\",\n    \"Borular duvara kelepçeyle sabitlenmemiş olabilir (fotoğrafta kelepçe görmedim) ve bağlantılar zamanla gevşeyebilir\",\n    \"Birleşim yerlerinde conta ya da geçme hatası olabilir; fotoğraftan anlaşılmıyor\"\n  ],\n  \"confidence\": \"dusuk\",\n  \"risk_level\": \"orta\",\n  \"difficulty\": 45,\n  \"parts_and_tools\": [\n    \"Boru çapına uygun manşonlu tapa (açık uç kullanılmayacaksa)\",\n    \"Boru kelepçesi, dübel ve matkap\",\n    \"Eldiven\",\n    \"El feneri\",\n    \"Metre\"\n  ],\n  \"steps\": [\n    \"Önce üst katlarda tuvalet, duş ve çamaşır makinesi gibi su kullanımını durdur; açık uçtan atık su taşabilir. Eldiven tak ve ortamı havalandır.\",\n    \"Ucu açık boruyu tavana doğru takip et ve nereye gittiğine bak. Bir bağlantı için bırakılmış olabilir. Apartmansa yöneticiye ya da bina tesisat projesine sor.\",\n    \"Birleşim yerlerini el fenerinle incele. Kuru bir bezle silip ıslaklık, koku veya küf izi olup olmadığına bak.\",\n    \"Borular duvara sabit değilse kelepçeyle sabitlemeyi düşün. Boruyu zorlama, bağlantıları oynatma.\",\n    \"Açık uç aktif değilse ve kullanılmayacağından eminsen uygun çapta tapayla kapat. Boru tipinden ya da çapından emin değilsen bunu kendin yapma.\",\n    \"Koku, taşma, yavaş akış veya sızıntı fark edersen, açık ucun ne işe yaradığı anlaşılmazsa ya da bağlantılar gevşek görünürse dur ve tesisatçı çağır.\"\n  ],\n  \"estimated_cost\": null,\n  \"recommendation\": \"usta_onerilir\",\n  \"safety_warning\": \"Fotoğrafta sağ üstte tavandan çıkan, çürümüş ya da kırık görünen bir ahşap parça var. Sarkma ya da çökme belirtisi göremedim, ama tavan ve bu parça bir ustaya ya da yapı uzmanına baktırılmalı. Tavanda sarkma, büyüyen çatlak veya düşen parça görürsen alandan uzaklaş ve 112'yi ara. Açık gider ucundan kanalizasyon gazı çıkabilir; yanında ateş ya da kıvılcım kullanma.\"\n}\n```"
+  }
+]
