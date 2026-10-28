@@ -1,4 +1,4 @@
-# coz-ai-assistant
+# koz-ai-assistant
 
 An assistant for household problems and home projects. Upload a photo, describe the situation, and get a clear report on what's going on and what it'll take.
 
