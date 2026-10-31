@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Koz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --zemin: #f4f6fa;
+    --kart: #ffffff;
+    --yazi: #111827;
+    --soluk: #6b7280;
+    --cizgi: #e5e7eb;
+    --ana: #2563eb;
+    --ana-acik: #eff4ff;
+    --yesil: #15803d; --yesil-acik: #ecfdf3;
+    --sari: #b45309; --sari-acik: #fffbeb;
+    --turuncu: #c2410c; --turuncu-acik: #fff4ed;
+    --kirmizi: #b91c1c; --kirmizi-acik: #fef2f2;
+    --golge: 0 1px 2px rgba(16,24,40,.04), 0 4px 16px rgba(16,24,40,.06);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Inter, system-ui, sans-serif; background: var(--zemin); color: var(--yazi); line-height: 1.55; }
+  main { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
+
+  header { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+  .logo { width: 44px; height: 44px; border-radius: 12px; background: var(--ana); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 20px; }
+  header h1 { margin: 0; font-size: 22px; }
+  header p { margin: 0; color: var(--soluk); font-size: 14px; }
+
+  .kart { background: var(--kart); border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: var(--golge); }
+  .kart h2 { margin: 0 0 4px; font-size: 20px; }
+  .kart .aciklama { color: var(--soluk); margin: 0 0 20px; font-size: 15px; }
+  h3 { font-size: 15px; margin: 24px 0 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--soluk); }
+
+  label.baslik { display: block; font-weight: 600; margin: 18px 0 8px; font-size: 15px; }
+  textarea, input[type=text] { width: 100%; padding: 12px 14px; border: 1px solid var(--cizgi); border-radius: 10px; font: inherit; background: #fbfcfe; transition: border-color .15s, box-shadow .15s; }
+  textarea:focus, input[type=text]:focus { outline: none; border-color: var(--ana); box-shadow: 0 0 0 3px rgba(37,99,235,.15); background: #fff; }
+  textarea { min-height: 130px; resize: vertical; }
+  .sayac { text-align: right; font-size: 12px; color: var(--soluk); margin-top: 4px; }
+
+  .ornekler { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .ornek { border: 1px solid var(--cizgi); background: #fff; border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 13px; color: var(--yazi); cursor: pointer; }
+  .ornek:hover { border-color: var(--ana); color: var(--ana); }
+
+  .yukleme { border: 2px dashed var(--cizgi); border-radius: 12px; padding: 22px; text-align: center; color: var(--soluk); cursor: pointer; transition: border-color .15s, background .15s; }
+  .yukleme:hover, .yukleme.uzerinde { border-color: var(--ana); background: var(--ana-acik); }
+  .yukleme strong { color: var(--ana); }
+  .yukleme small { display: block; margin-top: 4px; font-size: 12px; }
+  .onizleme { display: flex; align-items: center; gap: 14px; border: 1px solid var(--cizgi); border-radius: 12px; padding: 10px; }
+  .onizleme img { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; }
+  .onizleme .ad { flex: 1; font-size: 14px; word-break: break-all; }
+  .kaldir { background: none; border: 0; color: var(--kirmizi); font: inherit; font-size: 14px; cursor: pointer; padding: 6px; }
+
+  .bilgi { display: flex; gap: 10px; background: var(--ana-acik); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: #1e3a8a; margin-top: 18px; }
+
+  .dugme { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: var(--ana); color: #fff; border: 0; border-radius: 10px; padding: 14px 18px; font: inherit; font-weight: 600; font-size: 16px; cursor: pointer; margin-top: 20px; transition: background .15s; }
+  .dugme:hover { background: #1d4ed8; }
+  .dugme:disabled { opacity: .7; cursor: wait; }
+  .dugme.ikincil { background: #fff; color: var(--yazi); border: 1px solid var(--cizgi); }
+  .dugme.ikincil:hover { background: #f9fafb; }
+  .donen { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: don .8s linear infinite; }
+  @keyframes don { to { transform: rotate(360deg); } }
+
+  .hata { background: var(--kirmizi-acik); color: var(--kirmizi); border: 1px solid #fecaca; padding: 12px 14px; border-radius: 10px; margin-top: 16px; font-size: 14px; }
+  .gizli { display: none !important; }
+
+  /* Sorular */
+  .soru { border: 1px solid var(--cizgi); border-radius: 12px; padding: 14px; margin-top: 12px; }
+  .soru label { display: flex; gap: 10px; font-weight: 500; margin-bottom: 10px; }
+  .no { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--ana-acik); color: var(--ana); font-size: 13px; font-weight: 700; display: grid; place-items: center; }
+
+  /* Rapor */
+  .karar { border-radius: 14px; padding: 18px 20px; margin: 18px 0 16px; border: 1px solid transparent; }
+  .karar small { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; opacity: .8; }
+  .karar strong { display: block; font-size: 20px; margin-top: 2px; }
+  .karar p { margin: 6px 0 0; font-size: 14px; }
+  .karar.kendin_yap { background: var(--yesil-acik); color: var(--yesil); border-color: #bbf7d0; }
+  .karar.usta_onerilir { background: var(--sari-acik); color: var(--sari); border-color: #fde68a; }
+  .karar.usta_gerekli { background: var(--turuncu-acik); color: var(--turuncu); border-color: #fed7aa; }
+  .karar.acil_profesyonel { background: var(--kirmizi-acik); color: var(--kirmizi); border-color: #fecaca; }
+
+  .izgara { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .kutu { border: 1px solid var(--cizgi); border-radius: 12px; padding: 12px 14px; }
+  .kutu small { display: block; font-size: 12px; color: var(--soluk); }
+  .kutu { padding: 16px; }
+  .kutu strong { display: block; font-size: 18px; margin-top: 2px; }
+  .kutu p { margin: 4px 0 0; font-size: 13px; color: var(--soluk); line-height: 1.4; }
+  .kategori { display: inline-block; font-size: 12px; font-weight: 600; background: var(--ana-acik); color: var(--ana); padding: 3px 10px; border-radius: 999px; margin-bottom: 8px; }
+  .guven { margin: 6px 0 0; font-size: 14px; color: var(--soluk); }
+  .cubuk { height: 6px; background: var(--cizgi); border-radius: 999px; margin-top: 8px; overflow: hidden; }
+  .cubuk span { display: block; height: 100%; border-radius: 999px; }
+  .renk-dusuk { color: var(--yesil); } .renk-orta { color: #ca8a04; } .renk-acil, .renk-yuksek-risk { color: var(--kirmizi); }
+
+  .uyari { display: flex; gap: 10px; background: var(--sari-acik); border: 1px solid #fde68a; color: #78350f; padding: 14px; border-radius: 12px; margin-top: 16px; font-size: 14px; }
+
+  ol.nedenler, ol.adimlar { list-style: none; padding: 0; margin: 0; counter-reset: s; }
+  ol.nedenler li, ol.adimlar li { counter-increment: s; display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--cizgi); font-size: 15px; }
+  ol.nedenler li:last-child, ol.adimlar li:last-child { border-bottom: 0; }
+  ol li::before { content: counter(s); flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--ana-acik); color: var(--ana); font-size: 13px; font-weight: 700; display: grid; place-items: center; }
+  ol.nedenler li:first-child { font-weight: 600; }
+  ol.nedenler li:first-child::after { content: "en olası"; margin-left: auto; align-self: center; font-size: 11px; font-weight: 600; background: var(--ana-acik); color: var(--ana); padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+
+  .etiketler { display: flex; flex-wrap: wrap; gap: 8px; }
+  .kalemler { list-style: none; margin: 0; padding: 0; }
+  .kalemler li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--cizgi); font-size: 15px; }
+  .kalemler li b { white-space: nowrap; }
+  h4 { margin: 18px 0 6px; font-size: 15px; }
+  h4 small { color: var(--soluk); font-weight: normal; }
+  .fiyatsiz { color: var(--soluk); font-size: 13px; margin: 10px 0 0; }
+  .etiketler span { background: #f3f4f6; border-radius: 8px; padding: 6px 10px; font-size: 14px; }
+
+  .not { color: var(--soluk); font-size: 13px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--cizgi); }
+
+  /* Acil */
+  .acil-kart { background: var(--kirmizi); color: #fff; }
+  .acil-kart h2 { font-size: 24px; }
+  .acil-kart .aciklama { color: #fee2e2; }
+  .acil-kart ol li { border-color: rgba(255,255,255,.2); }
+  .acil-kart ol li::before { background: rgba(255,255,255,.2); color: #fff; }
+  .numaralar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+  .numaralar a { background: #fff; color: var(--kirmizi); border-radius: 12px; padding: 12px; text-align: center; text-decoration: none; }
+  .numaralar strong { display: block; font-size: 22px; }
+  .numaralar small { font-size: 12px; }
+
+  /* Sekmeler */
+  .sekmeler { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: #e8ecf3; border-radius: 12px; padding: 4px; margin-bottom: 16px; }
+  .sekme { border: 0; background: none; border-radius: 9px; padding: 10px 12px; font: inherit; font-weight: 600; font-size: 15px; color: var(--soluk); cursor: pointer; }
+  .sekme.secili { background: #fff; color: var(--yazi); box-shadow: 0 1px 3px rgba(16,24,40,.1); }
+
+  /* Yeni işlem raporu */
+  .fiyat { background: var(--ana-acik); border: 1px solid #c7d7fe; color: #1e3a8a; border-radius: 14px; padding: 18px 20px; margin: 18px 0 16px; }
+  .fiyat small { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; opacity: .8; }
+  .fiyat strong { display: block; font-size: 26px; margin-top: 2px; }
+  .fiyat p { margin: 6px 0 0; font-size: 14px; }
+  .fiyat.bos { background: #f3f4f6; border-color: var(--cizgi); color: var(--yazi); }
+  .fiyat.bos strong { font-size: 18px; }
+  .secenekler { display: grid; gap: 10px; }
+  .secenek { border: 1px solid var(--cizgi); border-radius: 12px; padding: 12px 14px; }
+  .secenek strong { display: block; font-size: 15px; }
+  .secenek span { font-size: 14px; color: var(--soluk); }
+  ul.maddeler { margin: 0; padding-left: 20px; }
+  ul.maddeler li { padding: 4px 0; font-size: 15px; }
+  .ustaya { background: var(--yesil-acik); border: 1px solid #bbf7d0; border-radius: 12px; padding: 12px 16px 12px 36px; margin: 0; }
+  .ustaya li { padding: 4px 0; font-size: 15px; color: #14532d; }
+  .dikkat { background: var(--kirmizi-acik); border: 1px solid #fecaca; border-radius: 12px; padding: 12px 16px 12px 36px; margin: 0; }
+  .dikkat li { padding: 4px 0; font-size: 15px; color: #7f1d1d; }
+  .not ul { margin: 6px 0 0; padding-left: 18px; }
+
+  @media (max-width: 600px) {
+    .izgara { grid-template-columns: 1fr; }
+    .numaralar { grid-template-columns: 1fr; }
+    .kart { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="logo">K</div>
+    <div>
+      <h1>Koz</h1>
+      <p>Evdeki arızayı ya da yaptıracağın işi anlat, ne yapman gerektiğini birlikte bulalım.</p>
+    </div>
+  </header>
+
+  <nav class="sekmeler" id="sekmeler">
+    <button type="button" class="sekme secili" data-mod="ariza">Bir sorun mu var?</button>
+    <button type="button" class="sekme" data-mod="yeni">Yeni işlem</button>
+  </nav>
+
+  <!-- 1. Sorun bildirme -->
+  <section id="bildirme" class="kart">
+    <h2>Sorun ne?</h2>
+    <p class="aciklama">Ne gördüğünü, ne zaman başladığını ve nerede olduğunu yaz. Ne kadar ayrıntı verirsen o kadar iyi.</p>
+
+    <label class="baslik" for="aciklama">Açıklama</label>
+    <textarea id="aciklama" maxlength="2000" placeholder="Örnek: Mutfak lavabosunun altından iki gündür su damlıyor, dolabın tabanı ıslandı."></textarea>
+    <div class="sayac"><span id="sayac">0</span> / 2000</div>
+    <div class="ornekler">
+      <button type="button" class="ornek">Musluk sürekli damlıyor</button>
+      <button type="button" class="ornek">Banyo tavanında kararma var</button>
+      <button type="button" class="ornek">Çamaşır makinesi sıkmada çok sallanıyor</button>
+      <button type="button" class="ornek">Yatak odası duvarında küf var</button>
+    </div>
+
+    <label class="baslik">Fotoğraf <span style="font-weight:400;color:var(--soluk)">(isteğe bağlı)</span></label>
+    <div id="yukleme" class="yukleme" tabindex="0">
+      <strong>Fotoğraf seç</strong> ya da buraya sürükle
+      <small>JPG, PNG veya WEBP, en fazla 5 MB</small>
+    </div>
+    <input id="foto" type="file" accept="image/jpeg,image/png,image/webp" class="gizli">
+    <div id="onizleme" class="onizleme gizli">
+      <img id="onizlemeResim" alt="Seçilen fotoğraf">
+      <div class="ad" id="fotoAdi"></div>
+      <button type="button" class="kaldir" id="fotoKaldir">Kaldır</button>
+    </div>
+
+    <div class="bilgi">
+      <span>ℹ️</span>
+      <span>Gaz kokusu, kıvılcım, yanık kokusu ya da su baskını varsa beklemeden 112'yi ara. Gaz kaçağında 187.</span>
+    </div>
+
+    <button id="gonder" class="dugme">Analiz et</button>
+  </section>
+
+  <!-- 1b. Yeni işlem -->
+  <section id="yeniBildirme" class="kart gizli">
+    <h2>Ne yaptırmak istiyorsun?</h2>
+    <p class="aciklama">İşi, yerini ve biliyorsan ölçüsünü yaz. Malzemeyi kendin mi alacaksın, usta mı getirecek, onu da belirt. Ustayla konuşmadan önce işin detaylarını ve yaklaşık fiyatını öğren.</p>
+
+    <label class="baslik" for="isAciklama">Yapılacak iş</label>
+    <textarea id="isAciklama" maxlength="2000" placeholder="Örnek: Salondaki 2 pencereyi pimapen yaptırmak istiyorum, her biri yaklaşık 120x150."></textarea>
+    <div class="sayac"><span id="isSayac">0</span> / 2000</div>
+    <div class="ornekler">
+      <button type="button" class="ornek">25 m² salona laminat parke döşetmek istiyorum</button>
+      <button type="button" class="ornek">Banyo duvarlarını fayans yaptıracağım</button>
+      <button type="button" class="ornek">3+1 evin içini boyatmak istiyorum</button>
+      <button type="button" class="ornek">Balkona cam balkon yaptırmak istiyorum</button>
+    </div>
+
+    <div class="bilgi">
+      <span>ℹ️</span>
+      <span>Fiyatlar İstanbul ortalamasıdır ve KDV hariçtir. Kesin fiyat ustanın yerinde keşfiyle belli olur.</span>
+    </div>
+
+    <button id="isGonder" class="dugme">İşi anlat</button>
+  </section>
+
+  <!-- 2. Sorular -->
+  <section id="sorular" class="kart gizli">
+    <h2>Birkaç sorumuz var</h2>
+    <p class="aciklama">Doğru değerlendirme için bunları bilmemiz gerekiyor. Bilmediğin soruyu boş bırakabilirsin.</p>
+    <div id="soruListesi"></div>
+    <button id="cevapGonder" class="dugme">Cevapla ve analiz et</button>
+  </section>
+
+  <!-- 3. Acil durum -->
+  <section id="acil" class="kart acil-kart gizli">
+    <h2>⚠️ Bu durum acil olabilir</h2>
+    <p class="aciklama" id="acilMetin"></p>
+    <ol class="adimlar" id="acilAdimlar"></ol>
+    <div class="numaralar">
+      <a href="tel:112"><strong>112</strong><small>Acil çağrı</small></a>
+      <a href="tel:187"><strong>187</strong><small>Doğalgaz acil</small></a>
+      <a href="tel:186"><strong>186</strong><small>Elektrik arıza</small></a>
+    </div>
+  </section>
+
+  <!-- 4. Rapor -->
+  <section id="rapor" class="kart gizli"></section>
+
+  <div id="hata" class="hata gizli"></div>
+  <button id="yeni" class="dugme ikincil gizli">Baştan başla</button>
+</main>
+
+<script>
+const ADLAR = {
+  su_tesisati: "Su tesisatı", nem_kuf: "Nem / küf", beyaz_esya: "Beyaz eşya",
+  elektrik: "Elektrik", gaz: "Gaz", kapsam_disi: "Kapsam dışı",
+  dusuk: "Düşük", orta: "Orta", yuksek: "Yüksek", acil: "Acil",
+  kendin_yap: "Kendin yapabilirsin", usta_onerilir: "Usta önerilir",
+  usta_gerekli: "Usta gerekli", acil_profesyonel: "Acil profesyonel",
+};
+const KARAR_ACIKLAMASI = {
+  kendin_yap: "Adımları dikkatle izlersen kendin halledebilirsin. Emin olmadığın yerde dur.",
+  usta_onerilir: "Basit kontrolleri yapabilirsin ama çözüm için bir ustaya danışman daha iyi olur.",
+  usta_gerekli: "Bu iş ortalama bir kullanıcı için riskli. Bir usta çağırman gerekiyor.",
+  acil_profesyonel: "Hemen bir profesyonele ulaş.",
+};
+const IS_ADLARI = {
+  boya: "Boya badana", laminat_parke: "Laminat parke", fayans: "Fayans / seramik", mantolama: "Mantolama",
+  cam_balkon: "Cam balkon", pvc_pencere: "PVC pencere", diger: "Tadilat", ariza: "Arıza", kapsam_disi: "Kapsam dışı",
+};
+const BIRIMLER = { m2: "m²", adet: "adet" };
+const ad = (k) => ADLAR[k] || k || "-";
+const $ = (id) => document.getElementById(id);
+
+let sonSorular = [];
+let secilenFoto = null;
+let mod = "ariza"; // "ariza" veya "yeni"
+const metinAlani = () => $(mod === "yeni" ? "isAciklama" : "aciklama");
+
+// Sekmeler: geçişte açık rapor ve sorular kapanır, yazılanlar kalır
+function sekmeSec(yeniMod) {
+  mod = yeniMod;
+  document.querySelectorAll(".sekme").forEach((b) => b.classList.toggle("secili", b.dataset.mod === mod));
+  ["bildirme", "yeniBildirme", "sorular", "acil", "rapor"].forEach((id) => $(id).classList.add("gizli"));
+  $(mod === "yeni" ? "yeniBildirme" : "bildirme").classList.remove("gizli");
+  $("yeni").classList.add("gizli");
+  hataGoster("");
+}
+document.querySelectorAll(".sekme").forEach((b) => b.addEventListener("click", () => sekmeSec(b.dataset.mod)));
+
+// Açıklama alanları
+[["aciklama", "sayac"], ["isAciklama", "isSayac"]].forEach(([alan, sayac]) =>
+  $(alan).addEventListener("input", () => ($(sayac).textContent = $(alan).value.length))
+);
+document.querySelectorAll(".ornek").forEach((b) =>
+  b.addEventListener("click", () => {
+    const alan = b.closest("section").querySelector("textarea");
+    alan.value = b.textContent;
+    alan.dispatchEvent(new Event("input"));
+    alan.focus();
+  })
+);
+
+// Fotoğraf seçme ve sürükleme
+function fotoSec(dosya) {
+  if (!dosya) return;
+  if (!["image/jpeg", "image/png", "image/webp"].includes(dosya.type)) return hataGoster("Fotoğraf jpg, png veya webp olmalı.");
+  if (dosya.size > 5 * 1024 * 1024) return hataGoster("Fotoğraf 5 MB'tan büyük olamaz.");
+  hataGoster("");
+  secilenFoto = dosya;
+  $("onizlemeResim").src = URL.createObjectURL(dosya);
+  $("fotoAdi").textContent = dosya.name;
+  $("yukleme").classList.add("gizli");
+  $("onizleme").classList.remove("gizli");
+}
+$("yukleme").addEventListener("click", () => $("foto").click());
+$("yukleme").addEventListener("keydown", (e) => e.key === "Enter" && $("foto").click());
+$("foto").addEventListener("change", () => fotoSec($("foto").files[0]));
+["dragover", "dragenter"].forEach((t) =>
+  $("yukleme").addEventListener(t, (e) => { e.preventDefault(); $("yukleme").classList.add("uzerinde"); })
+);
+["dragleave", "drop"].forEach((t) =>
+  $("yukleme").addEventListener(t, () => $("yukleme").classList.remove("uzerinde"))
+);
+$("yukleme").addEventListener("drop", (e) => { e.preventDefault(); fotoSec(e.dataTransfer.files[0]); });
+$("fotoKaldir").addEventListener("click", () => {
+  secilenFoto = null;
+  $("foto").value = "";
+  $("onizleme").classList.add("gizli");
+  $("yukleme").classList.remove("gizli");
+});
+
+async function gonder(dugme, sorular = [], cevaplar = []) {
+  const form = new FormData();
+  form.append("aciklama", metinAlani().value);
+  if (mod === "ariza" && secilenFoto) form.append("foto", secilenFoto);
+  sorular.forEach((s) => form.append("sorular", s));
+  cevaplar.forEach((c) => form.append("cevaplar", c));
+
+  hataGoster("");
+  const eskiYazi = dugme.innerHTML;
+  dugme.disabled = true;
+  dugme.innerHTML = `<span class="donen"></span> ${mod === "yeni" ? "Hazırlanıyor..." : "Analiz ediliyor..."}`;
+  try {
+    const yanit = await fetch(mod === "yeni" ? "/yeni-islem" : "/analiz", { method: "POST", body: form });
+    const veri = await yanit.json();
+    if (!yanit.ok) throw new Error(typeof veri.detail === "string" ? veri.detail : "Bir hata oluştu.");
+    goster(veri);
+  } catch (e) {
+    hataGoster(e.message || "Sunucuya ulaşılamadı.");
+  } finally {
+    dugme.disabled = false;
+    dugme.innerHTML = eskiYazi;
+  }
+}
+
+function goster(r) {
+  ["bildirme", "yeniBildirme", "sorular", "acil", "rapor"].forEach((id) => $(id).classList.add("gizli"));
+  $("yeni").classList.remove("gizli");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  if (r.needs_more_info) return sorulariGoster(r.questions);
+  if (mod === "yeni") return yeniIslemGoster(r);
+
+  if (r.emergency) {
+    $("acilMetin").textContent = r.safety_warning || r.problem || "Hemen bir profesyonele ulaş.";
+    $("acilAdimlar").innerHTML = r.steps.map((s) => `<li>${yazi(s)}</li>`).join("");
+    $("acil").classList.remove("gizli");
+    return;
+  }
+
+  const zorluk = r.difficulty ?? 0;
+  const zorlukRengi = zorluk <= 40 ? "var(--yesil)" : zorluk <= 60 ? "#d97706" : "var(--kirmizi)";
+  const [zorlukAdi, zorlukAciklamasi] =
+    zorluk <= 20 ? ["Çok kolay", "Alet gerekmez"] :
+    zorluk <= 40 ? ["Kolay", "Basit el aletleriyle yapılır"] :
+    zorluk <= 60 ? ["Orta", "Biraz deneyim ve özel parça gerekir"] :
+    zorluk <= 80 ? ["Zor", "Deneyim ve uzman alet gerekir"] :
+                   ["Uzman işi", "Sadece profesyonel yapmalı"];
+  const ACILIYET = {
+    dusuk: ["Acele yok", "Uygun bir zamanda ilgilen"],
+    orta: ["Birkaç gün içinde", "İlgilen, beklerse büyür"],
+    acil: ["Hemen", "Hemen ilgilen"],
+  };
+  const [aciliyetAdi, aciliyetAciklamasi] = ACILIYET[r.risk_level] || ["-", ""];
+  const aciliyetSinifi = { dusuk: "renk-dusuk", orta: "renk-orta", acil: "renk-acil" }[r.risk_level] || "";
+  const GUVEN = { dusuk: "düşük", orta: "orta derecede", yuksek: "yüksek derecede" };
+  const guvenNotu = r.confidence
+    ? `Bu değerlendirmeden ${GUVEN[r.confidence]} eminiz.${r.confidence !== "yuksek" && !secilenFoto ? " Fotoğraf eklersen daha net olur." : ""}`
+    : "";
+  const liste = (baslik, ogeler, sinif) =>
+    ogeler.length ? `<h3>${baslik}</h3><ol class="${sinif}">${ogeler.map((o) => `<li><span>${yazi(o)}</span></li>`).join("")}</ol>` : "";
+
+  $("rapor").innerHTML = `
+    ${r.category ? `<span class="kategori">${ad(r.category)}</span>` : ""}
+    <h2>${yazi(r.problem || "Değerlendirme")}</h2>
+    ${guvenNotu ? `<p class="guven">${guvenNotu}</p>` : ""}
+    <div class="karar ${r.recommendation}">
+      <small>Önerimiz</small>
+      <strong>${ad(r.recommendation)}</strong>
+      <p>${KARAR_ACIKLAMASI[r.recommendation] || ""}</p>
+    </div>
+    <div class="izgara">
+      <div class="kutu"><small>Ne kadar acil?</small><strong class="${aciliyetSinifi}">${aciliyetAdi}</strong><p>${aciliyetAciklamasi}</p></div>
+      <div class="kutu"><small>Tamir zorluğu</small><strong>${zorlukAdi}</strong><p>${zorlukAciklamasi}</p>
+        <div class="cubuk"><span style="width:${zorluk}%;background:${zorlukRengi}"></span></div></div>
+    </div>
+    ${r.safety_warning ? `<div class="uyari"><span>⚠️</span><span>${yazi(r.safety_warning)}</span></div>` : ""}
+    ${liste("Olası nedenler", r.possible_causes, "nedenler")}
+    ${liste("Ne yapmalısın?", r.steps, "adimlar")}
+    ${r.estimated_cost ? malzemeFiyati(r.estimated_cost) : r.parts_and_tools.length ? `<h3>Gerekebilecek parça ve aletler</h3><div class="etiketler">${r.parts_and_tools.map((p) => `<span>${yazi(p.item)}</span>`).join("")}</div>` : ""}
+    <p class="not">Bu kesin bir teşhis değil, olası bir değerlendirmedir. Emin değilsen bir ustaya danış.</p>`;
+  $("rapor").classList.remove("gizli");
+}
+
+function sorulariGoster(sorular) {
+  sonSorular = sorular;
+  $("soruListesi").innerHTML = sorular
+    .map((s, i) => `<div class="soru"><label for="cevap${i}"><span class="no">${i + 1}</span>${yazi(s)}</label><input type="text" id="cevap${i}" placeholder="Cevabın"></div>`)
+    .join("");
+  $("sorular").classList.remove("gizli");
+  $("yeni").classList.add("gizli");
+  $("cevap0")?.focus();
+}
+
+const tl = (n) => n.toLocaleString("tr-TR") + " TL";
+const aralik = (alt, ust) => alt === ust ? tl(alt) : `${tl(alt)} – ${tl(ust)}`;
+
+function malzemeFiyati(c) {
+  const satir = (k) => `<li><span>${yazi(k.item)}${k.quantity > 1 ? ` × ${k.quantity}` : ""}</span><b>${aralik(k.min, k.max)}</b></li>`;
+  const parcalar = c.lines.filter((k) => k.kind === "parca");
+  const aletler = c.lines.filter((k) => k.kind === "alet");
+  return `<h3>Malzeme ve tahmini fiyat</h3>
+    ${parcalar.length ? `<div class="fiyat"><small>Malzeme toplamı</small><strong>${aralik(c.parts_min, c.parts_max)}</strong>
+      ${aletler.length ? `<p>Alet gerekirse: +${aralik(c.tools_min, c.tools_max)}</p>` : ""}</div>` : ""}
+    ${parcalar.length ? `<ul class="kalemler">${parcalar.map(satir).join("")}</ul>` : ""}
+    ${aletler.length ? `<h4>Aletler <small>(evde varsa alma)</small></h4><ul class="kalemler">${aletler.map(satir).join("")}</ul>` : ""}
+    ${c.unpriced.length ? `<p class="fiyatsiz">Fiyatı bilinmeyenler: ${c.unpriced.map(yazi).join(", ")}</p>` : ""}
+    <p class="fiyatsiz">${yazi(c.note)} Fiyat tarihi: ${new Date(c.price_date).toLocaleDateString("tr-TR")}.</p>`;
+}
+
+function yeniIslemGoster(r) {
+  // Arıza anlatıldıysa arıza bölümüne yönlendir, yazılanı oraya taşı
+  if (r.job_type === "ariza" || r.job_type === "kapsam_disi") {
+    const ariza = r.job_type === "ariza";
+    $("rapor").innerHTML = `
+      <span class="kategori">${IS_ADLARI[r.job_type]}</span>
+      <h2>${ariza ? "Bu bir arıza gibi görünüyor" : "Bu konuda yardımcı olamıyoruz"}</h2>
+      <p class="guven">${yazi(r.scope || "")}</p>
+      ${r.safety_warning ? `<div class="uyari"><span>⚠️</span><span>${yazi(r.safety_warning)}</span></div>` : ""}
+      ${ariza ? '<button id="arizayaGec" class="dugme">Bir sorun mu var? bölümüne geç</button>' : ""}`;
+    $("rapor").classList.remove("gizli");
+    $("arizayaGec")?.addEventListener("click", () => {
+      $("aciklama").value = $("isAciklama").value;
+      $("aciklama").dispatchEvent(new Event("input"));
+      sekmeSec("ariza");
+    });
+    return;
+  }
+
+  const m = r.quantity;
+  const miktar = m.value ? `${m.value.toLocaleString("tr-TR")} ${BIRIMLER[m.unit] || ""}` : "Belirtilmedi";
+  const c = r.cost;
+  const fiyatKutusu = c
+    ? `<div class="fiyat">
+        <small>Tahmini fiyat</small>
+        <strong>${tl(c.min)} – ${tl(c.max)}</strong>
+        <p>${c.price_basis === "malzeme_dahil" ? "Malzeme ve işçilik dahil" : "Sadece işçilik"} · ${BIRIMLER[c.unit]} başına ${tl(c.unit_price[0])} – ${tl(c.unit_price[1])} · ${miktar}</p>
+        <p>${yazi(c.note)}</p>
+      </div>`
+    : `<div class="fiyat bos">
+        <small>Tahmini fiyat</small>
+        <strong>Fiyat bilgisi yok</strong>
+        <p>${r.in_price_table ? "Fiyat için işin ölçüsü gerekiyor. Ölçüyü yazarak tekrar dene." : "Bu iş için henüz güvenilir fiyat verimiz yok. Aşağıdaki sorularla ustalardan teklif alıp karşılaştır."}</p>
+      </div>`;
+  const maddeler = (baslik, ogeler, sinif) =>
+    ogeler.length ? `<h3>${baslik}</h3><ul class="${sinif}">${ogeler.map((o) => `<li>${yazi(o)}</li>`).join("")}</ul>` : "";
+
+  $("rapor").innerHTML = `
+    <span class="kategori">${IS_ADLARI[r.job_type] || "Tadilat"}</span>
+    <h2>${yazi(r.scope || "Yapılacak iş")}</h2>
+    ${fiyatKutusu}
+    <div class="izgara">
+      <div class="kutu"><small>Ne kadar sürer?</small><strong>${yazi(r.duration || "-")}</strong></div>
+      <div class="kutu"><small>Miktar</small><strong>${miktar}</strong></div>
+    </div>
+    ${r.safety_warning ? `<div class="uyari"><span>⚠️</span><span>${yazi(r.safety_warning)}</span></div>` : ""}
+    ${r.material_options.length ? `<h3>Malzeme seçenekleri</h3><div class="secenekler">${r.material_options
+      .map((o) => `<div class="secenek"><strong>${yazi(o.option)}</strong><span>${yazi(o.notes)}</span></div>`).join("")}</div>` : ""}
+    ${maddeler("Bilmen gereken teknik detaylar", r.technical_details, "maddeler")}
+    ${r.work_steps.length ? `<h3>İş doğru nasıl yapılır?</h3><ol class="adimlar">${r.work_steps.map((o) => `<li><span>${yazi(o)}</span></li>`).join("")}</ol>` : ""}
+    ${maddeler("Ustaya sor", r.questions_for_contractor, "ustaya")}
+    ${maddeler("Dikkat et", r.red_flags, "dikkat")}
+    <div class="not">
+      ${r.assumptions.length ? `Bu rapor şu varsayımlara dayanıyor:<ul>${r.assumptions.map((a) => `<li>${yazi(a)}</li>`).join("")}</ul><br>` : ""}
+      Fiyatlar ${c ? new Date(c.price_date).toLocaleDateString("tr-TR") + " tarihli " : ""}İstanbul ortalamasıdır, KDV hariçtir. Kesin fiyat ustanın yerinde keşfiyle belli olur.
+    </div>`;
+  $("rapor").classList.remove("gizli");
+}
+
+// Model metnini HTML olarak değil düz yazı olarak göster
+function yazi(metin) {
+  const d = document.createElement("div");
+  d.textContent = metin;
+  return d.innerHTML;
+}
+
+function hataGoster(mesaj) {
+  $("hata").textContent = mesaj;
+  $("hata").classList.toggle("gizli", !mesaj);
+}
+
+$("gonder").addEventListener("click", () => gonder($("gonder")));
+$("isGonder").addEventListener("click", () => gonder($("isGonder")));
+$("cevapGonder").addEventListener("click", () => {
+  const cevaplar = sonSorular.map((_, i) => $(`cevap${i}`).value.trim() || "Bilmiyorum");
+  gonder($("cevapGonder"), sonSorular, cevaplar);
+});
+$("yeni").addEventListener("click", () => {
+  if (mod === "ariza") return location.reload();
+  $("isAciklama").value = "";
+  $("isSayac").textContent = 0;
+  sekmeSec("yeni");
+});
+</script>
+</body>
+</html>

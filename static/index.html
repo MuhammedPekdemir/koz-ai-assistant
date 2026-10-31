@@ -29,6 +29,9 @@
   .logo { width: 44px; height: 44px; border-radius: 12px; background: var(--ana); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 20px; }
   header h1 { margin: 0; font-size: 22px; }
   header p { margin: 0; color: var(--soluk); font-size: 14px; }
+  .hesap { margin-left: auto; text-align: right; font-size: 14px; white-space: nowrap; }
+  .hesap .baglanti { padding: 0; }
+  .hesap-ad { display: block; font-weight: 600; }
 
   .kart { background: var(--kart); border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: var(--golge); }
   .kart h2 { margin: 0 0 4px; font-size: 20px; }
@@ -36,8 +39,8 @@
   h3 { font-size: 15px; margin: 24px 0 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--soluk); }
 
   label.baslik { display: block; font-weight: 600; margin: 18px 0 8px; font-size: 15px; }
-  textarea, input[type=text] { width: 100%; padding: 12px 14px; border: 1px solid var(--cizgi); border-radius: 10px; font: inherit; background: #fbfcfe; transition: border-color .15s, box-shadow .15s; }
-  textarea:focus, input[type=text]:focus { outline: none; border-color: var(--ana); box-shadow: 0 0 0 3px rgba(37,99,235,.15); background: #fff; }
+  textarea, input[type=text], input[type=email], input[type=password] { width: 100%; padding: 12px 14px; border: 1px solid var(--cizgi); border-radius: 10px; font: inherit; background: #fbfcfe; transition: border-color .15s, box-shadow .15s; }
+  textarea:focus, input[type=text]:focus, input[type=email]:focus, input[type=password]:focus { outline: none; border-color: var(--ana); box-shadow: 0 0 0 3px rgba(37,99,235,.15); background: #fff; }
   textarea { min-height: 130px; resize: vertical; }
   .sayac { text-align: right; font-size: 12px; color: var(--soluk); margin-top: 4px; }
 
@@ -92,7 +95,7 @@
   .guven { margin: 6px 0 0; font-size: 14px; color: var(--soluk); }
   .cubuk { height: 6px; background: var(--cizgi); border-radius: 999px; margin-top: 8px; overflow: hidden; }
   .cubuk span { display: block; height: 100%; border-radius: 999px; }
-  .renk-dusuk { color: var(--yesil); } .renk-orta { color: #ca8a04; } .renk-acil, .renk-yuksek-risk { color: var(--kirmizi); }
+  .renk-dusuk { color: var(--yesil); } .renk-orta { color: #ca8a04; } .renk-yuksek { color: #ea580c; } .renk-acil, .renk-yuksek-risk { color: var(--kirmizi); }
 
   .uyari { display: flex; gap: 10px; background: var(--sari-acik); border: 1px solid #fde68a; color: #78350f; padding: 14px; border-radius: 12px; margin-top: 16px; font-size: 14px; }
 
@@ -149,7 +152,40 @@
   .dikkat li { padding: 4px 0; font-size: 15px; color: #7f1d1d; }
   .not ul { margin: 6px 0 0; padding-left: 18px; }
 
+  /* Geçmiş raporlar */
+  .gecmis-kart { padding: 18px 24px; }
+  .gecmis-kart h2 { font-size: 16px; margin: 0 0 8px; }
+  .gecmis-liste { list-style: none; margin: 0; padding: 0; }
+  .gecmis-liste li { border-bottom: 1px solid var(--cizgi); }
+  .gecmis-liste li:last-child { border-bottom: 0; }
+  .gecmis-liste button { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; background: none; border: 0; padding: 10px 0; font: inherit; font-size: 15px; color: var(--yazi); text-align: left; cursor: pointer; }
+  .gecmis-liste button:hover .gecmis-baslik { color: var(--ana); }
+  .gecmis-baslik { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .gecmis-bilgi { flex: none; font-size: 13px; color: var(--soluk); }
+  .gecmis-bilgi.acil { color: var(--kirmizi); font-weight: 600; }
+  .baglanti { background: none; border: 0; padding: 8px 0 0; font: inherit; font-size: 14px; font-weight: 600; color: var(--ana); cursor: pointer; }
+
+  /* Sesle anlatma */
+  .etiket-satiri { display: flex; justify-content: space-between; align-items: center; margin: 18px 0 8px; }
+  .etiket-satiri label.baslik { margin: 0; }
+  .mikrofon { border: 1px solid var(--cizgi); background: #fff; border-radius: 999px; padding: 6px 14px; font: inherit; font-size: 14px; font-weight: 600; color: var(--yazi); cursor: pointer; }
+  .mikrofon:hover { border-color: var(--ana); color: var(--ana); }
+  .mikrofon.dinliyor { background: var(--kirmizi-acik); border-color: #fecaca; color: var(--kirmizi); }
+
+  /* Paylaşma */
+  .paylas { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 4px; }
+  .paylas .dugme { margin-top: 0; }
+  .dugme.whatsapp { background: #16a34a; }
+  .dugme.whatsapp:hover { background: #15803d; }
+
+  @media print {
+    header, .sekmeler, #gecmis, #hesapKart, #paylas, #yeni, #hata, .numaralar { display: none !important; }
+    body { background: #fff; }
+    .kart { box-shadow: none; padding: 0; }
+  }
+
   @media (max-width: 600px) {
+    .paylas { grid-template-columns: 1fr; }
     .izgara { grid-template-columns: 1fr; }
     .numaralar { grid-template-columns: 1fr; }
     .kart { padding: 20px 16px; }
@@ -164,19 +200,52 @@
       <h1>Koz</h1>
       <p>Evdeki arızayı ya da yaptıracağın işi anlat, ne yapman gerektiğini birlikte bulalım.</p>
     </div>
+    <div class="hesap" id="hesap">
+      <button type="button" class="baglanti" id="girisAc">Giriş yap</button>
+    </div>
   </header>
+
+  <!-- Giriş / hesap açma -->
+  <section id="hesapKart" class="kart gizli">
+    <nav class="sekmeler">
+      <button type="button" class="sekme secili" data-hesap="giris">Giriş yap</button>
+      <button type="button" class="sekme" data-hesap="kayit">Hesap aç</button>
+    </nav>
+    <p class="aciklama">Hesabın olunca raporların kaydedilir, istediğin zaman tekrar açabilirsin.</p>
+    <div id="adAlani" class="gizli">
+      <label class="baslik" for="hesapAd">Adın</label>
+      <input type="text" id="hesapAd" autocomplete="name" maxlength="100">
+    </div>
+    <label class="baslik" for="hesapEposta">E-posta</label>
+    <input type="email" id="hesapEposta" autocomplete="email" maxlength="200">
+    <label class="baslik" for="hesapSifre">Şifre</label>
+    <input type="password" id="hesapSifre" autocomplete="current-password">
+    <button type="button" id="hesapGonder" class="dugme">Giriş yap</button>
+    <button type="button" id="hesapVazgec" class="dugme ikincil">Vazgeç</button>
+  </section>
 
   <nav class="sekmeler" id="sekmeler">
     <button type="button" class="sekme secili" data-mod="ariza">Bir sorun mu var?</button>
     <button type="button" class="sekme" data-mod="yeni">Yeni işlem</button>
   </nav>
 
+  <!-- 0. Geçmiş raporlar (sadece giriş sayfasında) -->
+  <section id="gecmis" class="kart gecmis-kart gizli">
+    <h2>Geçmiş raporların</h2>
+    <p class="aciklama gizli" id="gecmisGirisYok">Raporlarını görmek için <button type="button" class="baglanti" id="gecmisGiris">giriş yap</button>.</p>
+    <ul class="gecmis-liste" id="gecmisListe"></ul>
+    <button type="button" class="baglanti gizli" id="gecmisTumu">Tümünü göster</button>
+  </section>
+
   <!-- 1. Sorun bildirme -->
   <section id="bildirme" class="kart">
     <h2>Sorun ne?</h2>
     <p class="aciklama">Ne gördüğünü, ne zaman başladığını ve nerede olduğunu yaz. Ne kadar ayrıntı verirsen o kadar iyi.</p>
 
-    <label class="baslik" for="aciklama">Açıklama</label>
+    <div class="etiket-satiri">
+      <label class="baslik" for="aciklama">Açıklama</label>
+      <button type="button" class="mikrofon gizli" data-alan="aciklama">🎤 Sesle anlat</button>
+    </div>
     <textarea id="aciklama" maxlength="2000" placeholder="Örnek: Mutfak lavabosunun altından iki gündür su damlıyor, dolabın tabanı ıslandı."></textarea>
     <div class="sayac"><span id="sayac">0</span> / 2000</div>
     <div class="ornekler">
@@ -211,7 +280,10 @@
     <h2>Ne yaptırmak istiyorsun?</h2>
     <p class="aciklama">İşi, yerini ve biliyorsan ölçüsünü yaz. Malzemeyi kendin mi alacaksın, usta mı getirecek, onu da belirt. Ustayla konuşmadan önce işin detaylarını ve yaklaşık fiyatını öğren.</p>
 
-    <label class="baslik" for="isAciklama">Yapılacak iş</label>
+    <div class="etiket-satiri">
+      <label class="baslik" for="isAciklama">Yapılacak iş</label>
+      <button type="button" class="mikrofon gizli" data-alan="isAciklama">🎤 Sesle anlat</button>
+    </div>
     <textarea id="isAciklama" maxlength="2000" placeholder="Örnek: Salondaki 2 pencereyi pimapen yaptırmak istiyorum, her biri yaklaşık 120x150."></textarea>
     <div class="sayac"><span id="isSayac">0</span> / 2000</div>
     <div class="ornekler">
@@ -252,6 +324,11 @@
   <!-- 4. Rapor -->
   <section id="rapor" class="kart gizli"></section>
 
+  <div id="paylas" class="paylas gizli">
+    <button type="button" id="whatsapp" class="dugme whatsapp">WhatsApp'ta paylaş</button>
+    <button type="button" id="pdf" class="dugme ikincil">PDF olarak kaydet</button>
+  </div>
+
   <div id="hata" class="hata gizli"></div>
   <button id="yeni" class="dugme ikincil gizli">Baştan başla</button>
 </main>
@@ -281,18 +358,29 @@ const $ = (id) => document.getElementById(id);
 let sonSorular = [];
 let secilenFoto = null;
 let mod = "ariza"; // "ariza" veya "yeni"
+let gecmisKayitlari = [];
+let paylasMetni = "";
+let oturum = null; // { token, ad, eposta } ya da null
+try { oturum = JSON.parse(localStorage.getItem("kozOturum")); } catch { oturum = null; }
+let hesapModu = "giris"; // "giris" veya "kayit"
 const metinAlani = () => $(mod === "yeni" ? "isAciklama" : "aciklama");
 
 // Sekmeler: geçişte açık rapor ve sorular kapanır, yazılanlar kalır
 function sekmeSec(yeniMod) {
   mod = yeniMod;
-  document.querySelectorAll(".sekme").forEach((b) => b.classList.toggle("secili", b.dataset.mod === mod));
+  document.querySelectorAll("[data-mod]").forEach((b) => b.classList.toggle("secili", b.dataset.mod === mod));
   ["bildirme", "yeniBildirme", "sorular", "acil", "rapor"].forEach((id) => $(id).classList.add("gizli"));
   $(mod === "yeni" ? "yeniBildirme" : "bildirme").classList.remove("gizli");
   $("yeni").classList.add("gizli");
+  $("paylas").classList.add("gizli");
+  $("gecmis").classList.toggle("gizli", !gecmisGorunur());
+  $("sekmeler").classList.remove("gizli");
+  $("hesapKart").classList.add("gizli");
   hataGoster("");
 }
-document.querySelectorAll(".sekme").forEach((b) => b.addEventListener("click", () => sekmeSec(b.dataset.mod)));
+// Girişsizken "giriş yap" daveti, girişliyken rapor varsa liste görünür
+const gecmisGorunur = () => !oturum || gecmisKayitlari.length > 0;
+document.querySelectorAll("[data-mod]").forEach((b) => b.addEventListener("click", () => sekmeSec(b.dataset.mod)));
 
 // Açıklama alanları
 [["aciklama", "sayac"], ["isAciklama", "isSayac"]].forEach(([alan, sayac]) =>
@@ -348,7 +436,7 @@ async function gonder(dugme, sorular = [], cevaplar = []) {
   dugme.disabled = true;
   dugme.innerHTML = `<span class="donen"></span> ${mod === "yeni" ? "Hazırlanıyor..." : "Analiz ediliyor..."}`;
   try {
-    const yanit = await fetch(mod === "yeni" ? "/yeni-islem" : "/analiz", { method: "POST", body: form });
+    const yanit = await istek(mod === "yeni" ? "/yeni-islem" : "/analiz", { method: "POST", body: form });
     const veri = await yanit.json();
     if (!yanit.ok) throw new Error(typeof veri.detail === "string" ? veri.detail : "Bir hata oluştu.");
     goster(veri);
@@ -361,35 +449,41 @@ async function gonder(dugme, sorular = [], cevaplar = []) {
 }
 
 function goster(r) {
-  ["bildirme", "yeniBildirme", "sorular", "acil", "rapor"].forEach((id) => $(id).classList.add("gizli"));
+  ["gecmis", "bildirme", "yeniBildirme", "sorular", "acil", "rapor", "paylas"].forEach((id) => $(id).classList.add("gizli"));
   $("yeni").classList.remove("gizli");
+  if (oturum && !r.needs_more_info && mod === "ariza") gecmisYukle();
   window.scrollTo({ top: 0, behavior: "smooth" });
 
   if (r.needs_more_info) return sorulariGoster(r.questions);
+  $("paylas").classList.remove("gizli");
   if (mod === "yeni") return yeniIslemGoster(r);
 
   if (r.emergency) {
     $("acilMetin").textContent = r.safety_warning || r.problem || "Hemen bir profesyonele ulaş.";
     $("acilAdimlar").innerHTML = r.steps.map((s) => `<li>${yazi(s)}</li>`).join("");
     $("acil").classList.remove("gizli");
+    paylasMetni = metinBirlestir(["⚠️ Acil durum: " + (r.problem || ""), r.safety_warning, baslikliListe("Hemen yapılacaklar", r.steps)]);
     return;
   }
 
   const zorluk = r.difficulty ?? 0;
   const zorlukRengi = zorluk <= 40 ? "var(--yesil)" : zorluk <= 60 ? "#d97706" : "var(--kirmizi)";
   const [zorlukAdi, zorlukAciklamasi] =
-    zorluk <= 20 ? ["Çok kolay", "Alet gerekmez"] :
-    zorluk <= 40 ? ["Kolay", "Basit el aletleriyle yapılır"] :
-    zorluk <= 60 ? ["Orta", "Biraz deneyim ve özel parça gerekir"] :
-    zorluk <= 80 ? ["Zor", "Deneyim ve uzman alet gerekir"] :
+    zorluk <= 15 ? ["Çok kolay", "Alet gerekmez"] :
+    zorluk <= 30 ? ["Kolay", "Basit el aletleriyle yapılır"] :
+    zorluk <= 40 ? ["Kolay-orta", "Basit aletler ve biraz dikkat gerekir"] :
+    zorluk <= 55 ? ["Orta", "Biraz deneyim ve özel parça gerekir"] :
+    zorluk <= 70 ? ["Orta-zor", "Deneyim gerekir, hata yapmak kolay"] :
+    zorluk <= 85 ? ["Zor", "Deneyim ve uzman alet gerekir"] :
                    ["Uzman işi", "Sadece profesyonel yapmalı"];
   const ACILIYET = {
     dusuk: ["Acele yok", "Uygun bir zamanda ilgilen"],
     orta: ["Birkaç gün içinde", "İlgilen, beklerse büyür"],
+    yuksek: ["Bugün", "Zarar hızla büyüyebilir"],
     acil: ["Hemen", "Hemen ilgilen"],
   };
   const [aciliyetAdi, aciliyetAciklamasi] = ACILIYET[r.risk_level] || ["-", ""];
-  const aciliyetSinifi = { dusuk: "renk-dusuk", orta: "renk-orta", acil: "renk-acil" }[r.risk_level] || "";
+  const aciliyetSinifi = { dusuk: "renk-dusuk", orta: "renk-orta", yuksek: "renk-yuksek", acil: "renk-acil" }[r.risk_level] || "";
   const GUVEN = { dusuk: "düşük", orta: "orta derecede", yuksek: "yüksek derecede" };
   const guvenNotu = r.confidence
     ? `Bu değerlendirmeden ${GUVEN[r.confidence]} eminiz.${r.confidence !== "yuksek" && !secilenFoto ? " Fotoğraf eklersen daha net olur." : ""}`
@@ -407,16 +501,24 @@ function goster(r) {
       <p>${KARAR_ACIKLAMASI[r.recommendation] || ""}</p>
     </div>
     <div class="izgara">
-      <div class="kutu"><small>Ne kadar acil?</small><strong class="${aciliyetSinifi}">${aciliyetAdi}</strong><p>${aciliyetAciklamasi}</p></div>
+      <div class="kutu"><small>Ne kadar acil?</small><strong class="${aciliyetSinifi}">${aciliyetAdi}</strong><p>${yazi(r.risk_reason || aciliyetAciklamasi)}</p></div>
       <div class="kutu"><small>Tamir zorluğu</small><strong>${zorlukAdi}</strong><p>${zorlukAciklamasi}</p>
         <div class="cubuk"><span style="width:${zorluk}%;background:${zorlukRengi}"></span></div></div>
     </div>
     ${r.safety_warning ? `<div class="uyari"><span>⚠️</span><span>${yazi(r.safety_warning)}</span></div>` : ""}
     ${liste("Olası nedenler", r.possible_causes, "nedenler")}
     ${liste("Ne yapmalısın?", r.steps, "adimlar")}
-    ${r.estimated_cost ? malzemeFiyati(r.estimated_cost) : r.parts_and_tools.length ? `<h3>Gerekebilecek parça ve aletler</h3><div class="etiketler">${r.parts_and_tools.map((p) => `<span>${yazi(p.item)}</span>`).join("")}</div>` : ""}
+    ${r.estimated_cost ? malzemeFiyati(r.estimated_cost) : r.parts_and_tools.length ? `<h3>Gerekebilecek parça ve aletler</h3><div class="etiketler">${r.parts_and_tools.map((p) => `<span>${yazi(p.item || p)}</span>`).join("")}</div>` : ""}
     <p class="not">Bu kesin bir teşhis değil, olası bir değerlendirmedir. Emin değilsen bir ustaya danış.</p>`;
   $("rapor").classList.remove("gizli");
+  paylasMetni = metinBirlestir([
+    "Sorun: " + (r.problem || "-"),
+    `Öneri: ${ad(r.recommendation)} · Aciliyet: ${aciliyetAdi} · Zorluk: ${zorlukAdi}`,
+    r.risk_reason,
+    baslikliListe("Olası nedenler", r.possible_causes),
+    r.estimated_cost && r.estimated_cost.lines.length
+      ? "Tahmini malzeme: " + aralik(r.estimated_cost.parts_min, r.estimated_cost.parts_max) : "",
+  ]);
 }
 
 function sorulariGoster(sorular) {
@@ -456,6 +558,7 @@ function yeniIslemGoster(r) {
       ${r.safety_warning ? `<div class="uyari"><span>⚠️</span><span>${yazi(r.safety_warning)}</span></div>` : ""}
       ${ariza ? '<button id="arizayaGec" class="dugme">Bir sorun mu var? bölümüne geç</button>' : ""}`;
     $("rapor").classList.remove("gizli");
+    $("paylas").classList.add("gizli");
     $("arizayaGec")?.addEventListener("click", () => {
       $("aciklama").value = $("isAciklama").value;
       $("aciklama").dispatchEvent(new Event("input"));
@@ -502,6 +605,187 @@ function yeniIslemGoster(r) {
       Fiyatlar ${c ? new Date(c.price_date).toLocaleDateString("tr-TR") + " tarihli " : ""}İstanbul ortalamasıdır, KDV hariçtir. Kesin fiyat ustanın yerinde keşfiyle belli olur.
     </div>`;
   $("rapor").classList.remove("gizli");
+  paylasMetni = metinBirlestir([
+    "Yapılacak iş: " + (r.scope || "-"),
+    "Miktar: " + miktar,
+    c ? `Tahmini fiyat: ${tl(c.min)} – ${tl(c.max)}` : "",
+    r.duration ? "Süre: " + r.duration : "",
+    baslikliListe("Ustaya soracaklarım", r.questions_for_contractor),
+  ]);
+}
+
+// Paylaşma: WhatsApp'a kısa özet, PDF için tarayıcının yazdır penceresi
+const baslikliListe = (baslik, ogeler) =>
+  ogeler && ogeler.length ? baslik + ":\n" + ogeler.map((o, i) => `${i + 1}. ${o}`).join("\n") : "";
+const metinBirlestir = (parcalar) => ["Koz raporu", ...parcalar.filter(Boolean)].join("\n\n");
+$("whatsapp").addEventListener("click", () =>
+  window.open("https://wa.me/?text=" + encodeURIComponent(paylasMetni), "_blank")
+);
+$("pdf").addEventListener("click", () => window.print());
+
+// Geçmiş raporlar: son 3 rapor görünür, gerisi "Tümünü göster" ile açılır
+function gecmisCiz(hepsi) {
+  const kayitlar = hepsi ? gecmisKayitlari : gecmisKayitlari.slice(0, 3);
+  $("gecmisListe").innerHTML = kayitlar.map((k) => {
+    const tarih = new Date(k.zaman).toLocaleDateString("tr-TR", { day: "numeric", month: "long" });
+    const bilgi = k.acil ? "Acil" : `${ad(k.oneri)} · ${tarih}`;
+    return `<li><button type="button" data-id="${k.id}"><span class="gecmis-baslik">${yazi(k.problem)}</span>
+      <span class="gecmis-bilgi${k.acil ? " acil" : ""}">${yazi(bilgi)}</span></button></li>`;
+  }).join("");
+  $("gecmisTumu").classList.toggle("gizli", hepsi || gecmisKayitlari.length <= 3);
+  $("gecmisListe").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => gecmisAc(b.dataset.id)));
+}
+async function gecmisYukle() {
+  gecmisKayitlari = [];
+  if (oturum) {
+    try {
+      const yanit = await istek("/gecmis");
+      if (yanit.ok) gecmisKayitlari = await yanit.json();
+    } catch { /* liste boş kalır */ }
+  }
+  $("gecmisGirisYok").classList.toggle("gizli", !!oturum);
+  gecmisCiz(false);
+  const formAcik = !$("bildirme").classList.contains("gizli") || !$("yeniBildirme").classList.contains("gizli");
+  $("gecmis").classList.toggle("gizli", !(formAcik && gecmisGorunur()));
+}
+async function gecmisAc(id) {
+  hataGoster("");
+  try {
+    const yanit = await istek("/gecmis/" + id);
+    const veri = await yanit.json();
+    if (!yanit.ok) throw new Error(typeof veri.detail === "string" ? veri.detail : "Rapor açılamadı.");
+    mod = "ariza";
+    document.querySelectorAll("[data-mod]").forEach((b) => b.classList.toggle("secili", b.dataset.mod === "ariza"));
+    $("aciklama").value = veri.aciklama;
+    $("aciklama").dispatchEvent(new Event("input"));
+    goster(veri.rapor);
+  } catch (e) {
+    hataGoster(e.message || "Sunucuya ulaşılamadı.");
+  }
+}
+$("gecmisTumu").addEventListener("click", () => gecmisCiz(true));
+
+// Hesap: giriş anahtarı tarayıcıda saklanır ve her istekte gönderilir
+async function istek(adres, ayarlar = {}) {
+  if (oturum) ayarlar.headers = { ...ayarlar.headers, Authorization: "Bearer " + oturum.token };
+  const yanit = await fetch(adres, ayarlar);
+  // Anahtar geçersizse oturum kapanır
+  if (yanit.status === 401 && oturum) oturumAyarla(null);
+  return yanit;
+}
+function oturumAyarla(yeni) {
+  oturum = yeni;
+  try {
+    if (yeni) localStorage.setItem("kozOturum", JSON.stringify(yeni));
+    else localStorage.removeItem("kozOturum");
+  } catch { /* tarayıcı izin vermezse sadece bu sayfa açıkken girişli kalır */ }
+  hesapCiz();
+}
+async function hesapCiz() {
+  if (!oturum) {
+    $("hesap").innerHTML = '<button type="button" class="baglanti" id="girisAc">Giriş yap</button>';
+    $("girisAc").addEventListener("click", hesapAc);
+  } else {
+    $("hesap").innerHTML = `<span class="hesap-ad" id="hesapAdi">${yazi(oturum.ad)}</span>
+      <button type="button" class="baglanti" id="cikis">Çıkış yap</button>`;
+    $("cikis").addEventListener("click", cikisYap);
+    try {
+      const yanit = await istek("/profil");
+      if (yanit.ok) {
+        const p = await yanit.json();
+        $("hesapAdi").textContent = `${p.ad} · ${p.rapor_sayisi} rapor`;
+      }
+    } catch { /* ad görünmeye devam eder */ }
+  }
+}
+function hesapModuSec(yeniMod) {
+  hesapModu = yeniMod;
+  document.querySelectorAll("[data-hesap]").forEach((b) => b.classList.toggle("secili", b.dataset.hesap === hesapModu));
+  $("adAlani").classList.toggle("gizli", hesapModu !== "kayit");
+  $("hesapGonder").textContent = hesapModu === "kayit" ? "Hesap aç" : "Giriş yap";
+  $("hesapSifre").autocomplete = hesapModu === "kayit" ? "new-password" : "current-password";
+  $("hesapSifre").placeholder = hesapModu === "kayit" ? "En az 8 karakter" : "";
+  hataGoster("");
+}
+function hesapAc() {
+  ["gecmis", "bildirme", "yeniBildirme", "sorular", "acil", "rapor", "paylas", "yeni", "sekmeler"].forEach((id) => $(id).classList.add("gizli"));
+  $("hesapKart").classList.remove("gizli");
+  hesapModuSec("giris");
+  $("hesapEposta").focus();
+}
+async function hesapGonder() {
+  const form = new FormData();
+  if (hesapModu === "kayit") form.append("ad", $("hesapAd").value);
+  form.append("eposta", $("hesapEposta").value);
+  form.append("sifre", $("hesapSifre").value);
+  hataGoster("");
+  $("hesapGonder").disabled = true;
+  try {
+    const yanit = await fetch(hesapModu === "kayit" ? "/kayit" : "/giris", { method: "POST", body: form });
+    const veri = await yanit.json();
+    if (!yanit.ok) throw new Error(typeof veri.detail === "string" ? veri.detail : "Bilgileri kontrol et.");
+    $("hesapSifre").value = "";
+    oturumAyarla(veri);
+    sekmeSec(mod);
+    gecmisYukle();
+  } catch (e) {
+    hataGoster(e.message || "Sunucuya ulaşılamadı.");
+  } finally {
+    $("hesapGonder").disabled = false;
+  }
+}
+async function cikisYap() {
+  try { await istek("/cikis", { method: "POST" }); } catch { /* yine de çıkış yapılır */ }
+  oturumAyarla(null);
+  sekmeSec(mod);
+  gecmisYukle();
+}
+document.querySelectorAll("[data-hesap]").forEach((b) => b.addEventListener("click", () => hesapModuSec(b.dataset.hesap)));
+$("hesapGonder").addEventListener("click", hesapGonder);
+$("hesapSifre").addEventListener("keydown", (e) => e.key === "Enter" && hesapGonder());
+$("hesapVazgec").addEventListener("click", () => sekmeSec(mod));
+$("gecmisGiris").addEventListener("click", hesapAc);
+hesapCiz();
+gecmisYukle();
+
+// Sesle anlatma: tarayıcının konuşma tanıma özelliği (Chrome ve Edge'de çalışır)
+const KonusmaTanima = window.SpeechRecognition || window.webkitSpeechRecognition;
+let dinleyici = null;
+if (KonusmaTanima) {
+  document.querySelectorAll(".mikrofon").forEach((dugme) => {
+    dugme.classList.remove("gizli");
+    dugme.addEventListener("click", () => {
+      if (dinleyici) return dinleyici.stop();
+      const alan = $(dugme.dataset.alan);
+      const baslangic = alan.value ? alan.value.replace(/\s*$/, " ") : "";
+      let kesin = "";
+      dinleyici = new KonusmaTanima();
+      dinleyici.lang = "tr-TR";
+      dinleyici.continuous = true;
+      dinleyici.interimResults = true;
+      dinleyici.onresult = (e) => {
+        let gecici = "";
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+          if (e.results[i].isFinal) kesin += e.results[i][0].transcript;
+          else gecici += e.results[i][0].transcript;
+        }
+        alan.value = (baslangic + kesin + gecici).slice(0, 2000);
+        alan.dispatchEvent(new Event("input"));
+      };
+      dinleyici.onerror = (e) => {
+        if (e.error === "not-allowed") hataGoster("Mikrofon izni verilmedi. Tarayıcının adres çubuğundan izin verebilirsin.");
+        else if (e.error !== "no-speech" && e.error !== "aborted") hataGoster("Ses anlaşılamadı, tekrar dene.");
+      };
+      dinleyici.onend = () => {
+        dinleyici = null;
+        dugme.classList.remove("dinliyor");
+        dugme.textContent = "🎤 Sesle anlat";
+      };
+      dinleyici.start();
+      dugme.classList.add("dinliyor");
+      dugme.textContent = "⏹ Bitir";
+    });
+  });
 }
 
 // Model metnini HTML olarak değil düz yazı olarak göster

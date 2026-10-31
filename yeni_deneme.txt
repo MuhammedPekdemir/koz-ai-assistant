@@ -1,0 +1,279 @@
+
+=== 1/4: Salondaki 2 pencereyi pimapen yaptýrmak istiyorum, her biri yaklaþýk 120x150.
+{
+  "job_type": "pvc_pencere",
+  "in_price_table": true,
+  "needs_more_info": false,
+  "questions": [],
+  "scope": "Salondaki iki eski pencerenin sökülüp yerine PVC (pimapen) pencere takýlmasý.",
+  "quantity": {
+    "value": 3.6,
+    "unit": "m2"
+  },
+  "price_basis": "malzeme_dahil",
+  "material_options": [
+    {
+      "option": "60'lýk profil",
+      "notes": "Ekonomik seçenek. Isý ve ses yalýtýmý daha zayýftýr; kiralýk evler veya yalýtýmýn öncelik olmadýðý odalar için yeterli olabilir."
+    },
+    {
+      "option": "70'lik profil",
+      "notes": "En yaygýn seçim. Çoðu ev için fiyat ve yalýtým dengesi iyidir."
+    },
+    {
+      "option": "80'lik profil",
+      "notes": "Daha çok odacýklýdýr ve yalýtýmý daha iyidir. Kuzey cephe, soðuk iklim veya gürültülü cadde için uygundur."
+    },
+    {
+      "option": "Standart ýsýcam (4+16+4)",
+      "notes": "Çift camlý temel çözümdür. Çoðu ev için yeterlidir, bütçeyi düþük tutar."
+    },
+    {
+      "option": "Low-E kaplamalý ýsýcam",
+      "notes": "Standart ýsýcama göre biraz daha pahalýdýr ama ýsý kaybýný azaltýr, kýþýn ýsýnma giderine etkisi olur. Argon gazlý seçeneði daha da iyidir."
+    }
+  ],
+  "technical_details": [
+    "Standart ýsýcam genelde 4+16+4 mm yapýdadýr: iki cam 4 mm, aralarýnda 16 mm boþluk.",
+    "Profilin içinde galvaniz çelik takviye olmalýdýr. Salon gibi geniþ kanatlarda bu daha da önemlidir.",
+    "Profil et kalýnlýðý sýnýfý TS EN 12608'e göre belirtilir. A sýnýfý en kalýn ve en dayanýklý olandýr, teklifte yazýlý olmalýdýr.",
+    "Kasa duvara ankraj veya dübel-vidayla sabitlenir. Sadece köpükle tutturulmasý yanlýþtýr.",
+    "Kasa ile duvar arasýndaki boþluk poliüretan köpükle doldurulur, dýþý silikonla kapatýlýr.",
+    "Low-E kaplama ve argon gazý, ýsý kaybýný standart ýsýcama göre belirgin biçimde azaltýr. Gürültülü caddeye bakan salon için akustik (laminasyonlu) cam da seçenektir.",
+    "Çift açýlým (vasistas + yana açýlýr) donanýmý salon pencerelerinde yaygýndýr. Menteþe, kol ve kilit markasý kanatlarýn uzun süre düzgün çalýþmasýný belirler.",
+    "Denizlik, iç pervaz, sineklik ve panjur genelde ayrý kalemdir, teklifte baþtan yazýlmalýdýr."
+  ],
+  "work_steps": [
+    "Ölçü, eski pencere sökülmeden önce keþifte usta tarafýndan alýnýr. Yanlýþ ölçü, sipariþ verildikten sonra fark edilirse geri dönüþü zor ve masraflýdýr.",
+    "Eski doðrama dikkatle sökülür; duvar ve söve zarar görmesin diye acele edilmez.",
+    "Boþluk temizlenir, kýrýk ve eðrilikler düzeltilir. Kasa düzgün yüzeye oturmazsa sonradan hava ve su sýzdýrýr.",
+    "Kasa su terazisi ve gönyeyle yerleþtirilir, ankraj veya dübelle duvara sabitlenir.",
+    "Kanatlar takýlýp açýlma ve kapanma kontrol edilir. Köpükten önce ayar yapmak sonradan kasanýn bozulmasýný önler.",
+    "Kasa ile duvar arasýndaki boþluk poliüretan köpükle doldurulur. Köpük kuruyunca fazlasý kesilir.",
+    "Dýþ tarafa silikon çekilir. Bu adým atlanýrsa köpük yaðmurla ve güneþle bozulur, su sýzar.",
+    "Denizlik, iç pervaz ve sýva/boya tamiri yapýlýr; moloz ve ambalaj kullanýcýdan istenmeden toplanýr.",
+    "Teslimde conta oturmasý, kilitlerin çalýþmasý ve camlarýn çiziksiz olmasý birlikte kontrol edilir."
+  ],
+  "questions_for_contractor": [
+    "Profil hangi marka ve seri, kaç odacýklý?",
+    "Profil et kalýnlýðý sýnýfý nedir (TS EN 12608) ve içinde galvaniz çelik takviye var mý?",
+    "Cam hangi yapýda: standart ýsýcam mý, Low-E mi, argon gazlý mý?",
+    "Donaným (menteþe, kol, kilit) hangi marka?",
+    "Fiyata eski pencerenin sökümü, moloz taþýma ve iç sýva/boya tamiri dahil mi?",
+    "Kasa duvara ankraj veya dübelle mi sabitlenecek, yoksa sadece köpükle mi?",
+    "Denizlik, iç pervaz, sineklik ve panjur fiyata dahil mi?",
+    "Profil, cam ve montaj için garanti süresi ne kadar, yazýlý verilecek mi?",
+    "Ödeme nasýl: kapora ne kadar, kalan montaj ve kontrol sonrasý mý?"
+  ],
+  "red_flags": [
+    "Profil markasý, serisi veya et kalýnlýðý sýnýfý teklifte yazýlý deðilse.",
+    "Kasa sadece köpükle tutturulacaksa veya ankraj/dübel kullanýlmayacaksa.",
+    "Söküm, moloz ve iç tamir \"sonra konuþuruz\" denilerek teklif dýþýnda býrakýlýyorsa; bunlar sonradan gizli masraf olarak çýkabilir.",
+    "Ölçüyü usta almayýp sizden isteniyorsa.",
+    "Denizlik, pervaz veya sineklik sonradan ek ücretle çýkýyorsa; baþtan teklifte yazýlmalý.",
+    "Tamamýnýn peþin ödenmesi isteniyorsa veya garanti yazýlý verilmiyorsa."
+  ],
+  "duration": "Sipariþ ve imalat 1–2 hafta, montaj yarým gün ile 1 gün.",
+  "cost": null,
+  "assumptions": [
+    "Ýki pencere de 120x150 cm kabul edildi, toplam 3,6 m².",
+    "Malzeme ve montajýn ustadan olacaðý (malzeme dahil) kabul edildi.",
+    "70'lik profil ve standart ýsýcam esas alýndý.",
+    "Sineklik, panjur ve iç/dýþ tamir iþleri ayrý kalem olarak deðerlendirildi."
+  ],
+  "safety_warning": "Üst katlarda pencere sökümü ve montajý düþme riski taþýr; usta emniyetli çalýþmalý, altta insan veya araç bulunmamalýdýr. Cam aðýrdýr ve kýrýlgandýr, çocuk ve evcil hayvanlarý çalýþma alanýndan uzak tutun."
+}
+
+=== 2/4: 25 metrekare salona laminat parke döþetmek istiyorum, malzemeyi ben alacaðým.
+{
+  "job_type": "laminat_parke",
+  "in_price_table": true,
+  "needs_more_info": false,
+  "questions": [],
+  "scope": "25 m² salon zeminine laminat parke döþenmesi. Malzemeyi kullanýcý temin edecek, usta yalnýzca iþçilik yapacak.",
+  "quantity": {
+    "value": 25,
+    "unit": "m2"
+  },
+  "price_basis": "sadece_iscilik",
+  "material_options": [
+    {
+      "option": "8 mm, AC3 laminat",
+      "notes": "Ekonomik seçenek; yatak odasý ve az kullanýlan odalar için uygun. Salonda yoðun kullanýmda daha çabuk aþýnabilir."
+    },
+    {
+      "option": "8–10 mm, AC4 laminat",
+      "notes": "Salon ve koridor gibi yoðun kullanýlan alanlar için en dengeli seçim; fiyat ve dayanýklýlýk arasýnda iyi bir denge sunar."
+    },
+    {
+      "option": "10–12 mm, AC4/AC5 laminat",
+      "notes": "Daha kalýn ve saðlam; ses yalýtýmý daha iyidir, basýnca ve darbeye karþý daha dayanýklýdýr. Evcil hayvaný veya çocuðu olanlar için uygundur."
+    },
+    {
+      "option": "Nem bariyerli þilte",
+      "notes": "Zemin beton veya þapsa þarttýr. Ses ve nem yalýtýmý saðlar. Ayrý alýnýr, laminatla uyumlu kalýnlýkta seçilmelidir."
+    },
+    {
+      "option": "Su itici (HDF) laminat",
+      "notes": "Mutfaða açýlan salonlarda veya zemine su dökülme ihtimali olan yerlerde kenar þiþmesine karþý daha dirençlidir."
+    }
+  ],
+  "technical_details": [
+    "Aþýnma sýnýfý: AC3 normal ev kullanýmý, AC4 yoðun kullaným (salon, koridor), AC5 ticari alanlar içindir. Salon için en az AC4 önerilir.",
+    "Kalýnlýk: 8 mm yatak odasý için yeterlidir; 10–12 mm salon ve ses yalýtýmý için daha iyidir.",
+    "Laminatýn altýna þilte serilir; zemin betonsa nem bariyerli (folyolu) þilte kullanýlýr, þilte birleþimleri bantlanýr.",
+    "Zemin düzgünlüðü: 2 metrelik mastarla birkaç milimetreden fazla eðrilik varsa önce tesviye/þap gerekir; aksi halde kilit geçmeleri açýlýr ve gýcýrdama yapar.",
+    "Duvar kenarlarýnda ve sabit engellerde 8–10 mm genleþme payý býrakýlýr; süpürgelik bu boþluðu örter. Payý olmayan parke ýsýyla kabarýr.",
+    "Malzeme döþemeden önce 24–48 saat odada, ambalajý açýlmadan bekletilmelidir; böylece ortamýn ýsý ve nemine alýþýr.",
+    "Kesim firesi için sipariþ miktarýna yaklaþýk %5–10 pay eklenir; 25 m² için paket sayýsý buna göre hesaplanmalýdýr.",
+    "Kapý altý kesimi, eþik/geçiþ profili ve süpürgelik ayrý kalem olabilir; bunlar teklifte ayrý yazýlmalýdýr."
+  ],
+  "work_steps": [
+    "Zemin kontrol edilir: nem, düzgünlük, çatlak ve boþluk bakýlýr. Bu adým atlanýrsa sonradan çýkan sorunlar parkeye yansýr.",
+    "Eski zemin kaplamasý varsa (halý, eski parke) sökülür; süpürülür ve toz alýnýr, çünkü toz altlýkta kabarma ve ses yapar.",
+    "Gerekirse zemin tesviye edilir veya þap atýlýr. Þap atýlmýþsa kurumasý beklenir, ýslak zemine parke serilmez.",
+    "Nem bariyerli þilte serilir, þilte kenarlarý duvara 5–10 cm çýkacak þekilde býrakýlýr ve birleþimleri bantlanýr.",
+    "Parke uzun duvar boyunca ýþýk yönüne paralel þekilde döþenir; ilk sýra düz bir hat üzerinden baþlatýlýr. Duvar kenarlarýnda 8–10 mm açýklýk býrakýlýr.",
+    "Tahtalar birbirine kilitlenir; birleþim yerleri bir sýradan ötekine kaydýrýlarak (en az 30 cm kaydýrma) döþenir, böylece zemin saðlam ve estetik olur.",
+    "Kapý kasalarý ve pervazlar gerekirse kesilir; parke bunlarýn altýndan geçirilir, kenarlara zorlama yapýlmaz.",
+    "Genleþme payý, süpürgelikle kapatýlýr. Süpürgelik parkeye deðil duvara sabitlenir, parkenin hareket etmesi engellenmez.",
+    "Oda geçiþlerinde geçiþ profili/eþik takýlýr; son olarak temizlik yapýlýr ve kilitlerin sýkýca oturduðu kontrol edilir."
+  ],
+  "questions_for_contractor": [
+    "Fiyat sadece döþeme iþçiliði mi, yoksa þilte serme, süpürgelik takma ve kapý altý kesimi de dahil mi?",
+    "Zeminim düzgün deðilse tesviye veya þap gerekirse bu ne kadar ek maliyet getirir, ayrý mý yazýlýr?",
+    "Eski zemin kaplamasý sökümü ve molozun taþýnmasý fiyata dahil mi?",
+    "Kaç kiþi ve kaç günde bitirecek? 25 m² için süre ne kadar?",
+    "Hangi þilte kalýnlýðýný ve türünü öneriyor? Nem bariyerli þilteyi ben mi alacaðým?",
+    "Eþik, geçiþ profili ve süpürgelik iþçiliði ayrý fiyatlandýrýlýyor mu?",
+    "Döþeme sonrasý iþçilik garantisi veriyor mu? Kabarma veya aralanma olursa ne yapýlacak?",
+    "Ödeme nasýl olacak: baþlangýçta kapora, kalan iþ bitiminde mi?"
+  ],
+  "red_flags": [
+    "Zemin kontrolü yapmadan, þilte veya tesviye konuþmadan 'hemen baþlarým' diyorsa.",
+    "Duvar kenarýnda genleþme payý býrakmadan döþeyeceðini söylüyorsa; parke ýsýyla kabarýr.",
+    "Betonsa nem bariyerli þilte yerine þilte kullanmayý gereksiz görüyorsa.",
+    "Söküm, moloz, tesviye veya süpürgelik gibi kalemleri 'sonra konuþuruz' diye dýþarýda býrakýyorsa; gizli masraf olarak çýkabilir.",
+    "Parke paketlerini odaya alýþtýrmadan hemen döþemeye baþlýyorsa.",
+    "Tüm ücretin peþin ödenmesini istiyorsa."
+  ],
+  "duration": "Zemin hazýrsa 1–2 gün; tesviye/þap gerekiyorsa þapýn kurumasý için ek 1–2 hafta.",
+  "cost": null,
+  "assumptions": [
+    "Malzemeyi kullanýcý alacaðý için sadece iþçilik fiyatý esas alýndý.",
+    "25 m², döþenecek net zemin alaný olarak kabul edildi.",
+    "Zeminin düz ve kuru olduðu varsayýldý; tesviye veya þap ayrý kalem olabilir.",
+    "Süpürgelik, eþik ve eski zemin söküm iþleri fiyata dahil kabul edilmedi, ustayla ayrýca konuþulmalý.",
+    "Kullanýcýya malzeme sipariþinde %5–10 fire payý eklemesi önerildi."
+  ],
+  "safety_warning": null
+}
+
+=== 3/4: Mutfak dolaplarýný yeniletmek istiyorum, 3 metre alt ve üst dolap.
+{
+  "job_type": "diger",
+  "in_price_table": false,
+  "needs_more_info": false,
+  "questions": [],
+  "scope": "Mevcut mutfak dolaplarýnýn sökülüp yerine yaklaþýk 3 metre uzunlukta yeni alt ve üst dolap yapýlmasý ve monte edilmesi.",
+  "quantity": {
+    "value": null,
+    "unit": null
+  },
+  "price_basis": "malzeme_dahil",
+  "material_options": [
+    {
+      "option": "Membran kaplý MDF kapak",
+      "notes": "Ekonomik ve en yaygýn seçenek. Kapak PVC film kaplýdýr. Ocak ve fýrýn yakýnýnda ýsýdan kabarabilir, kenar yapýþtýrmasý zamanla açýlabilir. Bütçeli yenilemeler için uygundur."
+    },
+    {
+      "option": "Akrilik veya lake (boyalý) MDF kapak",
+      "notes": "Parlak ya da mat, düzgün yüzeyli, modern görünümlü seçenek. Membrana göre pahalýdýr. Çizilmeye karþý akrilik daha dayanýklýdýr. Lake kapakta boya kalitesi ve kat sayýsý önemlidir."
+    },
+    {
+      "option": "Melamin kaplý (MDF-lam) kapak",
+      "notes": "Dayanýklý ve nem direnci iyi, bakýmý kolay. Renk ve desen seçeneði geniþtir. Fiyat/dayanýklýlýk dengesi için iyi bir orta seçenektir."
+    },
+    {
+      "option": "HPL kaplý kapak",
+      "notes": "Çizilmeye, darbeye ve neme çok dayanýklýdýr. Yoðun kullanýlan mutfaklar için uygundur. Melamine göre pahalýdýr."
+    },
+    {
+      "option": "Masif ahþap kapak",
+      "notes": "En uzun ömürlü ve premium seçenektir, tamir edilebilir. En pahalýsýdýr. Nem ve sýcaklýk deðiþiminde çalýþabilir (genleþip daralýr), bu yüzden kaliteli kurutulmuþ ahþap seçilmelidir."
+    }
+  ],
+  "technical_details": [
+    "Gövde (korpus) genelde 18 mm kalýnlýðýnda E1 sýnýfý sunta veya MDF-lam olur. E1, düþük formaldehit salýnýmý demektir. Arka panel genelde 5–8 mm olur, çok ince arka panel dolabý sallar.",
+    "Alt dolap standart ölçüleri: derinlik 55–60 cm, gövde yüksekliði yaklaþýk 72 cm, ayak yüksekliði 10–15 cm. Tezgahla birlikte çalýþma yüksekliði genelde 85–90 cm olur. Üst dolaplar 30–35 cm derinliðindedir ve tezgahtan yaklaþýk 55–60 cm yukarýya takýlýr.",
+    "Kenar bantlama 1–2 mm kalýnlýkta PVC veya ABS bantla yapýlmalýdýr. Bantýn özellikle evye altý ve alt kenarlarda tam yapýþmýþ olmasý gerekir, çünkü nem buradan girer.",
+    "Menteþe ve çekmece rayý kalitesi kullaným ömrünü belirler. Yavaþ kapanan (soft close) menteþe ve tam açýlan, yük taþýma kapasitesi yaklaþýk 30–40 kg olan ray tercih edilmelidir. Teklifte marka ve model yazýlmalýdýr.",
+    "Üst dolaplar duvara aský rayý veya aský aparatýyla, duvar tipine uygun dübelle (tuðla/briket/beton) asýlýr. Delikli tuðla veya alçýpan duvarda özel dübel gerekir.",
+    "Alt dolap ayaklarý ayarlanabilir ve nemden etkilenmeyen plastik ya da alüminyum olmalýdýr. Zemin ile dolap arasýndaki alt kýsým su geçirmez bir süpürgelik (kapak) ile kapatýlýr.",
+    "Evye altý ve bulaþýk makinesi çevresindeki dolap tabaný nemden korunmalýdýr. Su görebilecek yerlerde alüminyum folyo, su geçirmez taban veya silikonlu birleþim kullanýlýr.",
+    "Tezgah (granit, kuvars, laminat vb.), evye, ocak, davlumbaz, armatür ve kulp ayrý kalem olabilir. Teklifin bunlarý kapsayýp kapsamadýðý yazýlý olmalýdýr."
+  ],
+  "work_steps": [
+    "Usta keþfe gelir. Duvar eðriliði, köþelerin gönyesi, tesisat (su, gider, elektrik, doðalgaz) noktalarý ve davlumbaz/fýrýn yerleri kontrol edilir. Mutfak planý bu bilgiye göre çizilir; yanlýþ planlama sonradan deðiþtirilemez.",
+    "Seçilen malzeme, kapak modeli, menteþe/ray markasý, kulp ve ölçü içeren bir sözleþme veya yazýlý teklif hazýrlanýr. Üretim baþladýktan sonra deðiþiklik zordur.",
+    "Eski dolaplar sökülmeden önce su ve elektrik kapatýlýr. Evye, ocak ve davlumbaz baðlantýlarý dikkatle ayrýlýr. Doðalgaz ocak baðlantýsýna yetkili kiþi dýþýnda dokunulmaz.",
+    "Söküm sonrasý duvar ve zemin kontrol edilir. Delikler, çatlaklar ve zemin eðimi düzeltilir. Duvar boyasý/fayans tamiri bu aþamada konuþulmalýdýr. Kesin ölçü söküm sonrasý tekrar alýnýr.",
+    "Gövdeler üretilir veya hazýr modüller getirilir. Kapak ve çekmece cepheleri ayrý hazýrlanýr. Montaj öncesi parçalarýn hasarsýz ve ölçüye uygun olduðu kontrol edilir.",
+    "Alt dolaplar su terazisiyle, ayaklar ayarlanarak yerleþtirilir. Dolaplar birbirine vidalanýr ve duvara sabitlenir. Zemin düz deðilse ayaklarla telafi edilir.",
+    "Üst dolaplar çizilen hizaya göre asýlýr, hizalanýr ve tüm aðýrlýðý taþýyacak þekilde duvara sabitlenir. Aþýrý yük taþýyan üst dolapta ek sabitleme istenmelidir.",
+    "Tezgah ölçüsü alt dolaplar monte edildikten sonra alýnmalýdýr. Tezgah takýldýktan sonra evye, ocak, armatür ve davlumbaz baðlantýlarý yapýlýr. Doðalgaz baðlantýsý yetkili kiþi tarafýndan yapýlýr.",
+    "Kapak ve çekmece ayarlarý yapýlýr. Dolap ile duvar, tezgah ile arka duvar arasýndaki birleþimlere silikon çekilir. Nem alan bölgelerde silikonun tam sürekli olmasý gerekir.",
+    "Son kontrol yapýlýr. Tüm kapak ve çekmeceler açýlýp kapatýlýr, su kaçaðý olup olmadýðýna bakýlýr, ortalýk temizlenir ve garanti belgesi alýnýr."
+  ],
+  "questions_for_contractor": [
+    "Gövde ve kapak hangi malzemeden, kalýnlýðý kaç mm ve sýnýfý nedir (E1 gibi)?",
+    "Menteþe ve çekmece rayý hangi marka ve model, yavaþ kapanma var mý?",
+    "Fiyata eski dolaplarýn söküm, moloz ve nakliyesi dahil mi?",
+    "Tezgah, evye, armatür, davlumbaz ve kulplar fiyata dahil mi, yoksa ayrý mý?",
+    "Kesin ölçü ne zaman alýnacak, eski dolaplar söküldükten sonra mý?",
+    "Üretim ve montaj kaç gün sürer, montajý kaç kiþi yapacak?",
+    "Duvar ve zemin tamiri, boya veya fayans onarýmý gerekirse bu kapsamda mý?",
+    "Garanti süresi ne kadar ve neleri kapsýyor (kapak çarpýlmasý, kenar bant açýlmasý, menteþe, ray)?",
+    "Ödeme planý nasýl, kapora ne kadar, kalan teslim sonrasý mý ödenecek?"
+  ],
+  "red_flags": [
+    "Teklifte malzeme kalýnlýðý, marka (menteþe, ray) ve kapak türü belirtilmiyorsa, sonradan daha ucuz malzeme kullanýlabilir.",
+    "Söküm, moloz, tezgah, evye veya montaj sonradan ek ücretle çýkýyorsa; bu kalemler baþtan yazýlý olmalýdýr.",
+    "Ölçü alýnmadan veya yüzeysel bir bakýþla fiyat veriliyorsa, sonradan fark çýkabilir.",
+    "Tamamýnýn veya çok büyük bölümünün peþin istenmesi riskli iþarettir.",
+    "Kenar bantlama kalitesiz görünüyorsa, bantlar kolay kalkýyor veya düzgün deðilse nemde kýsa sürede þiþme olur.",
+    "Üst dolaplar için duvar tipine bakýlmadan standart dübelle montaj yapýlacaðý söyleniyorsa, dolap zamanla çökebilir."
+  ],
+  "duration": "Keþif ve ölçüden sonra üretim 2–4 hafta, söküm ve montaj 1–2 gün, tezgah ve evye montajý ek 3–7 gün.",
+  "cost": null,
+  "assumptions": [
+    "3 metre, mutfaðýn düz hat uzunluðu olarak kabul edildi. Fiyat tablosunda olmayan bir iþ olduðu için miktar m² veya adete çevrilmedi.",
+    "Hem alt hem üst dolap için yeni üretim yapýlacaðý kabul edildi, mevcut dolaplarýn sadece kapak deðiþimi deðil.",
+    "Malzeme ve iþçiliðin ustadan olacaðý kabul edildi (malzeme dahil).",
+    "Tezgah, evye ve mutfak cihazlarýnýn bu teklife dahil olup olmadýðý belirtilmediði için ayrý kalem sayýldý."
+  ],
+  "safety_warning": "Eski dolaplarý sökerken su ve elektrik kapatýlmalýdýr. Doðalgaz ocaðý ve tesisat baðlantýsý sadece gaz daðýtým þirketinin yetkili firmalarý tarafýndan sökülüp baðlanmalýdýr. Kendi baþýnýza yapmayýn. Aðýr üst dolaplarýn duvara yeterince sabitlenmemesi düþme riski taþýr."
+}
+
+=== 4/4: Banyodaki fayanslarýn arasýndan su sýzýyor, alt kata geçmiþ.
+{
+  "job_type": "ariza",
+  "in_price_table": false,
+  "needs_more_info": false,
+  "questions": [],
+  "scope": "Banyoda fayans derzlerinden su sýzmasý ve alt kata geçmesi bir arýza durumudur. Bu yüzden lütfen \"Bir sorun mu var?\" bölümüne geçin; sorunun olasý nedenlerini ve ne yapmanýz gerektiðini orada birlikte ele alalým.",
+  "quantity": {
+    "value": null,
+    "unit": null
+  },
+  "price_basis": null,
+  "material_options": [],
+  "technical_details": [],
+  "work_steps": [],
+  "questions_for_contractor": [],
+  "red_flags": [],
+  "duration": null,
+  "cost": null,
+  "assumptions": [],
+  "safety_warning": null
+}

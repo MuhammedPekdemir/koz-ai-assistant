@@ -14,18 +14,27 @@ modelin sorularını (sorular) ve kullanıcının cevaplarını (cevaplar) aynı
 Bu ikinci istekte model soru sormaz, analizi yapar. /yeni-islem de aynı soru turunu kullanır.
 
 Her başarılı analiz MSSQL'deki Analizler tablosuna kaydedilir (bkz. veritabani.sql).
+Geçmiş raporlar: GET /gecmis (son 20 özet), GET /gecmis/{id} (raporun tamamı).
+
+Giriş: POST /kayit ve POST /giris bir anahtar (token) döndürür. İstemci bunu her istekte
+"Authorization: Bearer <token>" başlığıyla gönderir. Giriş yapan kişinin analizleri ona bağlanır;
+/gecmis ve /profil girişsiz çalışmaz ve sadece o kişinin raporlarını gösterir.
 """
 
 import base64
+import hashlib
+import hmac
 import json
 import os
+import re
+import secrets
 from pathlib import Path
 from typing import Literal
 
 import anthropic
 import pyodbc
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, Header, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
@@ -101,7 +110,8 @@ class ArizaRaporu(BaseModel):
     problem: str | None
     possible_causes: list[str]
     confidence: Literal["dusuk", "orta", "yuksek"] | None
-    risk_level: Literal["dusuk", "orta", "acil"] | None
+    risk_level: Literal["dusuk", "orta", "yuksek", "acil"] | None
+    risk_reason: str | None
     difficulty: int | None = Field(ge=0, le=100)
     parts_and_tools: list[Malzeme]
     steps: list[str]
@@ -257,7 +267,49 @@ def claude_cevabi(
     return "".join(b.text for b in response.content if b.type == "text")
 
 
-def kaydet(aciklama: str, foto_var: bool, sorular: list[str], cevaplar: list[str], rapor: ArizaRaporu) -> None:
+def sifre_ozeti(sifre: str, tuz: bytes) -> str:
+    return hashlib.pbkdf2_hmac("sha256", sifre.encode(), tuz, 200_000).hex()
+
+
+def anahtar_ozeti(anahtar: str) -> str:
+    # Veritabanında anahtarın kendisi değil özeti tutulur
+    return hashlib.sha256(anahtar.encode()).hexdigest()
+
+
+def oturum_ac(baglanti: pyodbc.Connection, kullanici_id: int) -> str:
+    anahtar = secrets.token_urlsafe(32)
+    baglanti.execute(
+        "INSERT INTO Oturumlar (AnahtarOzeti, KullaniciId) VALUES (?, ?)", anahtar_ozeti(anahtar), kullanici_id
+    )
+    return anahtar
+
+
+def kullanici_bul(authorization: str | None) -> int | None:
+    """Authorization başlığındaki anahtarın sahibi. Başlık yoksa None, anahtar geçersizse 401."""
+    if not authorization:
+        return None
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(401, "Geçersiz oturum. Tekrar giriş yap.")
+    with pyodbc.connect(DB_BAGLANTI) as baglanti:
+        satir = baglanti.execute(
+            "SELECT KullaniciId FROM Oturumlar WHERE AnahtarOzeti = ?", anahtar_ozeti(authorization[7:])
+        ).fetchone()
+    if satir is None:
+        raise HTTPException(401, "Oturumun sona ermiş. Tekrar giriş yap.")
+    return satir.KullaniciId
+
+
+def giris_gerekli(authorization: str | None) -> int:
+    kullanici_id = kullanici_bul(authorization)
+    if kullanici_id is None:
+        raise HTTPException(401, "Bunun için giriş yapmalısın.")
+    return kullanici_id
+
+
+def kaydet(
+    aciklama: str, foto_var: bool, sorular: list[str], cevaplar: list[str], rapor: ArizaRaporu,
+    kullanici_id: int | None,
+) -> None:
     soru_cevaplar = None
     if sorular:
         soru_cevaplar = json.dumps(
@@ -265,11 +317,109 @@ def kaydet(aciklama: str, foto_var: bool, sorular: list[str], cevaplar: list[str
         )
     with pyodbc.connect(DB_BAGLANTI) as baglanti:
         baglanti.execute(
-            "INSERT INTO Analizler (Aciklama, FotoVar, SoruCevaplar, Kategori, Acil, SoruSoruldu, Oneri, Zorluk, Rapor)"
-            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO Analizler"
+            " (Aciklama, FotoVar, SoruCevaplar, Kategori, Acil, SoruSoruldu, Oneri, Zorluk, Rapor, KullaniciId)"
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             aciklama, foto_var, soru_cevaplar, rapor.category, rapor.emergency, rapor.needs_more_info,
-            rapor.recommendation, rapor.difficulty, rapor.model_dump_json(),
+            rapor.recommendation, rapor.difficulty, rapor.model_dump_json(), kullanici_id,
         )
+
+
+@app.post("/kayit")
+def kayit(ad: str = Form(...), eposta: str = Form(...), sifre: str = Form(...)) -> dict:
+    ad, eposta = ad.strip(), eposta.strip().lower()
+    if not ad:
+        raise HTTPException(400, "Adını yaz.")
+    if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", eposta):
+        raise HTTPException(400, "Geçerli bir e-posta yaz.")
+    if len(sifre) < 8:
+        raise HTTPException(400, "Şifre en az 8 karakter olmalı.")
+    tuz = secrets.token_bytes(16)
+    with pyodbc.connect(DB_BAGLANTI) as baglanti:
+        if baglanti.execute("SELECT 1 FROM Kullanicilar WHERE Eposta = ?", eposta).fetchone():
+            raise HTTPException(400, "Bu e-postayla zaten bir hesap var.")
+        kullanici_id = baglanti.execute(
+            "INSERT INTO Kullanicilar (Ad, Eposta, SifreTuz, SifreOzeti) OUTPUT INSERTED.Id VALUES (?, ?, ?, ?)",
+            ad, eposta, tuz.hex(), sifre_ozeti(sifre, tuz),
+        ).fetchone()[0]
+        anahtar = oturum_ac(baglanti, kullanici_id)
+    return {"token": anahtar, "ad": ad, "eposta": eposta}
+
+
+@app.post("/giris")
+def giris(eposta: str = Form(...), sifre: str = Form(...)) -> dict:
+    eposta = eposta.strip().lower()
+    with pyodbc.connect(DB_BAGLANTI) as baglanti:
+        satir = baglanti.execute(
+            "SELECT Id, Ad, SifreTuz, SifreOzeti FROM Kullanicilar WHERE Eposta = ?", eposta
+        ).fetchone()
+        if satir is None or not hmac.compare_digest(
+            sifre_ozeti(sifre, bytes.fromhex(satir.SifreTuz)), satir.SifreOzeti
+        ):
+            raise HTTPException(401, "E-posta ya da şifre yanlış.")
+        anahtar = oturum_ac(baglanti, satir.Id)
+    return {"token": anahtar, "ad": satir.Ad, "eposta": eposta}
+
+
+@app.post("/cikis")
+def cikis(authorization: str | None = Header(None)) -> dict:
+    giris_gerekli(authorization)
+    with pyodbc.connect(DB_BAGLANTI) as baglanti:
+        baglanti.execute("DELETE FROM Oturumlar WHERE AnahtarOzeti = ?", anahtar_ozeti(authorization[7:]))
+    return {"tamam": True}
+
+
+@app.get("/profil")
+def profil(authorization: str | None = Header(None)) -> dict:
+    kullanici_id = giris_gerekli(authorization)
+    with pyodbc.connect(DB_BAGLANTI) as baglanti:
+        satir = baglanti.execute(
+            "SELECT Ad, Eposta, OlusturmaZamani,"
+            " (SELECT COUNT(*) FROM Analizler WHERE KullaniciId = Kullanicilar.Id AND SoruSoruldu = 0) AS RaporSayisi"
+            " FROM Kullanicilar WHERE Id = ?", kullanici_id,
+        ).fetchone()
+    return {
+        "ad": satir.Ad,
+        "eposta": satir.Eposta,
+        "uyelik": satir.OlusturmaZamani.isoformat() + "Z",
+        "rapor_sayisi": satir.RaporSayisi,
+    }
+
+
+@app.get("/gecmis")
+def gecmis(authorization: str | None = Header(None)) -> list[dict]:
+    """Giriş yapan kişinin son 20 arıza raporunun özeti. Soru turunda kalan kayıtlar listelenmez."""
+    kullanici_id = giris_gerekli(authorization)
+    with pyodbc.connect(DB_BAGLANTI) as baglanti:
+        satirlar = baglanti.execute(
+            "SELECT TOP 20 Id, OlusturmaZamani, Aciklama, Kategori, Acil, Oneri, Rapor"
+            " FROM Analizler WHERE SoruSoruldu = 0 AND KullaniciId = ? ORDER BY Id DESC", kullanici_id,
+        ).fetchall()
+    return [
+        {
+            "id": s.Id,
+            "zaman": s.OlusturmaZamani.isoformat() + "Z",
+            "problem": json.loads(s.Rapor).get("problem") or s.Aciklama[:80],
+            "kategori": s.Kategori,
+            "acil": bool(s.Acil),
+            "oneri": s.Oneri,
+        }
+        for s in satirlar
+    ]
+
+
+@app.get("/gecmis/{kayit_id}")
+def gecmis_rapor(kayit_id: int, authorization: str | None = Header(None)) -> dict:
+    """Kayıtlı bir raporun tamamı. Eski kayıtlarda yeni alanlar olmayabilir, bu yüzden şemaya sokulmaz."""
+    kullanici_id = giris_gerekli(authorization)
+    with pyodbc.connect(DB_BAGLANTI) as baglanti:
+        # Başkasının raporu da "bulunamadı" döner
+        satir = baglanti.execute(
+            "SELECT Aciklama, Rapor FROM Analizler WHERE Id = ? AND KullaniciId = ?", kayit_id, kullanici_id
+        ).fetchone()
+    if satir is None:
+        raise HTTPException(404, "Rapor bulunamadı.")
+    return {"aciklama": satir.Aciklama, "rapor": json.loads(satir.Rapor)}
 
 
 @app.get("/", include_in_schema=False)
@@ -283,7 +433,10 @@ def analiz(
     foto: UploadFile | None = File(None),
     sorular: list[str] = Form([]),
     cevaplar: list[str] = Form([]),
+    authorization: str | None = Header(None),
 ) -> ArizaRaporu:
+    # Girişsiz de analiz yapılabilir; giriş varsa rapor o kişiye kaydedilir
+    kullanici_id = kullanici_bul(authorization)
     aciklama = aciklama.strip()
     if len(sorular) != len(cevaplar):
         raise HTTPException(400, "Her sorunun bir cevabı olmalı.")
@@ -321,7 +474,7 @@ def analiz(
         raise HTTPException(502, "Model soru turundan sonra tekrar soru sordu.")
     rapor.estimated_cost = ariza_maliyeti_hesapla(rapor)
     try:
-        kaydet(kullanici_aciklamasi, foto_verisi is not None, sorular, cevaplar, rapor)
+        kaydet(kullanici_aciklamasi, foto_verisi is not None, sorular, cevaplar, rapor, kullanici_id)
     except pyodbc.Error as e:
         # Kayıt başarısız olsa da kullanıcı raporunu alır
         print(f"!! Veritabanına kaydedilemedi: {e}")
@@ -331,6 +484,7 @@ def analiz(
 @app.post("/yeni-islem", response_model=YeniIslemRaporu)
 def yeni_islem(
     aciklama: str = Form(""),
+    foto: UploadFile | None = File(None),
     sorular: list[str] = Form([]),
     cevaplar: list[str] = Form([]),
 ) -> YeniIslemRaporu:
@@ -341,12 +495,20 @@ def yeni_islem(
         raise HTTPException(400, "Her sorunun bir cevabı olmalı.")
     if len(sorular) > 3:
         raise HTTPException(400, "En fazla 3 soru cevaplanabilir.")
+    # Fotoğraf isteğe bağlı: işin yapılacağı yer (ölçü fotoğraftan alınmaz, prompt 3a)
+    foto_verisi = None
+    if foto is not None and foto.filename:
+        if foto.content_type not in FOTO_TURLERI:
+            raise HTTPException(400, "Fotoğraf jpg, png veya webp olmalı.")
+        foto_verisi = foto.file.read()
+        if len(foto_verisi) > MAKS_FOTO_BOYUTU:
+            raise HTTPException(400, "Fotoğraf 5 MB'tan büyük olamaz.")
     soru_turu_yapildi = bool(sorular)
     if soru_turu_yapildi:
         aciklama = soru_turunu_ekle(aciklama, sorular, cevaplar, "eldeki bilgiyle raporu çıkar.")
 
     try:
-        metin = claude_cevabi(aciklama, None, None, YENI_SYSTEM_PROMPT)
+        metin = claude_cevabi(aciklama, foto_verisi, foto.content_type if foto_verisi else None, YENI_SYSTEM_PROMPT)
     except anthropic.AuthenticationError:
         raise HTTPException(500, "API anahtarı geçersiz. .env dosyasını kontrol et.")
     except anthropic.APIError as e:
