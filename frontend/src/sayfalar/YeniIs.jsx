@@ -264,22 +264,6 @@ export default function YeniIs() {
       </section>
 
       <section className="yeni-bildirme yazdirma-yok">
-        <div className="beyaz-kart is-listesi">
-          <span className="is-listesi-baslik">Fiyat verebildiğimiz işler</span>
-          <span className="is-listesi-not">Birine dokun, örnek cümleyle başla.</span>
-          <ul>
-            {ISLER.map(([ad, birim, ornek]) => (
-              <li key={ad}>
-                <button type="button" onClick={() => setMetin(ornek)}>
-                  {ad}
-                  <span>{birim}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-          <span className="is-listesi-alt">Diğer işlerde de detayları anlatırız ama fiyat vermeyiz.</span>
-        </div>
-
         <form
           className="ariza-form yeni-form"
           onSubmit={(e) => {
@@ -341,6 +325,22 @@ export default function YeniIs() {
             <Ok renk="var(--ikinci)" />
           </button>
         </form>
+
+        <div className="beyaz-kart is-listesi">
+          <span className="is-listesi-baslik">Fiyat verebildiğimiz işler</span>
+          <span className="is-listesi-not">Birine dokun, örnek cümleyle başla.</span>
+          <ul>
+            {ISLER.map(([ad, birim, ornek]) => (
+              <li key={ad}>
+                <button type="button" onClick={() => setMetin(ornek)}>
+                  {ad}
+                  <span>{birim}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+          <span className="is-listesi-alt">Diğer işlerde de detayları anlatırız ama fiyat vermeyiz.</span>
+        </div>
       </section>
 
       {(sorular || rapor) && (

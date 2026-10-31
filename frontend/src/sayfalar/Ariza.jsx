@@ -11,7 +11,16 @@ import { Paylas, RaporSonu, SiraliListe, SoruTuru, aralik, baslikliListe, birles
 const MAKS_METIN = 2000;
 const MAKS_FOTO = 5 * 1024 * 1024;
 const FOTO_TURLERI = ["image/jpeg", "image/png", "image/webp"];
-const ORNEKLER = ["Musluk sürekli damlıyor", "Banyo tavanında kararma var", "Çamaşır makinesi çok sallanıyor", "Duvarda küf var"];
+// Sağdaki "Örnek sorunlar" kartı: alana dokununca örnekler açılır, örneğe dokununca yazı alanına geçer
+const ORNEK_ALANLAR = [
+  ["Su ve tesisat", ["Musluk sürekli damlıyor", "Lavabo gideri tıkandı", "Klozet sürekli su akıtıyor", "Lavabonun altından su sızıyor"]],
+  ["Elektrik", ["Sigorta sürekli atıyor", "Bir odada elektrik yok", "Lamba titriyor", "Priz çalışmıyor"]],
+  ["Doğalgaz ve kombi", ["Kombi sıcak su vermiyor", "Kombi basıncı sürekli düşüyor", "Petekler ısınmıyor", "Kombi hata kodu veriyor"]],
+  ["Beyaz eşya", ["Çamaşır makinesi çok sallanıyor", "Bulaşık makinesi suyu boşaltmıyor", "Buzdolabı soğutmuyor", "Fırın ısınmıyor"]],
+  ["Nem ve küf", ["Duvarda küf var", "Banyo tavanında kararma var", "Pencere kenarı terliyor", "Duvar boyası kabarıyor"]],
+  ["İnternet ve modem", ["İnternet sık sık kopuyor", "Modemde ışık yanıp sönüyor", "Wi-Fi bazı odalarda çekmiyor"]],
+  ["Kapı ve pencere", ["Pencere tam kapanmıyor", "Kapı kolu boşta dönüyor", "Kilit zor açılıyor", "Pencere hava alıyor"]],
+];
 
 const KATEGORI = {
   su_tesisati: "Su tesisatı",
@@ -280,6 +289,7 @@ export default function Ariza({ sorgu }) {
   const [metin, setMetin] = useState(() => sorgu?.get("metin") ?? "");
   const [foto, setFoto] = useState(null); // { dosya, url }
   const [surukle, setSurukle] = useState(false);
+  const [acikAlan, setAcikAlan] = useState(null);
   const [yukleniyor, setYukleniyor] = useState(false);
   const [hata, setHata] = useState("");
   const [sorular, setSorular] = useState(null);
@@ -384,7 +394,7 @@ export default function Ariza({ sorgu }) {
           }}
         >
           <div className="ariza-form-ust">
-            <label htmlFor="aciklama" className="ariza-form-baslik">Ne oldu?</label>
+            <label htmlFor="aciklama" className="ariza-form-baslik">Evde ne sorun var?</label>
             <SesDugmesi ses={ses} />
           </div>
           <div className="metin-alani">
@@ -398,13 +408,38 @@ export default function Ariza({ sorgu }) {
             />
             <span className="sayac">{metin.length} / {MAKS_METIN}</span>
           </div>
-          <div className="ornekler">
-            <span className="ornekler-baslik">Ya da bir örnekle başla</span>
-            <div className="etiketler">
-              {ORNEKLER.map((o) => (
-                <button key={o} type="button" className="ornek" onClick={() => setMetin(o)}>{o}</button>
-              ))}
-            </div>
+          {/* Fotoğraf, isteğe bağlı */}
+          <div
+            className={`foto-satir${surukle ? " uzerinde" : ""}${foto ? " dolu" : ""}`}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setSurukle(true);
+            }}
+            onDragLeave={() => setSurukle(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setSurukle(false);
+              fotoSec(e.dataTransfer.files[0]);
+            }}
+          >
+            {foto && <img className="foto-kucuk" src={foto.url} alt="Eklenen fotoğraf" />}
+            <span className="foto-satir-metin">
+              <strong>{foto ? "Fotoğraf eklendi" : "Fotoğraf ekle"}</strong>
+              <span>{foto ? foto.dosya.name : "İsteğe bağlı ama teşhisi netleştirir. JPG, PNG veya WEBP, en fazla 5 MB."}</span>
+            </span>
+            <span className="foto-satir-dugmeler">
+              <button type="button" className="dugme-cizgili" onClick={() => dosyaRef.current.click()}>
+                {foto ? "Değiştir" : "Fotoğraf seç"}
+              </button>
+              {foto && <button type="button" className="metin-dugme" onClick={fotoKaldir}>Kaldır</button>}
+            </span>
+            <input
+              ref={dosyaRef}
+              type="file"
+              accept={FOTO_TURLERI.join(",")}
+              hidden
+              onChange={(e) => fotoSec(e.target.files[0])}
+            />
           </div>
           {hata && !sorular && <p className="hata" role="alert">{hata}</p>}
           <button type="submit" className="dugme-koyu" disabled={yukleniyor}>
@@ -413,43 +448,26 @@ export default function Ariza({ sorgu }) {
           </button>
         </form>
 
-        <div
-          className={`foto-kutu${surukle ? " uzerinde" : ""}${foto ? " dolu" : ""}`}
-          onDragOver={(e) => {
-            e.preventDefault();
-            setSurukle(true);
-          }}
-          onDragLeave={() => setSurukle(false)}
-          onDrop={(e) => {
-            e.preventDefault();
-            setSurukle(false);
-            fotoSec(e.dataTransfer.files[0]);
-          }}
-        >
-          {foto ? (
-            <>
-              <img className="foto-onizleme" src={foto.url} alt="Eklenen fotoğraf" />
-              <span className="foto-adi">{foto.dosya.name}</span>
-              <div className="foto-dugmeler">
-                <button type="button" className="dugme-cizgili" onClick={() => dosyaRef.current.click()}>Değiştir</button>
-                <button type="button" className="metin-dugme" onClick={fotoKaldir}>Kaldır</button>
-              </div>
-            </>
-          ) : (
-            <>
-              <span className="foto-baslik">Fotoğraf ekle</span>
-              <span className="foto-metin">İsteğe bağlı ama teşhisi netleştirir. Buraya sürükle ya da seç.</span>
-              <button type="button" className="dugme-cizgili" onClick={() => dosyaRef.current.click()}>Dosya seç</button>
-              <span className="foto-not">JPG, PNG veya WEBP, en fazla 5 MB</span>
-            </>
-          )}
-          <input
-            ref={dosyaRef}
-            type="file"
-            accept={FOTO_TURLERI.join(",")}
-            hidden
-            onChange={(e) => fotoSec(e.target.files[0])}
-          />
+        <div className="beyaz-kart is-listesi ornek-alanlar">
+          <span className="is-listesi-baslik">Örnek sorunlar</span>
+          <span className="is-listesi-not">Bir alana dokun, örneklerden birini seç.</span>
+          <ul>
+            {ORNEK_ALANLAR.map(([alan, ornekler]) => (
+              <li key={alan}>
+                <button type="button" aria-expanded={acikAlan === alan} onClick={() => setAcikAlan(acikAlan === alan ? null : alan)}>
+                  {alan}
+                  <span aria-hidden="true">{acikAlan === alan ? "−" : "+"}</span>
+                </button>
+                {acikAlan === alan && (
+                  <div className="etiketler">
+                    {ornekler.map((o) => (
+                      <button key={o} type="button" className="ornek" onClick={() => setMetin(o)}>{o}</button>
+                    ))}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
