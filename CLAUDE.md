@@ -12,7 +12,7 @@ CV projesi olarak geliştiriliyor. Hedef: çalışan, yayında olan ve doğrulu�
 
 ## Şu anki odak
 
-**Sadece arıza modu.** Tadilat/yapım işleri (süre, maliyet, işçilik) ve araç arızaları sonraki sürümlere bırakıldı. Model fiyat yazmaz; `estimated_cost` alanını backend `malzeme_fiyatlari.json`'dan (parça ve alet fiyatları) hesaplar.
+**Sadece arıza modu.** Tadilat/yapım işleri (süre, maliyet, işçilik) ve araç arızaları sonraki sürümlere bırakıldı. Model fiyat yazmaz; `estimated_cost` alanını backend `fiyatlar/malzeme_fiyatlari.json`'dan (parça ve alet fiyatları) hesaplar.
 
 ## Kapsam
 
@@ -28,7 +28,7 @@ Ev arızası olmayan girdiler: `kapsam_disi`.
 
 ## Prompt
 
-Arıza modu sistem prompt'u `ariza_prompt.md` dosyasında. Model çağrısında bu dosyadaki metin kullanılır; prompt'u koda gömme, dosyadan oku.
+Arıza modu sistem prompt'u `promptlar/ariza_prompt.md` dosyasında. Model çağrısında bu dosyadaki metin kullanılır; prompt'u koda gömme, dosyadan oku.
 
 Prompt'un temel kuralları:
 - Analizden önce acil durum kontrolü. Acilse normal akış durur, sadece güvenlik adımları verilir.

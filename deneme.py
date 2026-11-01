@@ -19,8 +19,8 @@ import anthropic
 from dotenv import load_dotenv
 
 MODEL = "claude-sonnet-5-5"
-PROMPT_DOSYASI = Path(__file__).parent / "ariza_prompt.md"
-YENI_PROMPT_DOSYASI = Path(__file__).parent / "yeni_islem_prompt.md"
+PROMPT_DOSYASI = Path(__file__).parent / "promptlar" / "ariza_prompt.md"
+YENI_PROMPT_DOSYASI = Path(__file__).parent / "promptlar" / "yeni_islem_prompt.md"
 FOTO_TURLERI = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp"}
 
 ORNEKLER = [

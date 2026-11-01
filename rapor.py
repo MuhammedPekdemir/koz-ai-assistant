@@ -1,7 +1,7 @@
 """olcum.py'nin sonuç dosyasını tarayıcıda okunur bir sayfaya çevirir. API çağrısı yapmaz.
 
 Kullanım:
-    python rapor.py      # denemeler/olcum-sonuc.json -> denemeler/olcum-rapor.html, tarayıcıda açar
+    python rapor.py      # test/sonuclar/olcum-sonuc.json -> test/sonuclar/olcum-rapor.html, tarayıcıda açar
 """
 
 import json
@@ -9,7 +9,7 @@ import webbrowser
 from html import escape
 from pathlib import Path
 
-KLASOR = Path(__file__).parent / "denemeler"
+KLASOR = Path(__file__).parent / "test" / "sonuclar"
 SONUC_DOSYASI = KLASOR / "olcum-sonuc.json"
 RAPOR_DOSYASI = KLASOR / "olcum-rapor.html"
 
@@ -84,7 +84,7 @@ def ornek_html(sonuc: dict) -> str:
         )
 
     if sonuc.get("foto"):
-        # Rapor denemeler/ içinde, fotoğraflar bir üst klasörde
+        # Rapor test/sonuclar/ içinde, fotoğraflar bir üst klasörde (test/test_fotolar/)
         govde = f'<img src="../{escape(sonuc["foto"])}" style="max-width:100%;max-height:320px;border-radius:6px">' + govde
     sinif = "hatali" if hatalar else ""
     return (f'<details class="{sinif}"><summary>{sonuc["id"]}. {escape(sonuc["aciklama"])} '

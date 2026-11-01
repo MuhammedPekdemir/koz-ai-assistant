@@ -1,7 +1,7 @@
 {
   "_aciklama": "Arıza raporu parça ve alet fiyatları. İstanbul, KDV dahil perakende, TL / adet. Ekonomik ve orta kalite aralığı.",
   "_tarih": "2026-10-28",
-  "_kaynak": "2026-10-28 web aramasıyla kontrol edildi (Koçtaş ağırlıklı). Su pompa pensesi kontrol edilemedi; bazı kalemler tek sonuca dayanıyor. Ayrıntı: denemeler/fiyat-kontrol-2026-10-28.md",
+  "_kaynak": "2026-10-28 web aramasıyla kontrol edildi (Koçtaş ağırlıklı). Su pompa pensesi kontrol edilemedi; bazı kalemler tek sonuca dayanıyor. Ayrıntı: fiyatlar/fiyat-kontrol-2026-10-28.md",
   "lavabo_bataryasi": {"ad": "Lavabo bataryası", "tur": "parca", "fiyat": [500, 3000]},
   "eviye_bataryasi": {"ad": "Mutfak eviye bataryası", "tur": "parca", "fiyat": [1300, 4500]},
   "banyo_bataryasi": {"ad": "Banyo/duş bataryası", "tur": "parca", "fiyat": [1500, 4500]},

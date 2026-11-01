@@ -1,9 +1,9 @@
 """Test setindeki örnekleri modele gönderip doğruluğu ölçer.
 
 Kullanım:
-    python olcum.py            # test_seti.json'daki tüm örnekler (~45 çağrı, yaklaşık 1 dolar)
+    python olcum.py            # test/test_seti.json'daki tüm örnekler (~45 çağrı, yaklaşık 1 dolar)
     python olcum.py 5          # sadece ilk 5 örnek (hızlı deneme)
-    python olcum.py --foto     # sadece fotoğraflı örnekler (test_fotolar/)
+    python olcum.py --foto     # sadece fotoğraflı örnekler (test/test_fotolar/)
 
 Ölçülenler:
     - Acil kaçırma: beklenen acil, model acil demedi (en önemli metrik, 0 olmalı)
@@ -11,7 +11,7 @@ Kullanım:
     - Öneri doğruluğu ve kategori doğruluğu
     - Geçerli JSON oranı (backend'deki şemaya uyan cevaplar)
 
-Detaylı sonuçlar denemeler/olcum-sonuc.json dosyasına yazılır.
+Detaylı sonuçlar test/sonuclar/olcum-sonuc.json dosyasına yazılır.
 """
 
 import json
@@ -25,8 +25,8 @@ from deneme import analiz_et
 from main import SYSTEM_PROMPT, ArizaRaporu, client
 
 KLASOR = Path(__file__).parent
-TEST_SETI = KLASOR / "test_seti.json"
-SONUC_DOSYASI = KLASOR / "denemeler" / "olcum-sonuc.json"
+TEST_SETI = KLASOR / "test" / "test_seti.json"
+SONUC_DOSYASI = KLASOR / "test" / "sonuclar" / "olcum-sonuc.json"
 
 
 def cevabi_coz(metin: str) -> dict | None:
@@ -81,7 +81,7 @@ def main() -> None:
 
     sonuclar = []
     for ornek in ornekler:
-        foto = KLASOR / ornek["foto"] if ornek.get("foto") else None
+        foto = KLASOR / "test" / ornek["foto"] if ornek.get("foto") else None
         print(f"{ornek['id']}: {ornek['aciklama']}" + (f" [foto: {ornek['foto']}]" if foto else ""))
         try:
             metin = analiz_et(client, SYSTEM_PROMPT, ornek["aciklama"], foto)

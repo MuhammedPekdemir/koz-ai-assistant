@@ -13,7 +13,7 @@ Soru turu: Model soru sorarsa (needs_more_info: true) istemci aynı açıklama v
 modelin sorularını (sorular) ve kullanıcının cevaplarını (cevaplar) aynı sırayla tekrar gönderir.
 Bu ikinci istekte model soru sormaz, analizi yapar. /yeni-islem de aynı soru turunu kullanır.
 
-Her başarılı analiz MSSQL'deki Analizler tablosuna kaydedilir (bkz. veritabani.sql).
+Her başarılı analiz MSSQL'deki Analizler tablosuna kaydedilir (bkz. veritabani/veritabani.sql).
 Geçmiş raporlar: GET /gecmis (son 20 özet), GET /gecmis/{id} (raporun tamamı).
 
 Giriş: POST /kayit ve POST /giris bir anahtar (token) döndürür. İstemci bunu her istekte
@@ -40,10 +40,10 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 MODEL = "claude-sonnet-5-5"
-PROMPT_DOSYASI = Path(__file__).parent / "ariza_prompt.md"
-YENI_PROMPT_DOSYASI = Path(__file__).parent / "yeni_islem_prompt.md"
-FIYAT_DOSYASI = Path(__file__).parent / "fiyatlar.json"
-MALZEME_FIYAT_DOSYASI = Path(__file__).parent / "malzeme_fiyatlari.json"
+PROMPT_DOSYASI = Path(__file__).parent / "promptlar" / "ariza_prompt.md"
+YENI_PROMPT_DOSYASI = Path(__file__).parent / "promptlar" / "yeni_islem_prompt.md"
+FIYAT_DOSYASI = Path(__file__).parent / "fiyatlar" / "fiyatlar.json"
+MALZEME_FIYAT_DOSYASI = Path(__file__).parent / "fiyatlar" / "malzeme_fiyatlari.json"
 ARAYUZ_KLASORU = Path(__file__).parent / "frontend" / "dist"
 ARAYUZ_DOSYASI = ARAYUZ_KLASORU / "index.html"
 FOTO_TURLERI = {"image/jpeg", "image/png", "image/webp"}
