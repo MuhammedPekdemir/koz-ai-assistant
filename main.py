@@ -36,6 +36,7 @@ import pyodbc
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, Form, Header, HTTPException, UploadFile
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 MODEL = "claude-sonnet-5-5"
@@ -43,7 +44,8 @@ PROMPT_DOSYASI = Path(__file__).parent / "ariza_prompt.md"
 YENI_PROMPT_DOSYASI = Path(__file__).parent / "yeni_islem_prompt.md"
 FIYAT_DOSYASI = Path(__file__).parent / "fiyatlar.json"
 MALZEME_FIYAT_DOSYASI = Path(__file__).parent / "malzeme_fiyatlari.json"
-ARAYUZ_DOSYASI = Path(__file__).parent / "static" / "index.html"
+ARAYUZ_KLASORU = Path(__file__).parent / "frontend" / "dist"
+ARAYUZ_DOSYASI = ARAYUZ_KLASORU / "index.html"
 FOTO_TURLERI = {"image/jpeg", "image/png", "image/webp"}
 MAKS_FOTO_BOYUTU = 5 * 1024 * 1024
 
@@ -374,16 +376,73 @@ def profil(authorization: str | None = Header(None)) -> dict:
     kullanici_id = giris_gerekli(authorization)
     with pyodbc.connect(DB_BAGLANTI) as baglanti:
         satir = baglanti.execute(
-            "SELECT Ad, Eposta, OlusturmaZamani,"
+            "SELECT Ad, Eposta, Yas, Sehir, OlusturmaZamani,"
             " (SELECT COUNT(*) FROM Analizler WHERE KullaniciId = Kullanicilar.Id AND SoruSoruldu = 0) AS RaporSayisi"
             " FROM Kullanicilar WHERE Id = ?", kullanici_id,
         ).fetchone()
     return {
         "ad": satir.Ad,
         "eposta": satir.Eposta,
+        "yas": satir.Yas,
+        "sehir": satir.Sehir,
         "uyelik": satir.OlusturmaZamani.isoformat() + "Z",
         "rapor_sayisi": satir.RaporSayisi,
     }
+
+
+@app.post("/profil")
+def profil_guncelle(
+    ad: str = Form(...),
+    eposta: str = Form(...),
+    yas: str = Form(""),
+    sehir: str = Form(""),
+    authorization: str | None = Header(None),
+) -> dict:
+    """Ad, e-posta, yaş ve şehri günceller. Yaş ve şehir boş gönderilirse silinir."""
+    kullanici_id = giris_gerekli(authorization)
+    ad, eposta, sehir = ad.strip(), eposta.strip().lower(), sehir.strip()
+    if not ad:
+        raise HTTPException(400, "Adını yaz.")
+    if len(ad) > 100 or len(sehir) > 100:
+        raise HTTPException(400, "En fazla 100 karakter yazabilirsin.")
+    if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", eposta):
+        raise HTTPException(400, "Geçerli bir e-posta yaz.")
+    yas_sayi = None
+    if yas.strip():
+        if not yas.strip().isdigit() or not 13 <= int(yas) <= 120:
+            raise HTTPException(400, "Yaşını 13 ile 120 arasında bir sayı olarak yaz.")
+        yas_sayi = int(yas)
+    with pyodbc.connect(DB_BAGLANTI) as baglanti:
+        if baglanti.execute(
+            "SELECT 1 FROM Kullanicilar WHERE Eposta = ? AND Id <> ?", eposta, kullanici_id
+        ).fetchone():
+            raise HTTPException(400, "Bu e-postayla başka bir hesap var.")
+        baglanti.execute(
+            "UPDATE Kullanicilar SET Ad = ?, Eposta = ?, Yas = ?, Sehir = ? WHERE Id = ?",
+            ad, eposta, yas_sayi, sehir or None, kullanici_id,
+        )
+    return {"ad": ad, "eposta": eposta, "yas": yas_sayi, "sehir": sehir or None}
+
+
+@app.post("/profil/sifre")
+def sifre_degistir(
+    eski: str = Form(...), yeni: str = Form(...), authorization: str | None = Header(None)
+) -> dict:
+    kullanici_id = giris_gerekli(authorization)
+    if len(yeni) < 8:
+        raise HTTPException(400, "Yeni şifre en az 8 karakter olmalı.")
+    with pyodbc.connect(DB_BAGLANTI) as baglanti:
+        satir = baglanti.execute(
+            "SELECT SifreTuz, SifreOzeti FROM Kullanicilar WHERE Id = ?", kullanici_id
+        ).fetchone()
+        if not hmac.compare_digest(sifre_ozeti(eski, bytes.fromhex(satir.SifreTuz)), satir.SifreOzeti):
+            raise HTTPException(400, "Şu anki şifren yanlış.")
+        tuz = secrets.token_bytes(16)
+        baglanti.execute(
+            "UPDATE Kullanicilar SET SifreTuz = ?, SifreOzeti = ? WHERE Id = ?",
+            tuz.hex(), sifre_ozeti(yeni, tuz), kullanici_id,
+        )
+    return {"tamam": True}
 
 
 @app.get("/gecmis")
@@ -528,3 +587,7 @@ def yeni_islem(
     rapor.in_price_table = rapor.job_type in FIYATLAR
     rapor.cost = maliyet_hesapla(rapor)
     return rapor
+
+
+# React derlemesinin JS/CSS dosyaları (npm run build ile frontend/dist oluşur)
+app.mount("/assets", StaticFiles(directory=ARAYUZ_KLASORU / "assets", check_dir=False), name="assets")

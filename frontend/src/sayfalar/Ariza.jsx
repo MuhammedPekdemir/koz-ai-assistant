@@ -11,7 +11,7 @@ import { Paylas, RaporSonu, SiraliListe, SoruTuru, aralik, baslikliListe, birles
 const MAKS_METIN = 2000;
 const MAKS_FOTO = 5 * 1024 * 1024;
 const FOTO_TURLERI = ["image/jpeg", "image/png", "image/webp"];
-// Sağdaki "Örnek sorunlar" kartı: alana dokununca örnekler açılır, örneğe dokununca yazı alanına geçer
+// Sağdaki "Örnek sorunlar" kartı: alana dokununca küçük bir pencerede örnekler açılır, örneğe dokununca yazı alanına geçer
 const ORNEK_ALANLAR = [
   ["Su ve tesisat", ["Musluk sürekli damlıyor", "Lavabo gideri tıkandı", "Klozet sürekli su akıtıyor", "Lavabonun altından su sızıyor"]],
   ["Elektrik", ["Sigorta sürekli atıyor", "Bir odada elektrik yok", "Lamba titriyor", "Priz çalışmıyor"]],
@@ -378,11 +378,21 @@ export default function Ariza({ sorgu }) {
     else window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  const acikOrnekler = ORNEK_ALANLAR.find(([alan]) => alan === acikAlan)?.[1];
+
+  // Örnek penceresi Esc ile kapanır
+  useEffect(() => {
+    if (!acikAlan) return;
+    const kapat = (e) => e.key === "Escape" && setAcikAlan(null);
+    window.addEventListener("keydown", kapat);
+    return () => window.removeEventListener("keydown", kapat);
+  }, [acikAlan]);
+
   return (
     <Sayfa sagDugme={<BolumMenusu secili="ariza" />}>
       <section className="ariza-giris yazdirma-yok">
         <h1 className="dev-baslik">Bir sorun mu var?</h1>
-        <p>Arızayı bildir.<br />Ne olduğunu ve nasıl yapılacağını öğren.</p>
+        <p>Arızayı bildir.<br />Nasıl yapılacağını ve ne olduğunu öğren.</p>
       </section>
 
       <section className="ariza-bildirme yazdirma-yok">
@@ -452,24 +462,53 @@ export default function Ariza({ sorgu }) {
           <span className="is-listesi-baslik">Örnek sorunlar</span>
           <span className="is-listesi-not">Bir alana dokun, örneklerden birini seç.</span>
           <ul>
-            {ORNEK_ALANLAR.map(([alan, ornekler]) => (
+            {ORNEK_ALANLAR.map(([alan]) => (
               <li key={alan}>
-                <button type="button" aria-expanded={acikAlan === alan} onClick={() => setAcikAlan(acikAlan === alan ? null : alan)}>
+                <button type="button" aria-haspopup="dialog" onClick={() => setAcikAlan(alan)}>
                   {alan}
-                  <span aria-hidden="true">{acikAlan === alan ? "−" : "+"}</span>
+                  <span aria-hidden="true">+</span>
                 </button>
-                {acikAlan === alan && (
-                  <div className="etiketler">
-                    {ornekler.map((o) => (
-                      <button key={o} type="button" className="ornek" onClick={() => setMetin(o)}>{o}</button>
-                    ))}
-                  </div>
-                )}
               </li>
             ))}
           </ul>
         </div>
       </section>
+
+      {acikOrnekler && (
+        <div className="ornek-perde" onClick={() => setAcikAlan(null)}>
+          <div className="ornek-pencere" role="dialog" aria-modal="true" aria-label={acikAlan} onClick={(e) => e.stopPropagation()}>
+            <div className="ornek-pencere-ust">
+              <div>
+                <span className="ornek-pencere-etiket">Örnek sorunlar</span>
+                <span className="is-listesi-baslik">{acikAlan}</span>
+              </div>
+              <button type="button" className="ornek-kapat" aria-label="Kapat" onClick={() => setAcikAlan(null)}>
+                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </button>
+            </div>
+            <p className="ornek-pencere-not">Sorununa en yakın olanı seç, yazı alanına eklenir. Sonra istediğin gibi değiştirebilirsin.</p>
+            <div className="ornek-pencere-liste">
+              {acikOrnekler.map((o) => (
+                <button
+                  key={o}
+                  type="button"
+                  onClick={() => {
+                    setMetin(o);
+                    setAcikAlan(null);
+                  }}
+                >
+                  <span>{o}</span>
+                  <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+                    <path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {(sorular || sonuc) && (
         <article className="rapor" ref={sonucRef}>

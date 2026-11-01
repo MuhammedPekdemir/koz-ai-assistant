@@ -19,3 +19,6 @@ CREATE TABLE Oturumlar (
 
 -- Raporu kimin oluşturduğu (girişsiz analizlerde boş)
 ALTER TABLE Analizler ADD KullaniciId INT NULL REFERENCES Kullanicilar(Id);
+
+-- Hesabım sayfasındaki isteğe bağlı bilgiler
+ALTER TABLE Kullanicilar ADD Yas INT NULL, Sehir NVARCHAR(100) NULL;

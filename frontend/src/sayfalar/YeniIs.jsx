@@ -215,7 +215,7 @@ export default function YeniIs() {
   }
 
   async function gonder(soruTuru) {
-    if (!metin.trim()) return setHata("Yaptırmak istediğin işi yaz.");
+    if (!metin.trim()) return setHata("Yaptırmak istediğin işi yaz ya da fotoğraf ekle.");
     ses.durdur();
     setHata("");
     setYukleniyor(true);

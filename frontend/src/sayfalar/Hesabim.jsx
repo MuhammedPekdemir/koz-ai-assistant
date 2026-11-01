@@ -74,17 +74,114 @@ function Raporlar({ raporlar, sayi, hata }) {
   );
 }
 
+// Bilgilerin kartındaki alanlar: [profildeki ad, etiket, input türü, otomatik doldurma]
+const BILGILER = [
+  ["ad", "Ad", "text", "name"],
+  ["eposta", "E-posta", "email", "email"],
+  ["yas", "Yaş", "number", "off"],
+  ["sehir", "Şehir", "text", "address-level2"],
+];
+
+// Tek bir bilgi satırı: "Düzenle"ye basınca satır yerinde forma dönüşür
+function BilgiSatiri({ alan, etiket, tur, otomatik, profil, kaydet }) {
+  const deger = profil?.[alan];
+  const [acik, setAcik] = useState(false);
+  const [yeni, setYeni] = useState("");
+  const [hata, setHata] = useState("");
+  const [bekliyor, setBekliyor] = useState(false);
+
+  const ac = () => {
+    setYeni(deger ?? "");
+    setHata("");
+    setAcik(true);
+  };
+
+  const gonder = async (e) => {
+    e.preventDefault();
+    setBekliyor(true);
+    setHata("");
+    try {
+      await kaydet(alan, yeni);
+      setAcik(false);
+    } catch (e) {
+      setHata(e.message);
+    } finally {
+      setBekliyor(false);
+    }
+  };
+
+  if (!acik) {
+    return (
+      <li className="hesap-satir">
+        <span className="hesap-satir-sol">
+          <span className="hesap-etiket">{etiket}</span>
+          {deger != null && deger !== "" ? <strong>{deger}</strong> : <span className="hesap-bos">İsteğe bağlı</span>}
+        </span>
+        <button type="button" className="metin-dugme" onClick={ac} disabled={!profil}>
+          {deger != null && deger !== "" ? "Düzenle" : "Ekle"}
+        </button>
+      </li>
+    );
+  }
+
+  const zorunlu = alan === "ad" || alan === "eposta";
+  return (
+    <li>
+      <form className="bilgi-duzenle" onSubmit={gonder}>
+        <div className="alan">
+          <label htmlFor={`bilgi-${alan}`}>{etiket}</label>
+          <input
+            id={`bilgi-${alan}`}
+            type={tur}
+            value={yeni}
+            onChange={(e) => setYeni(e.target.value)}
+            onKeyDown={(e) => e.key === "Escape" && setAcik(false)}
+            required={zorunlu}
+            min={tur === "number" ? 13 : undefined}
+            max={tur === "number" ? 120 : undefined}
+            maxLength={tur === "number" ? undefined : 100}
+            autoComplete={otomatik}
+            autoFocus
+          />
+        </div>
+        {hata && <p className="hata" role="alert">{hata}</p>}
+        <div className="sifre-dugmeler">
+          <button type="submit" className="dugme-dolu" disabled={bekliyor}>{bekliyor ? "Kaydediliyor..." : "Kaydet"}</button>
+          {!zorunlu && deger != null && deger !== "" && (
+            <button type="button" className="metin-dugme kirmizi" disabled={bekliyor} onClick={() => setYeni("")}>Temizle</button>
+          )}
+          <button type="button" className="metin-dugme" onClick={() => setAcik(false)}>Vazgeç</button>
+        </div>
+      </form>
+    </li>
+  );
+}
+
 function SifreFormu({ kapat }) {
   const [eski, setEski] = useState("");
   const [yeni, setYeni] = useState("");
   const [yeni2, setYeni2] = useState("");
   const [not, setNot] = useState(null);
+  const [bekliyor, setBekliyor] = useState(false);
 
-  const gonder = (e) => {
+  const gonder = async (e) => {
     e.preventDefault();
-    if (yeni !== yeni2) setNot({ hata: true, metin: "Yeni şifreler aynı değil." });
-    // Şifre değiştirme backend'de henüz yok
-    else setNot({ hata: false, metin: "Şifre değiştirme yakında gelecek. Şifren şu an değişmedi." });
+    if (yeni !== yeni2) {
+      setNot({ hata: true, metin: "Yeni şifreler aynı değil." });
+      return;
+    }
+    setBekliyor(true);
+    try {
+      await istek("/profil/sifre", { method: "POST", form: { eski, yeni } });
+      setEski("");
+      setYeni("");
+      setYeni2("");
+      setNot({ hata: false, metin: "Şifren değişti." });
+    } catch (e) {
+      setNot({ hata: true, metin: e.message });
+    } finally {
+      setBekliyor(false);
+    }
   };
 
   return (
@@ -106,8 +203,8 @@ function SifreFormu({ kapat }) {
       </div>
       {not && <p className={not.hata ? "hata" : "aciklama"} role="alert">{not.metin}</p>}
       <div className="sifre-dugmeler">
-        <button type="submit" className="dugme-dolu">Şifreyi güncelle</button>
-        <button type="button" className="metin-dugme" onClick={kapat}>Vazgeç</button>
+        <button type="submit" className="dugme-dolu" disabled={bekliyor}>{bekliyor ? "Güncelleniyor..." : "Şifreyi güncelle"}</button>
+        <button type="button" className="metin-dugme" onClick={kapat}>{not && !not.hata ? "Kapat" : "Vazgeç"}</button>
       </div>
     </form>
   );
@@ -120,7 +217,6 @@ export default function Hesabim() {
   const [hata, setHata] = useState("");
   const [sifreAcik, setSifreAcik] = useState(false);
   const [yerel, setYerel] = useState(profiliOku);
-  const [not, setNot] = useState("");
   const [silNot, setSilNot] = useState("");
 
   useEffect(() => {
@@ -148,6 +244,25 @@ export default function Hesabim() {
     const sonraki = (ev[i] ?? -1) + 1;
     ev[i] = sonraki < EV_SORULARI[i][1].length ? sonraki : null;
     yerelDegistir({ ...yerel, ev });
+  };
+
+  // Bir alan değişince diğerleri profildeki haliyle birlikte gönderilir
+  const bilgiKaydet = async (alan, deger) => {
+    const form = {
+      ad: profil.ad,
+      eposta: profil.eposta,
+      yas: profil.yas ?? "",
+      sehir: profil.sehir ?? "",
+      [alan]: deger,
+    };
+    try {
+      const yeni = await istek("/profil", { method: "POST", form });
+      setProfil({ ...profil, ...yeni });
+      setOturum({ ...oturum, ad: yeni.ad, eposta: yeni.eposta });
+    } catch (e) {
+      if (e.durum === 401) setOturum(null);
+      throw e;
+    }
   };
 
   const cikis = async () => {
@@ -179,25 +294,18 @@ export default function Hesabim() {
             <h2 className="hesap-baslik">Bilgilerin</h2>
           </div>
           <ul className="hesap-satirlar">
-            {[
-              ["Ad", ad],
-              ["E-posta", profil?.eposta ?? oturum.eposta],
-              ["Yaş", null],
-              ["Şehir", null],
-            ].map(([etiket, deger]) => (
-              <li key={etiket} className="hesap-satir">
-                <span className="hesap-satir-sol">
-                  <span className="hesap-etiket">{etiket}</span>
-                  {deger ? <strong>{deger}</strong> : <span className="hesap-bos">İsteğe bağlı</span>}
-                </span>
-                {/* Bilgi düzenleme backend'de henüz yok */}
-                <button type="button" className="metin-dugme" onClick={() => setNot("Bilgileri düzenleme yakında gelecek.")}>
-                  {deger ? "Düzenle" : "Ekle"}
-                </button>
-              </li>
+            {BILGILER.map(([alan, etiket, tur, otomatik]) => (
+              <BilgiSatiri
+                key={alan}
+                alan={alan}
+                etiket={etiket}
+                tur={tur}
+                otomatik={otomatik}
+                profil={profil}
+                kaydet={bilgiKaydet}
+              />
             ))}
           </ul>
-          {not && <p className="form-not">{not}</p>}
           <button type="button" className="hesap-alt-dugme gri" onClick={() => setSifreAcik(true)} disabled={sifreAcik}>
             Şifreyi değiştir
           </button>
