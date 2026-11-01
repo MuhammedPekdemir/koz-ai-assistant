@@ -1,4 +1,4 @@
--- Çöz veritabanı tabloları. SSMS'te Coz veritabanı seçiliyken çalıştırılır.
+-- Koz veritabanı tabloları. SSMS'te Coz veritabanı seçiliyken çalıştırılır.
 
 -- Her /analiz isteği ve modelin döndürdüğü rapor
 CREATE TABLE Analizler (

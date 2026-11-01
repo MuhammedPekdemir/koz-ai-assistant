@@ -73,7 +73,7 @@ Backend her cevabı bu şemaya göre doğrular. Şemaya uymayan cevap kullanıc�
 
 - Yapay zekâ: Claude API (görsel + metin)
 - Backend: Python, FastAPI
-- Veritabanı: MSSQL. Yerelde SQL Server Express, `Coz` veritabanı, `Analizler` tablosu (`veritabani.sql`). Bağlantı `pyodbc` ile, bağlantı metni `.env`'deki `DB_BAGLANTI`
+- Veritabanı: MSSQL. Yerelde SQL Server Express, `Coz` veritabanı, `Analizler` tablosu (`veritabani/veritabani.sql`). Bağlantı `pyodbc` ile, bağlantı metni `.env`'deki `DB_BAGLANTI`
 - Bulut: AWS — S3 (fotoğraflar), RDS (veritabanı), EC2 veya App Runner (backend)
 - Arayüz: henüz karar verilmedi
 
