@@ -19,7 +19,6 @@ const ORNEK_ALANLAR = [
   ["Beyaz eşya", ["Çamaşır makinesi çok sallanıyor", "Bulaşık makinesi suyu boşaltmıyor", "Buzdolabı soğutmuyor", "Fırın ısınmıyor"]],
   ["Nem ve küf", ["Duvarda küf var", "Banyo tavanında kararma var", "Pencere kenarı terliyor", "Duvar boyası kabarıyor"]],
   ["İnternet ve modem", ["İnternet sık sık kopuyor", "Modemde ışık yanıp sönüyor", "Wi-Fi bazı odalarda çekmiyor"]],
-  ["Kapı ve pencere", ["Pencere tam kapanmıyor", "Kapı kolu boşta dönüyor", "Kilit zor açılıyor", "Pencere hava alıyor"]],
 ];
 
 const KATEGORI = {
@@ -435,7 +434,7 @@ export default function Ariza({ sorgu }) {
             {foto && <img className="foto-kucuk" src={foto.url} alt="Eklenen fotoğraf" />}
             <span className="foto-satir-metin">
               <strong>{foto ? "Fotoğraf eklendi" : "Fotoğraf ekle"}</strong>
-              <span>{foto ? foto.dosya.name : "İsteğe bağlı ama teşhisi netleştirir. JPG, PNG veya WEBP, en fazla 5 MB."}</span>
+              <span>{foto ? foto.dosya.name : "İsteğe bağlı. Sorunlu yeri çek, daha net teşhis koyalım."}</span>
             </span>
             <span className="foto-satir-dugmeler">
               <button type="button" className="dugme-cizgili" onClick={() => dosyaRef.current.click()}>
@@ -471,6 +470,7 @@ export default function Ariza({ sorgu }) {
               </li>
             ))}
           </ul>
+          <span className="is-listesi-alt">Bunlarla sınırlı değil, evdeki her arızayı yazabilirsin.</span>
         </div>
       </section>
 
