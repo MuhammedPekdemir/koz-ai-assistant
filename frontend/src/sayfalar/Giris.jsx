@@ -104,7 +104,7 @@ export default function Giris() {
             <input
               id="sifre"
               type="password"
-              placeholder="En az 8 karakter"
+              placeholder={kayit ? "En az 8 karakter" : "Şifren"}
               value={sifre}
               onChange={(e) => setSifre(e.target.value)}
               required

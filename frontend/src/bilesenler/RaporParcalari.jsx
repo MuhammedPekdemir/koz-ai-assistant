@@ -76,5 +76,7 @@ export const baslikliListe = (baslik, ogeler) =>
   ogeler?.length ? baslik + ":\n" + ogeler.map((o, i) => `${i + 1}. ${o}`).join("\n") : "";
 export const birlestir = (parcalar) => ["Koz raporu", ...parcalar.filter(Boolean)].join("\n\n");
 
-export const tl = (n) => n.toLocaleString("tr-TR") + " TL";
-export const aralik = (alt, ust) => (alt === ust ? tl(alt) : `${tl(alt)} – ${tl(ust)}`);
+// Satır kırılırsa "– 21.300 TL" birlikte alt satıra geçer, tire satır sonunda kalmaz
+// (\u2060 tireden sonra kırılmayı, \u00a0 sayı ile TL arasında kırılmayı engeller)
+export const tl = (n) => n.toLocaleString("tr-TR") + "\u00a0TL";
+export const aralik = (alt, ust) => (alt === ust ? tl(alt) : `${tl(alt)} –\u2060\u00a0${tl(ust)}`);

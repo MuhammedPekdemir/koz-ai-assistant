@@ -12,7 +12,7 @@ const MODLAR = [
     zemin: "#E6EAFB",
     baslik: "Bir sorun mu var?",
     metin: "Evdeki arızayı yaz ya da fotoğrafını çek. Kendin mi yaparsın, usta mı gerekir, söyleyelim.",
-    etiketler: ["Tesisat", "Elektrik ve gaz", "Ev aletleri", "Nem ve küf"],
+    etiketler: ["Tesisat", "Elektrik ve gaz", "Beyaz eşya", "Nem ve küf"],
     dugme: "Teşhis al",
   },
   {
@@ -62,7 +62,7 @@ function Gecmis() {
     <section className="ikincil-bolum">
       <div className="ikincil-ust">
         <h2 className="ikincil-baslik">Son raporların</h2>
-        {oturum && raporlar?.length > 0 && <a href="#/hesabim" className="baglanti">Tümünü göster</a>}
+        {oturum && raporlar?.length > 0 && <a href="#/hesabim" className="baglanti">Tümünü gör</a>}
       </div>
       {icerik}
     </section>

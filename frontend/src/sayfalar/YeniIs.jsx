@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { git } from "../App.jsx";
-import { istek } from "../api.js";
+import { istek, fotoyuAktar } from "../api.js";
 import Sayfa from "../bilesenler/Sayfa.jsx";
 import Ok from "../bilesenler/Ok.jsx";
 import BolumMenusu from "../bilesenler/BolumMenusu.jsx";
@@ -13,7 +13,7 @@ const FOTO_TURLERI = ["image/jpeg", "image/png", "image/webp"];
 
 // Fiyat tablosundaki işler (fiyatlar.json) ve dokununca yazılan örnek cümle
 const ISLER = [
-  ["Boya badana", "m²", "3+1 evin içini boyatmak istiyorum"],
+  ["Boya ve badana", "m²", "3+1 evin içini boyatmak istiyorum"],
   ["Laminat parke", "m²", "25 m² salona laminat parke döşetmek istiyorum"],
   ["Fayans", "m²", "Banyo duvarlarını fayans yaptıracağım"],
   ["Mantolama", "m²", "Apartmanın dış cephesine mantolama yaptıracağız"],
@@ -23,7 +23,7 @@ const ISLER = [
 const IS_ADLARI = {
   boya: "Boya ve badana",
   laminat_parke: "Zemin · Laminat parke",
-  fayans: "Zemin · Fayans ve seramik",
+  fayans: "Fayans ve seramik",
   mantolama: "Dış cephe · Mantolama",
   cam_balkon: "Kapı ve pencere · Cam balkon",
   pvc_pencere: "Kapı ve pencere · PVC pencere",
@@ -46,7 +46,7 @@ function paylasMetni(r) {
 }
 
 // Anlatılan şey tadilat değil arızaysa ya da kapsam dışıysa
-function Yonlendirme({ r, metin, onSifirla }) {
+function Yonlendirme({ r, metin, foto, onSifirla }) {
   const ariza = r.job_type === "ariza";
   return (
     <>
@@ -60,13 +60,20 @@ function Yonlendirme({ r, metin, onSifirla }) {
         </div>
       )}
       {ariza && (
-        <button type="button" className="dugme-koyu" onClick={() => git(`/ariza?metin=${encodeURIComponent(metin)}`)}>
-          Bir sorun mu var? bölümüne geç
+        <button
+          type="button"
+          className="dugme-koyu"
+          onClick={() => {
+            fotoyuAktar(foto?.dosya);
+            git(`/ariza?metin=${encodeURIComponent(metin)}`);
+          }}
+        >
+          Arıza bölümüne geç
           <Ok renk="var(--mavi)" />
         </button>
       )}
     </section>
-    <RaporSonu dugme="Başka bir işim var." onSifirla={onSifirla} />
+    <RaporSonu dugme="Başka bir işim var" onSifirla={onSifirla} />
     </>
   );
 }
@@ -174,7 +181,7 @@ function Rapor({ r, onSifirla }) {
       )}
 
       <Paylas metin={paylasMetni(r)} />
-      <RaporSonu dugme="Başka bir işim var." onSifirla={onSifirla}>
+      <RaporSonu dugme="Başka bir işim var" onSifirla={onSifirla}>
         {varsayimlar.length > 0 && <p>Varsayımlar: {varsayimlar.join(" ")}</p>}
       </RaporSonu>
     </>
@@ -215,7 +222,7 @@ export default function YeniIs() {
   }
 
   async function gonder(soruTuru) {
-    if (!metin.trim()) return setHata("Yaptırmak istediğin işi yaz ya da fotoğraf ekle.");
+    if (!metin.trim() && !foto) return setHata("Yaptırmak istediğin işi yaz ya da fotoğraf ekle.");
     ses.durdur();
     setHata("");
     setYukleniyor(true);
@@ -358,7 +365,7 @@ export default function YeniIs() {
               bekleme="Hazırlanıyor..."
             />
           ) : yonlendir ? (
-            <Yonlendirme r={rapor} metin={metin} onSifirla={sifirla} />
+            <Yonlendirme r={rapor} metin={metin} foto={foto} onSifirla={sifirla} />
           ) : (
             <Rapor r={rapor} onSifirla={sifirla} />
           )}

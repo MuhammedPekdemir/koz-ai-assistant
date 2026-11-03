@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { oturumuOku, oturumuYaz } from "./api.js";
 import AnaSayfa from "./sayfalar/AnaSayfa.jsx";
-import Yakinda from "./sayfalar/Yakinda.jsx";
 import Giris from "./sayfalar/Giris.jsx";
 import Hesabim from "./sayfalar/Hesabim.jsx";
 import Ariza from "./sayfalar/Ariza.jsx";

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { git, useOturum } from "../App.jsx";
-import { istek } from "../api.js";
+import { istek, aktarilanFoto, aktarilanFotoyuSil } from "../api.js";
 import { ONERI } from "../metinler.js";
 import Sayfa from "../bilesenler/Sayfa.jsx";
+import { ACIL_NUMARALAR } from "../bilesenler/AcilSatiri.jsx";
 import Ok from "../bilesenler/Ok.jsx";
 import BolumMenusu from "../bilesenler/BolumMenusu.jsx";
 import useSesleAnlat, { SesDugmesi } from "../bilesenler/useSesleAnlat.jsx";
@@ -53,11 +54,6 @@ const GUVEN = {
   orta: "Bu teşhisten tam emin değiliz",
   yuksek: "Bu teşhisten eminiz",
 };
-const ACIL_NUMARALAR = [
-  ["112", "Acil çağrı"],
-  ["187", "Doğalgaz acil"],
-  ["186", "Elektrik arıza"],
-];
 
 // WhatsApp'a gidecek kısa özet
 function paylasMetni(r) {
@@ -286,7 +282,11 @@ export default function Ariza({ sorgu }) {
   const { setOturum } = useOturum();
   // Yeni iş ekranından arıza olarak gelen metin (#/ariza?metin=...)
   const [metin, setMetin] = useState(() => sorgu?.get("metin") ?? "");
-  const [foto, setFoto] = useState(null); // { dosya, url }
+  // Yeni iş ekranından arızaya yönlendirilince eklenen fotoğraf da gelir
+  const [foto, setFoto] = useState(() => {
+    const dosya = sorgu?.get("metin") != null ? aktarilanFoto() : null;
+    return dosya ? { dosya, url: URL.createObjectURL(dosya) } : null;
+  }); // { dosya, url }
   const [surukle, setSurukle] = useState(false);
   const [acikAlan, setAcikAlan] = useState(null);
   const [yukleniyor, setYukleniyor] = useState(false);
@@ -298,6 +298,10 @@ export default function Ariza({ sorgu }) {
   const sonucRef = useRef(null);
   const raporId = sorgu?.get("rapor");
   const ses = useSesleAnlat({ metin, setMetin, setHata, maks: MAKS_METIN });
+
+  useEffect(() => {
+    aktarilanFotoyuSil();
+  }, []);
 
   // Geçmişten açılan rapor (#/ariza?rapor=12)
   useEffect(() => {
@@ -340,16 +344,25 @@ export default function Ariza({ sorgu }) {
     ses.durdur();
     setHata("");
     setYukleniyor(true);
+    const istekBilgisi = {
+      method: "POST",
+      form: {
+        aciklama: metin,
+        foto: foto?.dosya,
+        sorular: soruTuru ? sorular : [],
+        cevaplar: soruTuru ? cevaplar.map((c) => c.trim() || "Bilmiyorum") : [],
+      },
+    };
     try {
-      const r = await istek("/analiz", {
-        method: "POST",
-        form: {
-          aciklama: metin,
-          foto: foto?.dosya,
-          sorular: soruTuru ? sorular : [],
-          cevaplar: soruTuru ? cevaplar.map((c) => c.trim() || "Bilmiyorum") : [],
-        },
-      });
+      let r;
+      try {
+        r = await istek("/analiz", istekBilgisi);
+      } catch (e) {
+        if (e.durum !== 401) throw e;
+        // Oturum geçersizse (başka yerden çıkış gibi) teşhis girişsiz alınır; api.js oturumu zaten sildi
+        setOturum(null);
+        r = await istek("/analiz", istekBilgisi);
+      }
       if (r.needs_more_info) {
         setSonuc(null);
         setSorular(r.questions);
@@ -359,7 +372,6 @@ export default function Ariza({ sorgu }) {
         setSonuc({ rapor: r, fotoIpucu: !foto });
       }
     } catch (e) {
-      if (e.durum === 401) setOturum(null);
       setHata(e.message);
     } finally {
       setYukleniyor(false);

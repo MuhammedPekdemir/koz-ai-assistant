@@ -1,4 +1,5 @@
-const NUMARALAR = [
+// Acil satırı ve acil rapor aynı numaraları kullanır
+export const ACIL_NUMARALAR = [
   ["112", "Acil çağrı"],
   ["187", "Doğalgaz"],
   ["186", "Elektrik"],
@@ -12,7 +13,7 @@ export default function AcilSatiri() {
         <p><strong>Gaz kokusu, kıvılcım ya da su baskını mı var?</strong> Beklemeden ara.</p>
       </div>
       <div className="acil-numaralar">
-        {NUMARALAR.map(([no, ad]) => (
+        {ACIL_NUMARALAR.map(([no, ad]) => (
           <a key={no} href={`tel:${no}`} className="acil-numara">
             <strong>{no}</strong>
             <span>{ad}</span>

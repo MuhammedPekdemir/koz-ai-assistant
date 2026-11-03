@@ -14,7 +14,7 @@ modelin sorularını (sorular) ve kullanıcının cevaplarını (cevaplar) aynı
 Bu ikinci istekte model soru sormaz, analizi yapar. /yeni-islem de aynı soru turunu kullanır.
 
 Her başarılı analiz MSSQL'deki Analizler tablosuna kaydedilir (bkz. veritabani/veritabani.sql).
-Geçmiş raporlar: GET /gecmis (son 20 özet), GET /gecmis/{id} (raporun tamamı).
+Geçmiş raporlar: GET /gecmis (tüm raporların özeti, kapsam dışı cevaplar hariç), GET /gecmis/{id} (raporun tamamı).
 
 Giriş: POST /kayit ve POST /giris bir anahtar (token) döndürür. İstemci bunu her istekte
 "Authorization: Bearer <token>" başlığıyla gönderir. Giriş yapan kişinin analizleri ona bağlanır;
@@ -48,6 +48,14 @@ ARAYUZ_KLASORU = Path(__file__).parent / "frontend" / "dist"
 ARAYUZ_DOSYASI = ARAYUZ_KLASORU / "index.html"
 FOTO_TURLERI = {"image/jpeg", "image/png", "image/webp"}
 MAKS_FOTO_BOYUTU = 5 * 1024 * 1024
+# Sadece fotoğraf gönderilince modele giden cümleler; kullanıcıya gösterilmez, veritabanına yazılmaz
+FOTO_ACIKLAMASI = "Fotoğraftaki arızayı analiz et."
+YENI_FOTO_ACIKLAMASI = (
+    "Kullanıcı sadece işin yapılacağı yerin fotoğrafını gönderdi. Fotoğraftan yapılacak işi anla; "
+    "iş belli değilse ne yaptırmak istediğini sor."
+)
+# Geçmiş listesine ve rapor sayısına kapsam dışı cevaplar girmez
+GECMIS_KOSULU = "SoruSoruldu = 0 AND ISNULL(Kategori, '') <> 'kapsam_disi'"
 
 load_dotenv(Path(__file__).parent / ".env")
 if not os.environ.get("ANTHROPIC_API_KEY"):
@@ -228,6 +236,11 @@ def ariza_maliyeti_hesapla(rapor: ArizaRaporu) -> ArizaMaliyeti | None:
     )
 
 
+def kullanici_metni(aciklama: str) -> str:
+    """Eski kayıtlarda sadece fotoğraflı analizin açıklaması model cümlesiyle tutuluyordu; kullanıcıya boş gösterilir."""
+    return "" if aciklama == FOTO_ACIKLAMASI else aciklama
+
+
 def json_ayikla(metin: str) -> dict:
     temiz = metin.strip()
     # Model JSON'u ```json ... ``` içine koyarsa çıkar
@@ -332,7 +345,9 @@ def kayit(ad: str = Form(...), eposta: str = Form(...), sifre: str = Form(...)) 
     ad, eposta = ad.strip(), eposta.strip().lower()
     if not ad:
         raise HTTPException(400, "Adını yaz.")
-    if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", eposta):
+    if len(ad) > 100:
+        raise HTTPException(400, "Adın en fazla 100 karakter olabilir.")
+    if len(eposta) > 200 or not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", eposta):
         raise HTTPException(400, "Geçerli bir e-posta yaz.")
     if len(sifre) < 8:
         raise HTTPException(400, "Şifre en az 8 karakter olmalı.")
@@ -377,7 +392,7 @@ def profil(authorization: str | None = Header(None)) -> dict:
     with pyodbc.connect(DB_BAGLANTI) as baglanti:
         satir = baglanti.execute(
             "SELECT Ad, Eposta, Yas, Sehir, OlusturmaZamani,"
-            " (SELECT COUNT(*) FROM Analizler WHERE KullaniciId = Kullanicilar.Id AND SoruSoruldu = 0) AS RaporSayisi"
+            f" (SELECT COUNT(*) FROM Analizler WHERE KullaniciId = Kullanicilar.Id AND {GECMIS_KOSULU}) AS RaporSayisi"
             " FROM Kullanicilar WHERE Id = ?", kullanici_id,
         ).fetchone()
     return {
@@ -405,7 +420,7 @@ def profil_guncelle(
         raise HTTPException(400, "Adını yaz.")
     if len(ad) > 100 or len(sehir) > 100:
         raise HTTPException(400, "En fazla 100 karakter yazabilirsin.")
-    if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", eposta):
+    if len(eposta) > 200 or not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", eposta):
         raise HTTPException(400, "Geçerli bir e-posta yaz.")
     yas_sayi = None
     if yas.strip():
@@ -447,18 +462,19 @@ def sifre_degistir(
 
 @app.get("/gecmis")
 def gecmis(authorization: str | None = Header(None)) -> list[dict]:
-    """Giriş yapan kişinin son 20 arıza raporunun özeti. Soru turunda kalan kayıtlar listelenmez."""
+    """Giriş yapan kişinin arıza raporlarının özeti, yeniden eskiye.
+    Soru turunda kalan kayıtlar ve kapsam dışı cevaplar listelenmez; sayısı /profil'deki rapor_sayisi ile aynıdır."""
     kullanici_id = giris_gerekli(authorization)
     with pyodbc.connect(DB_BAGLANTI) as baglanti:
         satirlar = baglanti.execute(
-            "SELECT TOP 20 Id, OlusturmaZamani, Aciklama, Kategori, Acil, Oneri, Rapor"
-            " FROM Analizler WHERE SoruSoruldu = 0 AND KullaniciId = ? ORDER BY Id DESC", kullanici_id,
+            "SELECT Id, OlusturmaZamani, Aciklama, Kategori, Acil, Oneri, Rapor"
+            f" FROM Analizler WHERE {GECMIS_KOSULU} AND KullaniciId = ? ORDER BY Id DESC", kullanici_id,
         ).fetchall()
     return [
         {
             "id": s.Id,
             "zaman": s.OlusturmaZamani.isoformat() + "Z",
-            "problem": json.loads(s.Rapor).get("problem") or s.Aciklama[:80],
+            "problem": json.loads(s.Rapor).get("problem") or kullanici_metni(s.Aciklama)[:80] or "Fotoğraflı rapor",
             "kategori": s.Kategori,
             "acil": bool(s.Acil),
             "oneri": s.Oneri,
@@ -478,7 +494,7 @@ def gecmis_rapor(kayit_id: int, authorization: str | None = Header(None)) -> dic
         ).fetchone()
     if satir is None:
         raise HTTPException(404, "Rapor bulunamadı.")
-    return {"aciklama": satir.Aciklama, "rapor": json.loads(satir.Rapor)}
+    return {"aciklama": kullanici_metni(satir.Aciklama), "rapor": json.loads(satir.Rapor)}
 
 
 @app.get("/", include_in_schema=False)
@@ -511,9 +527,10 @@ def analiz(
             raise HTTPException(400, "Fotoğraf 5 MB'tan büyük olamaz.")
     if not aciklama and foto_verisi is None:
         raise HTTPException(400, "Arızayı yaz ya da fotoğraf ekle.")
-    # Açıklama yazılmazsa sadece fotoğrafa bakılır
-    aciklama = aciklama or "Fotoğraftaki arızayı analiz et."
+    # Veritabanına kullanıcının yazdığı kaydedilir (sadece fotoğraf gönderildiyse boş)
     kullanici_aciklamasi = aciklama
+    # Açıklama yazılmazsa sadece fotoğrafa bakılır
+    aciklama = aciklama or FOTO_ACIKLAMASI
     if soru_turu_yapildi:
         aciklama = soru_turunu_ekle(aciklama, sorular, cevaplar, "eldeki bilgiyle analizi yap.")
 
@@ -548,8 +565,6 @@ def yeni_islem(
     cevaplar: list[str] = Form([]),
 ) -> YeniIslemRaporu:
     aciklama = aciklama.strip()
-    if not aciklama:
-        raise HTTPException(400, "Yaptırmak istediğin işi yaz.")
     if len(sorular) != len(cevaplar):
         raise HTTPException(400, "Her sorunun bir cevabı olmalı.")
     if len(sorular) > 3:
@@ -562,6 +577,10 @@ def yeni_islem(
         foto_verisi = foto.file.read()
         if len(foto_verisi) > MAKS_FOTO_BOYUTU:
             raise HTTPException(400, "Fotoğraf 5 MB'tan büyük olamaz.")
+    if not aciklama and foto_verisi is None:
+        raise HTTPException(400, "Yaptırmak istediğin işi yaz ya da fotoğraf ekle.")
+    # Sadece fotoğraf gönderildiyse model işi fotoğraftan anlar, belli değilse sorar
+    aciklama = aciklama or YENI_FOTO_ACIKLAMASI
     soru_turu_yapildi = bool(sorular)
     if soru_turu_yapildi:
         aciklama = soru_turunu_ekle(aciklama, sorular, cevaplar, "eldeki bilgiyle raporu çıkar.")

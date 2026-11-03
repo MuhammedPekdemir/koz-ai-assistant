@@ -14,6 +14,16 @@ export function oturumuYaz(oturum) {
   else localStorage.removeItem(ANAHTAR);
 }
 
+// Yeni iş ekranından arızaya yönlendirirken eklenen fotoğraf (adres çubuğuna dosya konamaz, bellekte tutulur)
+let bekleyenFoto = null;
+export const fotoyuAktar = (dosya) => {
+  bekleyenFoto = dosya ?? null;
+};
+export const aktarilanFoto = () => bekleyenFoto;
+export const aktarilanFotoyuSil = () => {
+  bekleyenFoto = null;
+};
+
 // form verilirse FormData olarak gönderilir; diziler (sorular, cevaplar) tekrar eden alan olur
 export async function istek(yol, { method = "GET", form } = {}) {
   const basliklar = {};

@@ -11,22 +11,32 @@ const SEVIYELER = [
   ["Ustayım", "Aletlerim var, çoğu işi kendim yaparım."],
 ];
 
-// "Değiştir"e her basışta sıradaki seçenek gelir; en sonda yine "Seçilmedi" olur
+// Kutuya dokununca seçenek listesi açılır; "Seçilmedi" seçimi temizler
 const EV_SORULARI = [
   ["Oturma", ["Kiracı", "Ev sahibi"]],
   ["Kat", ["Ara kat", "En üst kat", "Zemin kat", "Müstakil"]],
-  ["Binanın yaşı", ["10–25 yıl", "25 yıldan eski", "10 yıldan yeni", "Bilmiyorum"]],
+  ["Binanın yaşı", ["10 yıldan yeni", "10–25 yıl", "25 yıldan eski", "Bilmiyorum"]],
   ["Isınma", ["Kombi", "Kalorifer", "Klima", "Soba"]],
 ];
+// Eski kayıtlarda seçim sıra numarasıyla tutuluyordu; bina yaşının eski sırası buna göre okunur
+const ESKI_BINA_YASI = ["10–25 yıl", "25 yıldan eski", "10 yıldan yeni", "Bilmiyorum"];
 
 // Ustalık ve ev bilgileri backend'de henüz yok; şimdilik sadece bu tarayıcıda tutulur
 const PROFIL_ANAHTARI = "kozProfil";
 
+// ev: her soru için seçilen yazı ya da null; seviye: seçilmediyse null
 function profiliOku() {
+  const bos = { seviye: null, ev: [null, null, null, null] };
   try {
-    return { seviye: 1, ev: [null, null, null, null], ...JSON.parse(localStorage.getItem(PROFIL_ANAHTARI)) };
+    const kayit = { ...bos, ...JSON.parse(localStorage.getItem(PROFIL_ANAHTARI)) };
+    kayit.ev = EV_SORULARI.map(([, secenekler], i) => {
+      const d = kayit.ev?.[i];
+      if (typeof d === "number") return (i === 2 ? ESKI_BINA_YASI : secenekler)[d] ?? null;
+      return secenekler.includes(d) ? d : null;
+    });
+    return kayit;
   } catch {
-    return { seviye: 1, ev: [null, null, null, null] };
+    return bos;
   }
 }
 
@@ -239,10 +249,9 @@ export default function Hesabim() {
     } catch {}
   };
 
-  const evDegistir = (i) => {
+  const evDegistir = (i, deger) => {
     const ev = yerel.ev.slice();
-    const sonraki = (ev[i] ?? -1) + 1;
-    ev[i] = sonraki < EV_SORULARI[i][1].length ? sonraki : null;
+    ev[i] = deger || null;
     yerelDegistir({ ...yerel, ev });
   };
 
@@ -341,19 +350,24 @@ export default function Hesabim() {
           <h2 className="hesap-baslik">Evin</h2>
           <p>Nem, tesisat ve kombi sorunlarında teşhisi netleştirir. İsteğe bağlı.</p>
         </div>
-        <div className="dortlu">
+        <div className="dortlu ev-izgara">
           {EV_SORULARI.map(([soru, secenekler], i) => (
-            <button key={soru} type="button" className="ev-kutu" onClick={() => evDegistir(i)}>
+            // Görünen kutunun üstünde görünmez bir seçim listesi durur; dokununca seçenekler açılır
+            <label key={soru} className="ev-kutu">
               <span className="ev-kutu-ust">
                 <span className="hesap-etiket">{soru}</span>
                 {yerel.ev[i] == null ? (
                   <strong className="hesap-bos">Seçilmedi</strong>
                 ) : (
-                  <strong>{secenekler[yerel.ev[i] % secenekler.length]}</strong>
+                  <strong>{yerel.ev[i]}</strong>
                 )}
               </span>
-              <span className="ev-kutu-degistir">{yerel.ev[i] == null ? "Seç" : "Değiştir"}</span>
-            </button>
+              <span className="ev-kutu-degistir" aria-hidden="true">{yerel.ev[i] == null ? "Seç" : "Değiştir"}</span>
+              <select aria-label={soru} value={yerel.ev[i] ?? ""} onChange={(e) => evDegistir(i, e.target.value)}>
+                <option value="">Seçilmedi</option>
+                {secenekler.map((s) => <option key={s} value={s}>{s}</option>)}
+              </select>
+            </label>
           ))}
         </div>
       </section>

@@ -88,7 +88,7 @@ Gerekenler: Python 3.11+, Node.js, SQL Server (Express yeterli), ODBC Driver 17 
    ```
 
 2. `.env.example` dosyasını `.env` olarak kopyala, `ANTHROPIC_API_KEY` ve `DB_BAGLANTI` değerlerini doldur.
-3. `veritabani/veritabani.sql` ve `veritabani/giris_tablolari.sql` betiklerini SQL Server'da çalıştır.
+3. `veritabani/veritabani.sql` betiğini SQL Server'da çalıştır. (`giris_tablolari.sql` sadece eski bir kurulumu güncellemek içindir.)
 4. Arayüzü derle:
 
    ```bash
