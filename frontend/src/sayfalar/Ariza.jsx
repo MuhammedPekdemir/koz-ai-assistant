@@ -232,7 +232,7 @@ function Rapor({ r, fotoIpucu, onSifirla }) {
       {r.safety_warning && (
         <div className="guvenlik">
           <span className="guvenlik-nokta" />
-          <p><strong>Önce güvenlik:</strong> {r.safety_warning}</p>
+          <p><strong>Güvenlik uyarısı:</strong> {r.safety_warning}</p>
         </div>
       )}
 
