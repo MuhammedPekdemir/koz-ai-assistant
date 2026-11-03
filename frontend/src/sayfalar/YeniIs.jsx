@@ -6,6 +6,7 @@ import Ok from "../bilesenler/Ok.jsx";
 import BolumMenusu from "../bilesenler/BolumMenusu.jsx";
 import useSesleAnlat, { SesDugmesi } from "../bilesenler/useSesleAnlat.jsx";
 import { Paylas, RaporSonu, SiraliListe, SoruTuru, aralik, baslikliListe, birlestir } from "../bilesenler/RaporParcalari.jsx";
+import { profilAlanlari } from "../profil.js";
 
 const MAKS_METIN = 2000;
 const MAKS_FOTO = 5 * 1024 * 1024;
@@ -234,6 +235,7 @@ export default function YeniIs() {
           foto: foto?.dosya,
           sorular: soruTuru ? sorular : [],
           cevaplar: soruTuru ? cevaplar.map((c) => c.trim() || "Bilmiyorum") : [],
+          ...profilAlanlari(),
         },
       });
       if (r.needs_more_info) {

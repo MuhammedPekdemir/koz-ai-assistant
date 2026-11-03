@@ -257,6 +257,28 @@ def soru_turunu_ekle(aciklama: str, sorular: list[str], cevaplar: list[str], son
     )
 
 
+# Hesabım'daki ustalık ve ev bilgileri (tarayıcıda tutulur, istekle gelir). Sadece bilinen seçenekler kabul edilir.
+PROFIL_SECENEKLERI = {
+    "ustalik": ("Ev işlerinde ustalığı", ["Hiç anlamam", "Biraz elim yatkın", "İyi anlarım", "Ustayım"]),
+    "oturma": ("Oturma", ["Kiracı", "Ev sahibi"]),
+    "kat": ("Kat", ["Ara kat", "En üst kat", "Zemin kat", "Müstakil"]),
+    "bina_yasi": ("Binanın yaşı", ["10 yıldan yeni", "10–25 yıl", "25 yıldan eski", "Bilmiyorum"]),
+    "isinma": ("Isınma", ["Kombi", "Kalorifer", "Klima", "Soba"]),
+}
+
+
+def profili_ekle(aciklama: str, **profil: str) -> str:
+    """Seçilmiş profil bilgilerini modele giden metnin sonuna ekler; hiçbiri yoksa metin değişmez."""
+    satirlar = [
+        f"- {baslik}: {profil[alan]}"
+        for alan, (baslik, secenekler) in PROFIL_SECENEKLERI.items()
+        if profil.get(alan) in secenekler
+    ]
+    if not satirlar:
+        return aciklama
+    return aciklama + "\n\nKullanıcı bilgisi (Hesabım'dan):\n" + "\n".join(satirlar)
+
+
 def claude_cevabi(
     aciklama: str, foto: bytes | None, foto_turu: str | None, system_prompt: str = SYSTEM_PROMPT
 ) -> str:
@@ -508,6 +530,11 @@ def analiz(
     foto: UploadFile | None = File(None),
     sorular: list[str] = Form([]),
     cevaplar: list[str] = Form([]),
+    ustalik: str = Form(""),
+    oturma: str = Form(""),
+    kat: str = Form(""),
+    bina_yasi: str = Form(""),
+    isinma: str = Form(""),
     authorization: str | None = Header(None),
 ) -> ArizaRaporu:
     # Girişsiz de analiz yapılabilir; giriş varsa rapor o kişiye kaydedilir
@@ -533,6 +560,9 @@ def analiz(
     aciklama = aciklama or FOTO_ACIKLAMASI
     if soru_turu_yapildi:
         aciklama = soru_turunu_ekle(aciklama, sorular, cevaplar, "eldeki bilgiyle analizi yap.")
+    aciklama = profili_ekle(
+        aciklama, ustalik=ustalik, oturma=oturma, kat=kat, bina_yasi=bina_yasi, isinma=isinma
+    )
 
     try:
         metin = claude_cevabi(aciklama, foto_verisi, foto.content_type if foto_verisi else None)
@@ -563,6 +593,11 @@ def yeni_islem(
     foto: UploadFile | None = File(None),
     sorular: list[str] = Form([]),
     cevaplar: list[str] = Form([]),
+    ustalik: str = Form(""),
+    oturma: str = Form(""),
+    kat: str = Form(""),
+    bina_yasi: str = Form(""),
+    isinma: str = Form(""),
 ) -> YeniIslemRaporu:
     aciklama = aciklama.strip()
     if len(sorular) != len(cevaplar):
@@ -584,6 +619,9 @@ def yeni_islem(
     soru_turu_yapildi = bool(sorular)
     if soru_turu_yapildi:
         aciklama = soru_turunu_ekle(aciklama, sorular, cevaplar, "eldeki bilgiyle raporu çıkar.")
+    aciklama = profili_ekle(
+        aciklama, ustalik=ustalik, oturma=oturma, kat=kat, bina_yasi=bina_yasi, isinma=isinma
+    )
 
     try:
         metin = claude_cevabi(aciklama, foto_verisi, foto.content_type if foto_verisi else None, YENI_SYSTEM_PROMPT)

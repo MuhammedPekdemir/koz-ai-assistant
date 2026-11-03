@@ -11,7 +11,7 @@ const MODLAR = [
     renk: "mavi",
     zemin: "#E6EAFB",
     baslik: "Bir sorun mu var?",
-    metin: "Evdeki arızayı yaz ya da fotoğrafını çek. Kendin mi yaparsın, usta mı gerekir, söyleyelim.",
+    metin: "Evdeki arızayı yaz ya da fotoğrafını çek. Sorunun ne olduğunu ve nasıl çözüleceğini anlatalım.",
     etiketler: ["Tesisat", "Elektrik ve gaz", "Beyaz eşya", "Nem ve küf"],
     dugme: "Teşhis al",
   },
