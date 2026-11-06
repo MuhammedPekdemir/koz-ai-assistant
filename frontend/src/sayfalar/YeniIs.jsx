@@ -189,8 +189,9 @@ function Rapor({ r, onSifirla }) {
   );
 }
 
-export default function YeniIs() {
-  const [metin, setMetin] = useState("");
+export default function YeniIs({ sorgu }) {
+  // Ana sayfadaki sesli asistandan gelen metin (#/yeni-is?metin=...)
+  const [metin, setMetin] = useState(() => sorgu?.get("metin") ?? "");
   const [foto, setFoto] = useState(null); // { dosya, url }
   const [surukle, setSurukle] = useState(false);
   const [yukleniyor, setYukleniyor] = useState(false);

@@ -1,5 +1,7 @@
-// Hesabım'daki ustalık ve ev bilgileri. Backend'de saklanmaz, bu tarayıcıda tutulur;
-// arıza ve yeni iş istekleriyle birlikte gönderilir, rapor bunlara göre hazırlanır.
+// Hesabım'daki ustalık ve ev bilgileri. Backend'de saklanmaz, bu tarayıcıda hesaba göre ayrı tutulur;
+// giriş yapılmışsa arıza ve yeni iş istekleriyle birlikte gönderilir, rapor bunlara göre hazırlanır.
+import { oturumuOku } from "./api.js";
+
 export const SEVIYELER = [
   ["Hiç anlamam", "Ampul değiştirmek bile zor gelir."],
   ["Biraz elim yatkın", "Ampul, silikon, conta gibi basit işleri yaparım."],
@@ -17,13 +19,17 @@ export const EV_SORULARI = [
 // Eski kayıtlarda seçim sıra numarasıyla tutuluyordu; bina yaşının eski sırası buna göre okunur
 const ESKI_BINA_YASI = ["10–25 yıl", "25 yıldan eski", "10 yıldan yeni", "Bilmiyorum"];
 
-export const PROFIL_ANAHTARI = "kozProfil";
+// Eskiden tek anahtar vardı ("kozProfil"); artık her hesabın kendi anahtarı var
+const ESKI_ANAHTAR = "kozProfil";
+export const profilAnahtari = () => `${ESKI_ANAHTAR}:${oturumuOku()?.eposta ?? ""}`;
 
 // ev: her soru için seçilen yazı ya da null; seviye: seçilmediyse null
 export function profiliOku() {
   const bos = { seviye: null, ev: [null, null, null, null] };
   try {
-    const kayit = { ...bos, ...JSON.parse(localStorage.getItem(PROFIL_ANAHTARI)) };
+    // Hesaba ait kayıt yoksa eski ortak kayıt okunur (ilk kayıtta hesaba taşınır)
+    const ham = localStorage.getItem(profilAnahtari()) ?? localStorage.getItem(ESKI_ANAHTAR);
+    const kayit = { ...bos, ...JSON.parse(ham) };
     kayit.ev = EV_SORULARI.map(([, secenekler], i) => {
       const d = kayit.ev?.[i];
       if (typeof d === "number") return (i === 2 ? ESKI_BINA_YASI : secenekler)[d] ?? null;
@@ -35,8 +41,10 @@ export function profiliOku() {
   }
 }
 
-// Rapor isteğine eklenecek alanlar; seçilmeyenler gönderilmez (api.js null alanları atlar)
+// Rapor isteğine eklenecek alanlar; seçilmeyenler gönderilmez (api.js null alanları atlar).
+// Giriş yoksa hiçbiri gönderilmez: çıkış yapan ya da başka birinin bilgisi rapora karışmaz.
 export function profilAlanlari() {
+  if (!oturumuOku()) return {};
   const { seviye, ev } = profiliOku();
   return {
     ustalik: SEVIYELER[seviye]?.[0] ?? null,

@@ -4,6 +4,7 @@ import { istek } from "../api.js";
 import Sayfa from "../bilesenler/Sayfa.jsx";
 import Ok from "../bilesenler/Ok.jsx";
 import GecmisListesi from "../bilesenler/GecmisListesi.jsx";
+import KonusarakAnlat from "../bilesenler/KonusarakAnlat.jsx";
 
 const MODLAR = [
   {
@@ -94,6 +95,8 @@ export default function AnaSayfa() {
           </a>
         ))}
       </section>
+
+      <KonusarakAnlat />
 
       <Gecmis />
     </Sayfa>

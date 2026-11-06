@@ -558,3 +558,16 @@ button.hesap-satir { cursor: pointer; }
   /* yazı, alttaki beyaz kartın içindeki yazıyla aynı yerden başlar (kartın iç boşluğu 32px) */
   .ariza-giris p { padding-left: 32px; }
 }
+
+/* Ana sayfa: Konuşarak anlat (ElevenLabs sesli asistan), kartlarla geçmiş arasında ayrı bölüm */
+.konusarak-bolum { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 20px 20px 26px; background: #fbfbf8; border: 1.5px dashed #cfcfc6; border-radius: 22px; }
+.konusarak-metin { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.konusarak-not, .konusarak-metin .hata { margin: 0; font-size: 15px; line-height: 1.45; color: var(--soluk); }
+.konusarak-metin .hata { color: var(--kirmizi); }
+.konusarak-dugme { flex: none; display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 22px; border: 0; border-radius: 14px; background: var(--murekkep); color: #fff; font: inherit; font-size: 16px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+.konusarak-dugme:disabled { cursor: wait; opacity: 0.8; }
+.konusarak-nokta { width: 10px; height: 10px; border-radius: 999px; background: #fff; }
+.konusarak-dugme.dinliyor .konusarak-nokta { background: #ff5a4e; animation: nabiz 1.6s ease-in-out infinite; }
+.konusarak-dugme.konusuyor .konusarak-nokta { background: #9fb0ff; }
+.konusarak-bitir { margin-left: 4px; padding-left: 12px; border-left: 1px solid rgba(255, 255, 255, 0.3); color: rgba(255, 255, 255, 0.75); font-weight: 500; }
+@media (max-width: 640px) { .konusarak-bolum { flex-direction: column; align-items: stretch; padding: 20px; } .konusarak-dugme { justify-content: center; } }

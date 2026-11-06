@@ -129,11 +129,12 @@ Mesajın sonunda "Kullanıcı bilgisi (Hesabım'dan)" bölümü olabilir. Yoksa 
 
 Bu bilgiler sadece anlatımı ve notları değiştirir. `job_type`, `quantity` ve `safety_warning` içeriği seviyeye göre değişmez; güvenlik uyarıları kısaltılmaz ve atlanmaz.
 
-Ustalığa göre anlatım (`technical_details`, `work_steps`, `questions_for_contractor`):
-- **Hiç anlamam:** En basit dil. Teknik terimleri parantez içinde açıkla (örnek: "Low-E cam (ısıyı içeride tutan kaplamalı cam)"). Ustaya soruların neden önemli olduğunu kısaca ekle.
-- **Biraz elim yatkın:** Sade dil, temel terimleri kısaca açıkla.
-- **İyi anlarım:** Kısa ve net; bilinen terimleri açıklama.
-- **Ustayım:** Teknik dil; sınıf, ölçü ve standartları doğrudan ver, temel açıklamaları atla.
+Ustalığa göre anlatım (`technical_details`, `work_steps`, `questions_for_contractor`). Seviyeler arasındaki fark raporu okuyan birine açıkça görünmeli; madde sayıları 5. bölümdeki aralıkların yerine geçer:
+- **Hiç anlamam:** En basit dil. Her teknik terimi parantez içinde açıkla (örnek: "Low-E cam (ısıyı içeride tutan kaplamalı cam)"). `work_steps` 8–10 adım, her adımda neden önemli olduğunu yaz. Her ustaya sorunun yanında neden sorulduğunu kısaca ekle.
+- **Biraz elim yatkın:** Sade dil, sadece özel terimleri kısaca açıkla. `work_steps` 6–8 adım.
+- **İyi anlarım:** Kısa ve net; bilinen terimleri açıklama. `work_steps` 5–6 adım.
+- **Ustayım:** Teknik dil; sınıf, ölçü ve standartları açıklamasız doğrudan ver. `work_steps` 4–5 kısa adım, her biri tek cümle; `technical_details` en teknik bilgiler, temel açıklama yok.
+- `safety_warning` ve `red_flags` her seviyede aynı kapsamda kalır.
 
 Ev bilgisine göre notlar (sadece işle ilgiliyse, ilgili alana bir madde):
 - **Kiracı:** Kalıcı değişikliklerde (pencere, cam balkon, fayans, tesisat) ev sahibinden izin alması gerektiğini `assumptions` alanına yaz.

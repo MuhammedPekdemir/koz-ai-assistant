@@ -3,7 +3,7 @@ import { git, useOturum } from "../App.jsx";
 import { istek } from "../api.js";
 import { ONERI, kisaTarih } from "../metinler.js";
 import Sayfa from "../bilesenler/Sayfa.jsx";
-import { EV_SORULARI, PROFIL_ANAHTARI, SEVIYELER, profiliOku } from "../profil.js";
+import { EV_SORULARI, SEVIYELER, profilAnahtari, profiliOku } from "../profil.js";
 
 function Raporlar({ raporlar, sayi, hata }) {
   const [hepsi, setHepsi] = useState(false);
@@ -210,13 +210,16 @@ export default function Hesabim() {
   const yerelDegistir = (yeni) => {
     setYerel(yeni);
     try {
-      localStorage.setItem(PROFIL_ANAHTARI, JSON.stringify(yeni));
+      localStorage.setItem(profilAnahtari(), JSON.stringify(yeni));
     } catch {}
   };
 
-  const evDegistir = (i, deger) => {
+  // Kutuya her tıklayışta sıradaki seçenek gelir; sondan sonra "Seçilmedi"ye döner
+  const evDegistir = (i) => {
+    const secenekler = EV_SORULARI[i][1];
+    const sira = secenekler.indexOf(yerel.ev[i]);
     const ev = yerel.ev.slice();
-    ev[i] = deger || null;
+    ev[i] = secenekler[sira + 1] ?? null;
     yerelDegistir({ ...yerel, ev });
   };
 
@@ -232,7 +235,13 @@ export default function Hesabim() {
     try {
       const yeni = await istek("/profil", { method: "POST", form });
       setProfil({ ...profil, ...yeni });
+      // E-posta değişince ustalık/ev bilgisi yeni hesabın anahtarına taşınır
+      const eskiAnahtar = profilAnahtari();
       setOturum({ ...oturum, ad: yeni.ad, eposta: yeni.eposta });
+      try {
+        const kayit = localStorage.getItem(eskiAnahtar);
+        if (kayit && yeni.eposta !== oturum.eposta) localStorage.setItem(`kozProfil:${yeni.eposta}`, kayit);
+      } catch {}
     } catch (e) {
       if (e.durum === 401) setOturum(null);
       throw e;
@@ -316,9 +325,8 @@ export default function Hesabim() {
           <p>Nem, tesisat ve kombi sorunlarında teşhisi netleştirir. İsteğe bağlı.</p>
         </div>
         <div className="dortlu ev-izgara">
-          {EV_SORULARI.map(([soru, secenekler], i) => (
-            // Görünen kutunun üstünde görünmez bir seçim listesi durur; dokununca seçenekler açılır
-            <label key={soru} className="ev-kutu">
+          {EV_SORULARI.map(([soru], i) => (
+            <button key={soru} type="button" className="ev-kutu" onClick={() => evDegistir(i)}>
               <span className="ev-kutu-ust">
                 <span className="hesap-etiket">{soru}</span>
                 {yerel.ev[i] == null ? (
@@ -327,12 +335,8 @@ export default function Hesabim() {
                   <strong>{yerel.ev[i]}</strong>
                 )}
               </span>
-              <span className="ev-kutu-degistir" aria-hidden="true">{yerel.ev[i] == null ? "Seç" : "Değiştir"}</span>
-              <select aria-label={soru} value={yerel.ev[i] ?? ""} onChange={(e) => evDegistir(i, e.target.value)}>
-                <option value="">Seçilmedi</option>
-                {secenekler.map((s) => <option key={s} value={s}>{s}</option>)}
-              </select>
-            </label>
+              <span className="ev-kutu-degistir">{yerel.ev[i] == null ? "Seç" : "Değiştir"}</span>
+            </button>
           ))}
         </div>
       </section>
