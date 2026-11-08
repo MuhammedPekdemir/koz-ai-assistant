@@ -1,5 +1,7 @@
 # Koz
 
+**Uğraşmadan önce, Koz sende.**
+
 Ev için yapay zekâ destekli bir asistan. Evde bir şey bozulduğunda da, eve bir iş yaptırmak istediğinde de (cam balkon, pencere, boya, parke gibi) kullanılır. İki bölümü var:
 
 - **Bir sorun mu var?** Evdeki arızayı yaz ya da fotoğrafını çek. Koz olası nedenleri, riski ve zorluğu çıkarır; kendin mi yaparsın, usta mı gerekir, söyler. Tesisat, ev aletleri, nem ve küf sorunlarında tam analiz yapar; elektrik ve gazda güvenlik uyarısı verip profesyonele yönlendirir.
@@ -7,7 +9,17 @@ Ev için yapay zekâ destekli bir asistan. Evde bir şey bozulduğunda da, eve b
 
 Amaç ustanın yerini almak değil, doğru kararı vermeni sağlamak: arızada basit işi kendin yap, riskli işte vakit kaybetmeden profesyonele git; yeni bir işte ne istediğini ve ne kadar tutacağını bilerek ustayla konuş.
 
-![Rapor ekranı](gorseller/arayuz-rapor-onizleme.png)
+![Ana sayfa](gorseller/ana-sayfa.png)
+
+## Demo videosu
+
+[Demo videosunu izle (1:38)](gorseller/koz-demo.mp4): giriş, hesap açma, fotoğraflı arıza, soru sorulan arıza, yeni iş ve Hesabım'daki raporlar.
+
+## Ekran görüntüleri
+
+| Arıza raporu | Yeni iş raporu |
+|---|---|
+| ![Arıza raporu](gorseller/ariza-raporu.png) | ![Yeni iş raporu](gorseller/yeni-is-raporu.png) |
 
 ## Nasıl çalışır
 
@@ -29,6 +41,14 @@ Kapsam şimdilik su tesisatı, nem/küf ve beyaz eşya arızaları. Model fiyat 
 4. Rapor döner: işin tanımı, malzeme seçenekleri, teknik detaylar, iş adımları, ustaya sorulacaklar, dikkat edilecek noktalar, süre, varsayımlar ve tahmini maliyet.
 
 Model burada da fiyat yazmaz. Maliyeti backend, `fiyatlar/fiyatlar.json` tablosundan ve modelin çıkardığı miktardan hesaplar; işçilik ya da malzeme dahil fiyat ayrı tutulur. Tabloda olmayan işlerde bilgi verilir ama maliyet hesaplanmaz. Arıza anlatan girdiler arıza bölümüne yönlendirilir.
+
+## Diğer özellikler
+
+- **Sesle anlat:** Sorunu ya da işi yazmak yerine konuşarak anlatabilirsin (tarayıcının ses tanıma özelliğiyle).
+- **Hesap:** Giriş yapmadan da rapor alınır. Hesap açınca raporların saklanır ve Hesabım sayfasında görülür; ad, e-posta ve şifre buradan değiştirilir.
+- **Ustalığına göre anlatım:** Hesabım'da ev işlerinde ne kadar elin yatkın olduğunu seçersin. Rapordaki adım sayısı buna göre değişir (Hiç anlamam 8–12, Biraz elim yatkın 6–8, İyi anlarım 4–6, Ustayım 3–5 adım). Güvenlik uyarıları her seviyede aynıdır.
+- **Evine göre uyarılar:** Kiracı/ev sahibi, kat, bina yaşı ve ısınma bilgisi girilirse rapordaki uyarılar buna göre yazılır.
+- **Raporu paylaş:** Rapor WhatsApp'ta gönderilebilir ya da PDF olarak kaydedilebilir.
 
 ## Güvenlik kuralları
 
@@ -59,7 +79,6 @@ En önemli metrik acil durumları kaçırmamak. Bu ölçümde kaçırılan tek a
 - Backend: Python, FastAPI
 - Veritabanı: MSSQL (yerelde SQL Server Express), `pyodbc`
 - Arayüz: React, Vite
-- Bulut (planlanan): AWS S3, RDS, EC2 veya App Runner
 
 ## Klasör yapısı
 
