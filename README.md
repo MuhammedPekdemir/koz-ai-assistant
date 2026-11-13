@@ -59,17 +59,17 @@ Model burada da fiyat yazmaz. Maliyeti backend, `fiyatlar/fiyatlar.json` tablosu
 
 ## Doğruluk ölçümü
 
-Arıza bölümü 56 örneklik bir test seti (11'i fotoğraflı, 15'i acil) ile ölçüldü.
+Arıza bölümü 66 örneklik bir test seti (11'i fotoğraflı, 17'si acil) ile ölçüldü.
 
 | Metrik | Sonuç |
 |---|---|
-| Öneri doğruluğu | 54/56 |
-| Kategori doğruluğu | 55/56 |
-| Gereksiz acil | 0/40 |
-| Geçerli JSON | 56/56 |
-| Kaçırılan acil | 1/15 |
+| Kaçırılan acil | 0/17 |
+| Gereksiz acil | 0/48 |
+| Öneri doğruluğu | 65/66 |
+| Kategori doğruluğu | 66/66 |
+| Geçerli JSON | 66/66 |
 
-En önemli metrik acil durumları kaçırmamak. Bu ölçümde kaçırılan tek acil durum, kombiden gelen kokunun önemsenmediği örnekti. Prompt'a gaz cihazı kokusu kuralı eklendi. Bu örnek ve diğer 2 hatalı örnek yeniden denendi ve üçü de geçti.
+En önemli metrik acil durumları kaçırmamak. İlk ölçümde (56 örnek) kaçırılan tek acil durum, kombiden gelen kokunun önemsenmediği örnekti; prompt'a gaz cihazı kokusu kuralı eklendi. Test seti sonra karbonmonoksit alarmı, kural çiğnetme denemesi, kapsam dışı tadilat sorusu ve yazım hatalı acil sızıntı gibi 10 yeni örnekle genişletildi. Son ölçümde hiçbir acil durum kaçırılmadı. Tek hata, soğutmayan buzdolabına usta yerine `kendin_yap` önerilmesi.
 
 Ölçüm `olcum.py` ile yapılır, sonuçlar `test/sonuclar/` klasörüne yazılır, `rapor.py` sonuçları tarayıcıda okunur bir sayfaya çevirir.
 
