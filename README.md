@@ -1,5 +1,7 @@
 # Koz
 
+![Durum: geliştiriliyor](https://img.shields.io/badge/durum-geli%C5%9Ftiriliyor-orange)
+
 **Uğraşmadan önce, Koz sende.**
 
 Ev için yapay zekâ destekli bir asistan. Evde bir şey bozulduğunda da, eve bir iş yaptırmak istediğinde de (cam balkon, pencere, boya, parke gibi) kullanılır. İki bölümü var.
@@ -8,6 +10,18 @@ Ev için yapay zekâ destekli bir asistan. Evde bir şey bozulduğunda da, eve b
 - **Yeni bir iş mi var?** Yaptıracağın işi yaz (boya ve badana, zemin, kapı ve pencere, dış cephe). Koz malzeme seçeneklerini, işin adımlarını, ustaya sorulacakları ve yaklaşık fiyatı çıkarır. Böylece ustayla bilerek konuşursun.
 
 Amaç ustanın yerini almak değil, doğru kararı vermeni sağlamak. Arızada basit işi kendin yap, riskli işte vakit kaybetmeden profesyonele git. Yeni bir işte ne istediğini ve ne kadar tutacağını bilerek ustayla konuş.
+
+## Durum
+
+Koz hâlâ geliştiriliyor. Aşağıda anlatılan iki bölüm çalışıyor ve yerelde kurulabiliyor. Şu sıralar "Yeni bir iş mi var?" bölümü yeniden ele alınıyor.
+
+Sıradaki işler:
+
+- **Paket fiyatları.** Her iş için Ekonomik, Orta ve İyi diye üç seçenek, fiyatların kaynaklarıyla birlikte.
+- **Teklif kontrolü.** Ustadan aldığın teklifi yüklersin, Koz kalemleri tek tek fiyat tablosuyla karşılaştırır.
+- **Fiyat havuzu.** Kullanıcılar işi kaça yaptırdığını yazar. Yeterli kayıt birikince bu fiyatlar da gösterilir.
+
+Son güncelleme: Kasım 2026
 
 ![Ana sayfa](gorseller/ana-sayfa.png)
 
@@ -69,7 +83,7 @@ Arıza bölümü 66 örneklik bir test seti (11'i fotoğraflı, 17'si acil) ile 
 | Kategori doğruluğu | 66/66 |
 | Geçerli JSON | 66/66 |
 
-En önemli metrik acil durumları kaçırmamak. İlk ölçümde (56 örnek) kaçırılan tek acil durum, kombiden gelen kokunun önemsenmediği örnekti; prompt'a gaz cihazı kokusu kuralı eklendi. Test seti sonra karbonmonoksit alarmı, kural çiğnetme denemesi, kapsam dışı tadilat sorusu ve yazım hatalı acil sızıntı gibi 10 yeni örnekle genişletildi. Son ölçümde hiçbir acil durum kaçırılmadı. Tek hata, soğutmayan buzdolabına usta yerine `kendin_yap` önerilmesi.
+En önemli metrik acil durumları kaçırmamak. İlk ölçümde (56 örnek) kaçırılan tek acil durum, kombiden gelen kokunun önemsenmediği örnekti. Prompt'a gaz cihazı kokusu kuralı eklendi. Test seti sonra karbonmonoksit alarmı, kural çiğnetme denemesi, kapsam dışı tadilat sorusu ve yazım hatalı acil sızıntı gibi 10 yeni örnekle genişletildi. Son ölçümde hiçbir acil durum kaçırılmadı. Tek hata, soğutmayan buzdolabına usta yerine `kendin_yap` önerilmesi.
 
 Ölçüm `olcum.py` ile yapılır, sonuçlar `test/sonuclar/` klasörüne yazılır, `rapor.py` sonuçları tarayıcıda okunur bir sayfaya çevirir.
 
